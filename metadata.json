@@ -1,0 +1,6 @@
+{
+  "name": "Prism SDK Authoring Workbench",
+  "description": "Hologram v4 (.holo) archive authoring studio, Core-Wasm guest dispatcher, HOLOVIEW bundle editor, acceptance vector verifier, and canonical source analyzer powered by prism-code.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
