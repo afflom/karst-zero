@@ -433,7 +433,7 @@ const KARST_ACCEPTANCE_VECTORS: { req: string; res: string; note: string }[] = [
  * product model, Nemesis Core 4.0 engine specification, stakeholder views, and acceptance vector suite.
  */
 export async function buildKarstHoloArchive(): Promise<LoadedHoloState> {
-  const response = await fetch('/fixtures/Calculator.holo');
+  const response = await fetch(`${import.meta.env.BASE_URL}fixtures/Calculator.holo`);
   if (!response.ok) {
     throw new Error(`Failed to load base Core-Wasm archive (HTTP ${response.status})`);
   }

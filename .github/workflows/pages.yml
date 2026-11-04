@@ -1,0 +1,106 @@
+name: Deploy Karst: Zero Horizon to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  view:
+    name: Build & Verify Portal View Artifacts
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        run: npm install --no-package-lock --legacy-peer-deps
+
+      - name: Run TypeScript typecheck & lint gate
+        run: npm run lint
+
+      - name: Build production portal bundle (`dist/`)
+        env:
+          GITHUB_SHA: ${{ github.sha }}
+        run: |
+          npm run build
+          printf '{\n  "application": "karst-zero",\n  "commit": "%s"\n}\n' "$GITHUB_SHA" > dist/register.json
+
+      - name: Upload view artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: karst-zero-current-view
+          path: dist
+          include-hidden-files: true
+
+      - name: Configure GitHub Pages
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        uses: actions/configure-pages@v5
+
+      - name: Upload GitHub Pages artifact
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    name: Deploy to GitHub Pages
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    needs: view
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    outputs:
+      page_url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy rendered portal to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+  verify:
+    name: Verify Deployed Page Serves Commit
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    needs: deploy
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    env:
+      PAGE_URL: ${{ needs.deploy.outputs.page_url }}
+    steps:
+      - name: Fetch deployed portal pages and verify embedded commit SHA
+        run: |
+          set -euo pipefail
+          for attempt in 1 2 3 4 5 6 7 8; do
+            if curl -fsSL "${PAGE_URL%/}/register.json" -o /tmp/register.json && grep -qF "\"commit\": \"$GITHUB_SHA\"" /tmp/register.json; then
+              for page in index.html fixtures/Calculator.holo; do
+                curl -fsSL "${PAGE_URL%/}/$page" -o /dev/null
+              done
+              echo "$PAGE_URL serves commit $GITHUB_SHA across index.html and Core-Wasm fixtures"
+              exit 0
+            fi
+            sleep 10
+          done
+          echo "$PAGE_URL did not yet reflect commit $GITHUB_SHA" >&2
+          exit 1
