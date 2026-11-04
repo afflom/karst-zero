@@ -1,4 +1,4 @@
-# Minimal human-reviewed trust root for Karst: Zero Horizon (Nemesis Core 4.0).
+# Minimal human-reviewed trust root for KarstZero (Nemesis Core 4.0).
 name: bootstrap
 
 on:
@@ -27,14 +27,13 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
-      - name: Setup Node.js
+      - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22
-          cache: 'npm'
+          node-version: '22'
 
       - name: Install Node dependencies
-        run: npm ci
+        run: npm install --no-package-lock --legacy-peer-deps
 
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@stable
