@@ -8,3 +8,85 @@ engine_name = "Nemesis Core 4.0"
 wcag_level = "AA"
 normal_text_min_contrast = "4.5:1"
 ui_component_min_contrast = "3.0:1"
+
+[[token]]
+name = "color.bg.canvas"
+light_hex = "#F4F6F9"
+dark_hex = "#090C12"
+
+[[token]]
+name = "color.bg.elevated"
+light_hex = "#FFFFFF"
+dark_hex = "#111722"
+
+[[token]]
+name = "color.text.primary"
+light_hex = "#0B111E"
+dark_hex = "#F0F4FA"
+
+[[token]]
+name = "color.text.secondary"
+light_hex = "#2D3748"
+dark_hex = "#B8C4D9"
+
+[[token]]
+name = "color.accent.strike"
+light_hex = "#005A8D"
+dark_hex = "#4FD1FF"
+
+[[token]]
+name = "color.accent.warden"
+light_hex = "#9B1C31"
+dark_hex = "#FF6B81"
+
+[[token]]
+name = "color.accent.resonance"
+light_hex = "#5B21B6"
+dark_hex = "#C4B5FD"
+
+[[token]]
+name = "color.accent.alloy"
+light_hex = "#854D0E"
+dark_hex = "#FACC15"
+
+[[contrast_pair]]
+id = "pair-canvas-primary"
+foreground = "color.text.primary"
+background = "color.bg.canvas"
+min_ratio_tenths = 45
+
+[[contrast_pair]]
+id = "pair-elevated-primary"
+foreground = "color.text.primary"
+background = "color.bg.elevated"
+min_ratio_tenths = 45
+
+[[contrast_pair]]
+id = "pair-canvas-secondary"
+foreground = "color.text.secondary"
+background = "color.bg.canvas"
+min_ratio_tenths = 45
+
+[[contrast_pair]]
+id = "pair-canvas-strike"
+foreground = "color.accent.strike"
+background = "color.bg.canvas"
+min_ratio_tenths = 45
+
+[[contrast_pair]]
+id = "pair-canvas-warden"
+foreground = "color.accent.warden"
+background = "color.bg.canvas"
+min_ratio_tenths = 45
+
+[[contrast_pair]]
+id = "pair-canvas-resonance"
+foreground = "color.accent.resonance"
+background = "color.bg.canvas"
+min_ratio_tenths = 45
+
+[[contrast_pair]]
+id = "pair-canvas-alloy"
+foreground = "color.accent.alloy"
+background = "color.bg.canvas"
+min_ratio_tenths = 45

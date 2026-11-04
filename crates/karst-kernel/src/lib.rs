@@ -4,9 +4,9 @@
 //! Mirrors the total, allocation-free, float-free integer realizations declared across
 //! `src/Contract.lex.tex`, `src/Application.lex.tex`, `src/UnitSynthesis.lex.tex`,
 //! `src/CombatEngine.lex.tex`, `src/ResonanceWeave.lex.tex`, `src/NemesisChit.lex.tex`,
-//! `src/CampaignBastion.lex.tex`, `src/NemesisEngine.lex.tex`, `src/Architecture.lex.tex`,
-//! `src/Design.lex.tex`, `src/Presentation.lex.tex`, `src/Standards.lex.tex`, and
-//! `src/Main.lex.tex`.
+//! `src/CampaignBastion.lex.tex`, `src/SpatialWorld.lex.tex`, `src/NemesisEngine.lex.tex`,
+//! `src/Architecture.lex.tex`, `src/Design.lex.tex`, `src/Presentation.lex.tex`,
+//! `src/Standards.lex.tex`, and `src/Main.lex.tex`.
 
 #![no_std]
 #![forbid(unsafe_code)]
@@ -14,6 +14,7 @@
 
 pub mod combat;
 pub mod nemesis;
+pub mod spatial;
 pub mod synthesis;
 
 /// A single pinned SHA-256 digest pair (`Contract.lex.tex` -> `Pin`).

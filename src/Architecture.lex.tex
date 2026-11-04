@@ -12,6 +12,7 @@
 \importmodule{ResonanceWeave}
 \importmodule{NemesisChit}
 \importmodule{CampaignBastion}
+\importmodule{SpatialWorld}
 \importmodule{NemesisEngine}
 \title{Architecture description model}
 \begin{semanticmodule}
@@ -621,7 +622,14 @@ definition{
   name: feature05NemesisEngineFullBinding,
   parameters: [],
   result: Foundation.Arch::Feature,
-  body: (record Foundation.Arch::Feature {statement := "Enforce that Karst: Zero Horizon consumes all 5 Nemesis Core 4.0 engine subsystems and verifies all boundary contracts through Core-Wasm.", calls := (cons "NemesisEngine::allEngineSubsystemsVerified" (cons "UnitSynthesis::allProgressionRecordsValid" (nil String))), acceptance := (cons "NemesisEngine::engineSubsystems" (cons "NemesisEngine::boundaryContractIds" (nil String)))})
+  body: (record Foundation.Arch::Feature {statement := "Enforce that Karst: Zero Horizon consumes all 6 Nemesis Core 4.0 engine subsystems and verifies all boundary contracts through Core-Wasm.", calls := (cons "NemesisEngine::allEngineSubsystemsVerified" (cons "UnitSynthesis::allProgressionRecordsValid" (nil String))), acceptance := (cons "NemesisEngine::engineSubsystems" (cons "NemesisEngine::boundaryContractIds" (nil String)))})
+}
+
+definition{
+  name: feature06SpatialWorldAndPresets,
+  parameters: [],
+  result: Foundation.Arch::Feature,
+  body: (record Foundation.Arch::Feature {statement := "Project the 2.5D isometric and 2D top-down object-spatial viewport across 7 Karst-9 locations, 9 Minor Resonance Directives, and 4 Starting Company Presets.", calls := (cons "SpatialWorld::computeIsometricDepthKey" (cons "SpatialWorld::evaluateSpatialTrajectory" (nil String))), acceptance := (cons "SpatialWorld::worldLocations" (cons "SpatialWorld::startingCompanyPresets" (nil String)))})
 }
 
 definition{

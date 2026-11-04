@@ -9,6 +9,7 @@
 
 import { blake3Hex, canonicalJson, kappa } from 'prism-code';
 import { canonicalize, codeHash } from 'prism-code/canonical';
+import { computeNemesisIsometricDepthKey } from './nemesisEngine';
 import type {
   CompiledUnit,
   ObjectiveMarker,
@@ -109,7 +110,7 @@ export function projectSpatialCoord(
     sx,
     sy,
     scale,
-    depthKey: (x + y) * 100 + y + z * 10,
+    depthKey: computeNemesisIsometricDepthKey(x, y, z),
   };
 }
 

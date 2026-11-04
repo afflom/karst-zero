@@ -38,8 +38,8 @@ model does not sanction.
 | ID | Level | Statement |
 | --- | --- | --- |
 | `TC-01` | `build` | The Contract.lex.tex checker decides whether every universal policy and lock pin matches its expected SHA-256 digest |
-| `KZ-07` | `build` | The Nemesis Core 4.0 Engine Completeness specification in NemesisEngine.lex.tex proves that Karst: Zero Horizon binds and consumes all 5 Nemesis Core 4.0 subsystems across hologram:guest/core-wasm@1 (52-byte request, 27-byte response, 65,536-byte arena) |
-| `KZ-15` | `build` | The unified release profile in Main.lex.tex and .prism/build/<digest>/model.prism.json binds 76 compiled facet entities, 17 verified LexLean v0.4 modules, and the interactive Karst: Zero Horizon tactical application |
+| `KZ-07` | `build` | The Nemesis Core 4.0 Engine Completeness specification in NemesisEngine.lex.tex verifies that Karst: Zero Horizon binds and consumes all 6 Nemesis Core 4.0 subsystems across hologram:guest/core-wasm@1 (52-byte request, 27-byte response, 65,536-byte arena) |
+| `KZ-15` | `build` | The unified release profile in Main.lex.tex and .prism/build/<digest>/model.prism.json binds 76 compiled facet entities, 18 verified LexLean v0.4 modules, and the interactive Karst: Zero Horizon tactical application |
 
 ## design
 
@@ -66,7 +66,8 @@ model does not sanction.
 | --- | --- | --- |
 | `KZ-05` | `build` | The 5-Round Opaque Command Chit Director in NemesisChit.lex.tex enforces Warden Chit pool return, 1d6 Warden Berth wrap-around selection (((d6 - 1) mod N) + 1), Multi-Berth Boss activations (ECH-3 = 2, ECH-4 = 3), and 6 deterministic Doctrine AI routines |
 | `KZ-06` | `build` | The Orbital Bastion Campaign Ledger in CampaignBastion.lex.tex models 4 Pre-Drop Crew Assignments, 3 Bastion Facilities, 6 Core Sector Contracts, 6-Alloy salvage cap, and canonical FNV-1a save digests |
-| `KZ-09` | `build` | The system topology in Architecture.lex.tex models 6 typed Nemesis Core 4.0 components (component00..05), 8 directed control/data edges (edge00..07), 6 executable features (feature00..05), and 4 stakeholder journeys (journey00..03) |
+| `KZ-09` | `build` | The system topology in Architecture.lex.tex models 6 typed Nemesis Core 4.0 components (component00..05), 8 directed control/data edges (edge00..07), 7 executable features (feature00..06), and 4 stakeholder journeys (journey00..03) |
+| `KZ-16` | `build` | The 2.5D Object-Spatial Projection and Karst-9 World Catalog in SpatialWorld.lex.tex models 2 camera modes, 7 spatial object categories, 7 world locations, 4 starting company presets, 9 minor resonance directives, 3 threat-tier Warden forces, and isometric depth/trajectory evaluation |
 
 ## user-journeys
 
@@ -81,7 +82,7 @@ Never re-derived, vendored, or gated on.
 | Authority | Citation | Evidence here |
 | --- | --- | --- |
 | `TEMPLATE-CONTRACT` | UOR Foundation, TEMPLATE-CONTRACT.md (universal repository contract) | `TC-01` |
-| `NEMESIS-CORE-4.0` | Nemesis Core 4.0 SRD — Open-Source Tactical Skirmish & Campaign Engine Specification | `KZ-01`, `KZ-02`, `KZ-03`, `KZ-04`, `KZ-05`, `KZ-06`, `KZ-07` |
+| `NEMESIS-CORE-4.0` | Nemesis Core 4.0 SRD — Open-Source Tactical Skirmish & Campaign Engine Specification | `KZ-01`, `KZ-02`, `KZ-03`, `KZ-04`, `KZ-05`, `KZ-06`, `KZ-07`, `KZ-16` |
 | `LEXLEAN-0.4` | UOR Foundation, LexLean v0.4.0 Closed-Lexicon Compiler & Lean 4.32.1 Kernel Specification | `KZ-07`, `KZ-15` |
 | `PRISMPM-0.4` | UOR Foundation, PrismPM v0.4 Holistic Package, Facet & Holo Container Specification | `KZ-09`, `KZ-15` |
 | `ISO-42010` | ISO/IEC/IEEE 42010:2022 Systems and software engineering — Architecture description | `KZ-08` |

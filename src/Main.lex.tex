@@ -11,6 +11,7 @@
 \importmodule{NemesisEngine}
 \importmodule{Presentation}
 \importmodule{ResonanceWeave}
+\importmodule{SpatialWorld}
 \importmodule{Standards}
 \importmodule{UnitSynthesis}
 \title{Boolean}
@@ -34,10 +35,14 @@ structure{
     {name: synthesizedArchetypesCount, type: Nat},
     {name: resonanceFrequenciesCount, type: Nat},
     {name: hardpointModulesCount, type: Nat},
+    {name: minorDirectivesCount, type: Nat},
     {name: doctrineAiRoutinesCount, type: Nat},
     {name: crewAssignmentsCount, type: Nat},
     {name: bastionFacilitiesCount, type: Nat},
     {name: sectorContractsCount, type: Nat},
+    {name: worldLocationsCount, type: Nat},
+    {name: startingPresetsCount, type: Nat},
+    {name: spatialObjectCategoriesCount, type: Nat},
     {name: nemesisSubsystemsCount, type: Nat},
     {name: normativeStandardsCount, type: Nat},
     {name: zeroStatInflationVerified, type: Bool},
@@ -45,6 +50,7 @@ structure{
     {name: opposedStrikeFixturesVerified, type: Bool},
     {name: fireteamSpilloverVerified, type: Bool},
     {name: hardpointPricingVerified, type: Bool},
+    {name: spatialWorldVerified, type: Bool},
     {name: fullNemesisEngineConsumed, type: Bool},
     {name: wcagContrastVerified, type: Bool}
   ]
@@ -54,7 +60,7 @@ definition{
   name: releaseProfile,
   parameters: [],
   result: KarstZeroReleaseProfile,
-  body: (record KarstZeroReleaseProfile {id := "karst-zero-horizon-v0.4", engineName := "Nemesis Core 4.0", lexleanVersion := "0.4.0", languageVersion := "1.2", leanToolchain := "leanprover/lean4:v4.32.1", prismReleaseSchema := "prismpm/product-release/1", holoContainerMagic := "HOLO-v4.0", coreWasmContract := "hologram:guest/core-wasm@1", doctrinesCount := (prim length (UnitSynthesis::doctrines) : Nat), chassisCount := (prim length (UnitSynthesis::chassisList) : Nat), echelonsCount := (prim length (UnitSynthesis::echelons) : Nat), synthesizedArchetypesCount := (UnitSynthesis::synthesisArchetypeCount), resonanceFrequenciesCount := (prim length (ResonanceWeave::frequencies) : Nat), hardpointModulesCount := (prim length (ResonanceWeave::moduleCatalog) : Nat), doctrineAiRoutinesCount := (prim length (NemesisChit::doctrineAiRoutines) : Nat), crewAssignmentsCount := (prim length (CampaignBastion::crewAssignments) : Nat), bastionFacilitiesCount := (prim length (CampaignBastion::bastionFacilities) : Nat), sectorContractsCount := (prim length (CampaignBastion::sectorContracts) : Nat), nemesisSubsystemsCount := (prim length (NemesisEngine::engineSubsystems) : Nat), normativeStandardsCount := (prim length (Standards::standards) : Nat), zeroStatInflationVerified := (UnitSynthesis::allProgressionRecordsValid (UnitSynthesis::progressionFixtures)), startingCharterVerified := (UnitSynthesis::validateCharter (UnitSynthesis::canonicalStartingCharter)), opposedStrikeFixturesVerified := (CombatEngine::allStrikeFixturesPass (CombatEngine::strikeFixtures)), fireteamSpilloverVerified := (CombatEngine::allFireteamFixturesHold (CombatEngine::fireteamSpilloverFixtures)), hardpointPricingVerified := (ResonanceWeave::allModulesCorrectlyPriced (ResonanceWeave::moduleCatalog)), fullNemesisEngineConsumed := (NemesisEngine::allEngineSubsystemsVerified (NemesisEngine::engineSubsystems)), wcagContrastVerified := ((Presentation::pairsMeetContrast (Presentation::contrastPairs) "light" (Presentation::designTokens)) && (Presentation::pairsMeetContrast (Presentation::contrastPairs) "dark" (Presentation::designTokens)))}),
+  body: (record KarstZeroReleaseProfile {id := "karst-zero-horizon-v0.4", engineName := "Nemesis Core 4.0", lexleanVersion := "0.4.0", languageVersion := "1.2", leanToolchain := "leanprover/lean4:v4.32.1", prismReleaseSchema := "prismpm/product-release/1", holoContainerMagic := "HOLO-v4.0", coreWasmContract := "hologram:guest/core-wasm@1", doctrinesCount := (prim length (UnitSynthesis::doctrines) : Nat), chassisCount := (prim length (UnitSynthesis::chassisList) : Nat), echelonsCount := (prim length (UnitSynthesis::echelons) : Nat), synthesizedArchetypesCount := (UnitSynthesis::synthesisArchetypeCount), resonanceFrequenciesCount := (prim length (ResonanceWeave::frequencies) : Nat), hardpointModulesCount := (prim length (ResonanceWeave::moduleCatalog) : Nat), minorDirectivesCount := (prim length (SpatialWorld::minorResonanceDirectives) : Nat), doctrineAiRoutinesCount := (prim length (NemesisChit::doctrineAiRoutines) : Nat), crewAssignmentsCount := (prim length (CampaignBastion::crewAssignments) : Nat), bastionFacilitiesCount := (prim length (CampaignBastion::bastionFacilities) : Nat), sectorContractsCount := (prim length (CampaignBastion::sectorContracts) : Nat), worldLocationsCount := (prim length (SpatialWorld::worldLocations) : Nat), startingPresetsCount := (prim length (SpatialWorld::startingCompanyPresets) : Nat), spatialObjectCategoriesCount := (prim length (SpatialWorld::spatialObjectCategories) : Nat), nemesisSubsystemsCount := (prim length (NemesisEngine::engineSubsystems) : Nat), normativeStandardsCount := (prim length (Standards::standards) : Nat), zeroStatInflationVerified := (UnitSynthesis::allProgressionRecordsValid (UnitSynthesis::progressionFixtures)), startingCharterVerified := (UnitSynthesis::validateCharter (UnitSynthesis::canonicalStartingCharter)), opposedStrikeFixturesVerified := (CombatEngine::allStrikeFixturesPass (CombatEngine::strikeFixtures)), fireteamSpilloverVerified := (CombatEngine::allFireteamFixturesHold (CombatEngine::fireteamSpilloverFixtures)), hardpointPricingVerified := (ResonanceWeave::allModulesCorrectlyPriced (ResonanceWeave::moduleCatalog)), spatialWorldVerified := (SpatialWorld::allPresetsFitCharter (SpatialWorld::startingCompanyPresets)), fullNemesisEngineConsumed := (NemesisEngine::allEngineSubsystemsVerified (NemesisEngine::engineSubsystems)), wcagContrastVerified := ((Presentation::pairsMeetContrast (Presentation::contrastPairs) "light" (Presentation::designTokens)) && (Presentation::pairsMeetContrast (Presentation::contrastPairs) "dark" (Presentation::designTokens)))}),
   axioms: []
 }
 
@@ -85,7 +91,15 @@ theorem{
 theorem{
   name: releaseFullNemesisCore4Consumed,
   parameters: [],
-  statement: (((project (releaseProfile) fullNemesisEngineConsumed) && ((project (releaseProfile) nemesisSubsystemsCount) =? 5)) = true),
+  statement: (((project (releaseProfile) fullNemesisEngineConsumed) && ((project (releaseProfile) nemesisSubsystemsCount) =? 6)) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: releaseSpatialWorldAndPresetsVerified,
+  parameters: [],
+  statement: ((((project (releaseProfile) spatialWorldVerified) && ((project (releaseProfile) worldLocationsCount) =? 7)) && (((project (releaseProfile) startingPresetsCount) =? 4) && ((project (releaseProfile) minorDirectivesCount) =? 9))) = true),
   proof: decide{},
   axioms: []
 }

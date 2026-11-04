@@ -23,6 +23,10 @@ import {
   MINOR_RESONANCE_DIRECTIVES,
   compileUnitProfile,
 } from '../game/catalog';
+import {
+  computeArchetypeCoordinateIndex,
+  validateNemesisRosterCharter,
+} from '../game/nemesisEngine';
 import type {
   CampaignState,
   CompiledUnit,
@@ -95,7 +99,7 @@ export const RosterForgeView: React.FC<RosterForgeViewProps> = ({
   const [statusMessage, setStatusMessage] = useState<string | null>(null);
 
   const occupiedBerths = useMemo(() => {
-    return campaign.roster.reduce((sum, u) => sum + u.berthIndices.length, 0);
+    return validateNemesisRosterCharter(campaign.roster).berthsUsed;
   }, [campaign.roster]);
 
   const selectedUnit = useMemo(() => {
@@ -584,7 +588,7 @@ export const RosterForgeView: React.FC<RosterForgeViewProps> = ({
                   />
                   <div>
                     <div className="text-xs font-mono text-amber-400">
-                      BERTH {selectedUnit.berthIndices.join(' & ')} · {selectedUnit.callsign}
+                      BERTH {selectedUnit.berthIndices.join(' & ')} · {selectedUnit.callsign} · ARCHETYPE #{computeArchetypeCoordinateIndex(selectedUnit.doctrine, selectedUnit.chassis, selectedUnit.echelon)}/150
                     </div>
                     <h2 className="text-2xl font-bold text-white mt-0.5">
                       {selectedUnit.name}

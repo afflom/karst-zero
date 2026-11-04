@@ -48,7 +48,7 @@ statement = "The Orbital Bastion Campaign Ledger in CampaignBastion.lex.tex mode
 id = "KZ-07"
 level = "build"
 suite = "contract"
-statement = "The Nemesis Core 4.0 Engine Completeness specification in NemesisEngine.lex.tex proves that Karst: Zero Horizon binds and consumes all 5 Nemesis Core 4.0 subsystems across hologram:guest/core-wasm@1 (52-byte request, 27-byte response, 65,536-byte arena)"
+statement = "The Nemesis Core 4.0 Engine Completeness specification in NemesisEngine.lex.tex verifies that Karst: Zero Horizon binds and consumes all 6 Nemesis Core 4.0 subsystems across hologram:guest/core-wasm@1 (52-byte request, 27-byte response, 65,536-byte arena)"
 
 [[id]]
 id = "KZ-08"
@@ -60,7 +60,7 @@ statement = "The ISO/IEC/IEEE 42010 architecture facet in Architecture.lex.tex m
 id = "KZ-09"
 level = "build"
 suite = "system"
-statement = "The system topology in Architecture.lex.tex models 6 typed Nemesis Core 4.0 components (component00..05), 8 directed control/data edges (edge00..07), 6 executable features (feature00..05), and 4 stakeholder journeys (journey00..03)"
+statement = "The system topology in Architecture.lex.tex models 6 typed Nemesis Core 4.0 components (component00..05), 8 directed control/data edges (edge00..07), 7 executable features (feature00..06), and 4 stakeholder journeys (journey00..03)"
 
 [[id]]
 id = "KZ-10"
@@ -96,4 +96,11 @@ statement = "The normative standards profile in Standards.lex.tex binds 6 standa
 id = "KZ-15"
 level = "build"
 suite = "contract"
-statement = "The unified release profile in Main.lex.tex and .prism/build/<digest>/model.prism.json binds 76 compiled facet entities, 17 verified LexLean v0.4 modules, and the interactive Karst: Zero Horizon tactical application"
+statement = "The unified release profile in Main.lex.tex and .prism/build/<digest>/model.prism.json binds 76 compiled facet entities, 18 verified LexLean v0.4 modules, and the interactive Karst: Zero Horizon tactical application"
+
+[[id]]
+id = "KZ-16"
+level = "build"
+suite = "system"
+statement = "The 2.5D Object-Spatial Projection and Karst-9 World Catalog in SpatialWorld.lex.tex models 2 camera modes, 7 spatial object categories, 7 world locations, 4 starting company presets, 9 minor resonance directives, 3 threat-tier Warden forces, and isometric depth/trajectory evaluation"
+

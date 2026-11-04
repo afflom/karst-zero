@@ -17,6 +17,10 @@ import {
   ECHELON_SPECS,
   generateWardenForce,
 } from '../game/catalog';
+import {
+  computeNemesisSaveDigestHex,
+  validateNemesisRosterCharter,
+} from '../game/nemesisEngine';
 import type {
   CampaignState,
   CompiledUnit,
@@ -125,9 +129,19 @@ export const CampaignHubView: React.FC<CampaignHubViewProps> = ({
   );
 
   const occupiedBerths = useMemo(
-    () => campaign.roster.reduce((sum, u) => sum + ECHELON_SPECS[u.echelon].berthCost, 0),
+    () => validateNemesisRosterCharter(campaign.roster).berthsUsed,
     [campaign.roster]
   );
+
+  const canonicalSaveDigest = useMemo(() => {
+    const totalXp = campaign.roster.reduce((sum, u) => sum + u.xp, 0);
+    return computeNemesisSaveDigestHex(
+      campaign.completedContracts + 1,
+      campaign.alloyTreasury,
+      occupiedBerths,
+      totalXp
+    );
+  }, [campaign.completedContracts, campaign.alloyTreasury, occupiedBerths, campaign.roster]);
 
   const selectedScenario = SCENARIO_SPECS[selectedScenarioIndex] ?? SCENARIO_SPECS[0];
   const selectedNarrative =
@@ -482,6 +496,10 @@ export const CampaignHubView: React.FC<CampaignHubViewProps> = ({
             <span aria-hidden="true" className="text-slate-600">·</span>
             <span>
               Stims: <strong className="text-purple-400">{campaign.consumablesCount}</strong>
+            </span>
+            <span aria-hidden="true" className="text-slate-600">·</span>
+            <span title="Canonical FNV-1a Save Digest (CampaignBastion.lex.tex)">
+              Ledger: <strong className="text-slate-200">{canonicalSaveDigest}</strong>
             </span>
           </div>
         </div>

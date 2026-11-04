@@ -6,6 +6,7 @@
 \importmodule{ResonanceWeave}
 \importmodule{NemesisChit}
 \importmodule{CampaignBastion}
+\importmodule{SpatialWorld}
 \title{Boolean}
 \begin{semanticmodule}
 structure{
@@ -26,7 +27,7 @@ definition{
   name: engineSubsystems,
   parameters: [],
   result: (List NemesisEngineSubsystem),
-  body: (cons (record NemesisEngineSubsystem {id := "NEMESIS-SUB-01-SYNTHESIS", engineLayer := "3D Unit Synthesis [Doctrine x Chassis x Echelon] & Zero-Stat-Inflation", lexleanModule := "UnitSynthesis", karstBinding := "Karst 150-Archetype Strike Roster & 6-Berth / 16-Alloy Charter", boundaryContractId := "ctr-unit-compile", verified := ((UnitSynthesis::validateCharter (UnitSynthesis::canonicalStartingCharter)) && (UnitSynthesis::allProgressionRecordsValid (UnitSynthesis::progressionFixtures)))}) (cons (record NemesisEngineSubsystem {id := "NEMESIS-SUB-02-COMBAT", engineLayer := "Unified d6 Strike Pool, Momentum Charge, Cover & ARM/TGH Mitigation", lexleanModule := "CombatEngine", karstBinding := "Karst 36x36 Vault Grid Combat, Fireteam Spillover & Automaton Rupture", boundaryContractId := "ctr-strike-resolve", verified := ((CombatEngine::allStrikeFixturesPass (CombatEngine::strikeFixtures)) && (CombatEngine::allFireteamFixturesHold (CombatEngine::fireteamSpilloverFixtures)))}) (cons (record NemesisEngineSubsystem {id := "NEMESIS-SUB-03-RESONANCE", engineLayer := "6-Frequency Resonance Weave, Hardpoint Modules & Backlash Table", lexleanModule := "ResonanceWeave", karstBinding := "Karst 16 Hardpoint Modules, 9 Minor Directives & Overheat Backlash", boundaryContractId := "ctr-socket-unlock", verified := (ResonanceWeave::allModulesCorrectlyPriced (ResonanceWeave::moduleCatalog))}) (cons (record NemesisEngineSubsystem {id := "NEMESIS-SUB-04-CHIT-DIRECTOR", engineLayer := "5-Round Opaque Command Chit Pool, 1d6 Warden Wrap & Boss Scaling", lexleanModule := "NemesisChit", karstBinding := "Karst Autonomous Warden Directive AI & Multi-Berth Boss Encounters", boundaryContractId := "ctr-chit-step", verified := ((NemesisChit::wardenChitReturnsToPool 3 2) && ((NemesisChit::bossChitActivationsForEchelon 4) =? 3))}) (cons (record NemesisEngineSubsystem {id := "NEMESIS-SUB-05-BASTION", engineLayer := "Orbital Bastion Pre-Drop Crew Assignments, Push Risk & 6 Contracts", lexleanModule := "CampaignBastion", karstBinding := "Karst Low-Orbit Bastion Hub, 3 Facilities & Canonical Save Receipt", boundaryContractId := "ctr-unit-compile", verified := (((prim length (CampaignBastion::crewAssignments) : Nat) =? 4) && ((prim length (CampaignBastion::sectorContracts) : Nat) =? 6))}) (nil NemesisEngineSubsystem)))))),
+  body: (cons (record NemesisEngineSubsystem {id := "NEMESIS-SUB-01-SYNTHESIS", engineLayer := "3D Unit Synthesis [Doctrine x Chassis x Echelon] & Zero-Stat-Inflation", lexleanModule := "UnitSynthesis", karstBinding := "Karst 150-Archetype Strike Roster & 6-Berth / 16-Alloy Charter", boundaryContractId := "ctr-unit-compile", verified := ((UnitSynthesis::validateCharter (UnitSynthesis::canonicalStartingCharter)) && (UnitSynthesis::allProgressionRecordsValid (UnitSynthesis::progressionFixtures)))}) (cons (record NemesisEngineSubsystem {id := "NEMESIS-SUB-02-COMBAT", engineLayer := "Unified d6 Strike Pool, Momentum Charge, Cover & ARM/TGH Mitigation", lexleanModule := "CombatEngine", karstBinding := "Karst 36x36 Vault Grid Combat, Fireteam Spillover & Automaton Rupture", boundaryContractId := "ctr-strike-resolve", verified := ((CombatEngine::allStrikeFixturesPass (CombatEngine::strikeFixtures)) && (CombatEngine::allFireteamFixturesHold (CombatEngine::fireteamSpilloverFixtures)))}) (cons (record NemesisEngineSubsystem {id := "NEMESIS-SUB-03-RESONANCE", engineLayer := "6-Frequency Resonance Weave, Hardpoint Modules & Backlash Table", lexleanModule := "ResonanceWeave", karstBinding := "Karst 16 Hardpoint Modules, 9 Minor Directives & Overheat Backlash", boundaryContractId := "ctr-socket-unlock", verified := (ResonanceWeave::allModulesCorrectlyPriced (ResonanceWeave::moduleCatalog))}) (cons (record NemesisEngineSubsystem {id := "NEMESIS-SUB-04-CHIT-DIRECTOR", engineLayer := "5-Round Opaque Command Chit Pool, 1d6 Warden Wrap & Boss Scaling", lexleanModule := "NemesisChit", karstBinding := "Karst Autonomous Warden Directive AI & Multi-Berth Boss Encounters", boundaryContractId := "ctr-chit-step", verified := ((NemesisChit::wardenChitReturnsToPool 3 2) && ((NemesisChit::bossChitActivationsForEchelon 4) =? 3))}) (cons (record NemesisEngineSubsystem {id := "NEMESIS-SUB-05-BASTION", engineLayer := "Orbital Bastion Pre-Drop Crew Assignments, Push Risk & 6 Contracts", lexleanModule := "CampaignBastion", karstBinding := "Karst Low-Orbit Bastion Hub, 3 Facilities & Canonical Save Receipt", boundaryContractId := "ctr-unit-compile", verified := (((prim length (CampaignBastion::crewAssignments) : Nat) =? 4) && ((prim length (CampaignBastion::sectorContracts) : Nat) =? 6))}) (cons (record NemesisEngineSubsystem {id := "NEMESIS-SUB-06-SPATIAL-WORLD", engineLayer := "2.5D Object-Spatial Projection, 7 Karst-9 World Locations & 4 Starting Presets", lexleanModule := "SpatialWorld", karstBinding := "Karst 2.5D Isometric / Top-Down Viewport, 18x18 Cavern Grid & Warden Threat Forces", boundaryContractId := "ctr-spatial-trajectory", verified := (((prim length (SpatialWorld::worldLocations) : Nat) =? 7) && (SpatialWorld::allPresetsFitCharter (SpatialWorld::startingCompanyPresets)))}) (nil NemesisEngineSubsystem))))))),
   axioms: []
 }
 
@@ -45,14 +46,14 @@ definition{
   name: boundaryContractIds,
   parameters: [],
   result: (List String),
-  body: (cons "ctr-unit-compile" (cons "ctr-strike-resolve" (cons "ctr-chit-step" (cons "ctr-socket-unlock" (nil String))))),
+  body: (cons "ctr-unit-compile" (cons "ctr-strike-resolve" (cons "ctr-chit-step" (cons "ctr-socket-unlock" (cons "ctr-spatial-trajectory" (nil String)))))),
   axioms: []
 }
 
 theorem{
-  name: nemesisEngineSubsystemCountIsFive,
+  name: nemesisEngineSubsystemCountIsSix,
   parameters: [],
-  statement: (((prim length (engineSubsystems) : Nat) =? 5) = true),
+  statement: (((prim length (engineSubsystems) : Nat) =? 6) = true),
   proof: decide{},
   axioms: []
 }

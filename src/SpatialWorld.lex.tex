@@ -1,0 +1,215 @@
+\begin{lexlean}{SpatialWorld}
+\useglossary{lexlean.std.bool@1.2.0}
+\useglossary{lexlean.std.nat@1.2.0}
+\title{Boolean}
+\begin{semanticmodule}
+structure{
+  name: SpatialCameraViewMode,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: id, type: String},
+    {name: name, type: String},
+    {name: usesExtrudedPrisms, type: Bool},
+    {name: usesPaintersDepthSort, type: Bool}
+  ]
+}
+
+structure{
+  name: SpatialObjectCategory,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: id, type: String},
+    {name: index, type: Nat},
+    {name: layer, type: String},
+    {name: defaultElevationCentimeters, type: Nat},
+    {name: blocksLineOfSight, type: Bool}
+  ]
+}
+
+structure{
+  name: KarstWorldLocation,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: id, type: String},
+    {name: name, type: String},
+    {name: locationKind, type: String},
+    {name: threatTier, type: Nat},
+    {name: gridWidthSectors, type: Nat},
+    {name: gridHeightSectors, type: Nat}
+  ]
+}
+
+structure{
+  name: StartingCompanyPresetSpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: id, type: String},
+    {name: name, type: String},
+    {name: primeEchelonTier, type: Nat},
+    {name: totalBerthsUsed, type: Nat},
+    {name: supportAlloySpent, type: Nat}
+  ]
+}
+
+structure{
+  name: MinorResonanceDirectiveSpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: id, type: String},
+    {name: name, type: String},
+    {name: frequencyId, type: String},
+    {name: minCogRequired, type: Nat},
+    {name: rangeSectors, type: Nat}
+  ]
+}
+
+structure{
+  name: WardenThreatForceSpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: threatTier, type: Nat},
+    {name: label, type: String},
+    {name: unitEntriesCount, type: Nat},
+    {name: totalBerthWeight, type: Nat},
+    {name: commanderEchelonTier, type: Nat}
+  ]
+}
+
+definition{
+  name: cameraViewModes,
+  parameters: [],
+  result: (List SpatialCameraViewMode),
+  body: (cons (record SpatialCameraViewMode {id := "isometric_2_5d", name := "2.5D Isometric Extruded Tactical Projection", usesExtrudedPrisms := true, usesPaintersDepthSort := true}) (cons (record SpatialCameraViewMode {id := "top_down_2d", name := "2D Orthographic Top-Down Tactical Grid", usesExtrudedPrisms := false, usesPaintersDepthSort := false}) (nil SpatialCameraViewMode))),
+  axioms: []
+}
+
+definition{
+  name: spatialObjectCategories,
+  parameters: [],
+  result: (List SpatialObjectCategory),
+  body: (cons (record SpatialObjectCategory {id := "CarrierRoomNode", index := 0, layer := "OrbitalBastion", defaultElevationCentimeters := 180, blocksLineOfSight := false}) (cons (record SpatialObjectCategory {id := "DropBerthNode", index := 1, layer := "OrbitalBastion", defaultElevationCentimeters := 120, blocksLineOfSight := false}) (cons (record SpatialObjectCategory {id := "PlanetarySectorNode", index := 2, layer := "PlanetaryGlobe", defaultElevationCentimeters := 240, blocksLineOfSight := false}) (cons (record SpatialObjectCategory {id := "CavernFloorTile", index := 3, layer := "VaultBattlefield", defaultElevationCentimeters := 20, blocksLineOfSight := false}) (cons (record SpatialObjectCategory {id := "TerrainStructure", index := 4, layer := "VaultBattlefield", defaultElevationCentimeters := 220, blocksLineOfSight := true}) (cons (record SpatialObjectCategory {id := "ObjectiveArtifact", index := 5, layer := "VaultBattlefield", defaultElevationCentimeters := 140, blocksLineOfSight := false}) (cons (record SpatialObjectCategory {id := "CharacterUnit", index := 6, layer := "VaultBattlefield", defaultElevationCentimeters := 180, blocksLineOfSight := false}) (nil SpatialObjectCategory)))))))),
+  axioms: []
+}
+
+definition{
+  name: worldLocations,
+  parameters: [],
+  result: (List KarstWorldLocation),
+  body: (cons (record KarstWorldLocation {id := "LOC-00-ORBITAL-BASTION", name := "Strike Carrier — Low-Orbit Bastion Hub", locationKind := "BastionHub", threatTier := 0, gridWidthSectors := 12, gridHeightSectors := 8}) (cons (record KarstWorldLocation {id := "LOC-01-SHATTERED-CONDUIT", name := "Sector 01: Shattered Conduit", locationKind := "VaultSector", threatTier := 1, gridWidthSectors := 18, gridHeightSectors := 18}) (cons (record KarstWorldLocation {id := "LOC-02-FUNGAL-CISTERN", name := "Sector 02: Bioluminescent Fungal Cistern", locationKind := "VaultSector", threatTier := 1, gridWidthSectors := 18, gridHeightSectors := 18}) (cons (record KarstWorldLocation {id := "LOC-03-OBSIDIAN-QUARRY", name := "Sector 03: Obsidian Fault Quarry", locationKind := "VaultSector", threatTier := 2, gridWidthSectors := 18, gridHeightSectors := 18}) (cons (record KarstWorldLocation {id := "LOC-04-CRYO-SARCOPHAGUS", name := "Sector 04: Cryo-Sarcophagus Vault", locationKind := "VaultSector", threatTier := 2, gridWidthSectors := 18, gridHeightSectors := 18}) (cons (record KarstWorldLocation {id := "LOC-05-RESONANCE-SYNAPSE", name := "Sector 05: Resonance Synapse Chamber", locationKind := "VaultSector", threatTier := 3, gridWidthSectors := 18, gridHeightSectors := 18}) (cons (record KarstWorldLocation {id := "LOC-06-SOVEREIGN-THRONE", name := "Sector 06: Sovereign Core Throne", locationKind := "VaultSector", threatTier := 3, gridWidthSectors := 18, gridHeightSectors := 18}) (nil KarstWorldLocation)))))))),
+  axioms: []
+}
+
+definition{
+  name: startingCompanyPresets,
+  parameters: [],
+  result: (List StartingCompanyPresetSpec),
+  body: (cons (record StartingCompanyPresetSpec {id := "preset-7th-obsidian-vanguard", name := "7th Obsidian Vanguard (Balanced Combined-Arms)", primeEchelonTier := 3, totalBerthsUsed := 6, supportAlloySpent := 16}) (cons (record StartingCompanyPresetSpec {id := "preset-iron-phalanx-cohort", name := "Iron Phalanx Cohort (Automaton Bulwark)", primeEchelonTier := 3, totalBerthsUsed := 6, supportAlloySpent := 16}) (cons (record StartingCompanyPresetSpec {id := "preset-null-weave-coven", name := "Null-Weave Coven (Psionic & Phase-Born)", primeEchelonTier := 3, totalBerthsUsed := 6, supportAlloySpent := 16}) (cons (record StartingCompanyPresetSpec {id := "preset-apex-stalker-pack", name := "Apex Stalker Pack (Xenomorph Shock Assault)", primeEchelonTier := 3, totalBerthsUsed := 6, supportAlloySpent := 16}) (nil StartingCompanyPresetSpec))))),
+  axioms: []
+}
+
+definition{
+  name: minorResonanceDirectives,
+  parameters: [],
+  result: (List MinorResonanceDirectiveSpec),
+  body: (cons (record MinorResonanceDirectiveSpec {id := "dir-kinetic-shunt", name := "Kinetic Shunt Pulse", frequencyId := "FREQ-01-KINETIC", minCogRequired := 2, rangeSectors := 6}) (cons (record MinorResonanceDirectiveSpec {id := "dir-aegis-harmonic", name := "Aegis Harmonic Barrier", frequencyId := "FREQ-01-KINETIC", minCogRequired := 2, rangeSectors := 4}) (cons (record MinorResonanceDirectiveSpec {id := "dir-phase-flicker", name := "Phase-Step Flicker", frequencyId := "FREQ-05-PHASE", minCogRequired := 3, rangeSectors := 6}) (cons (record MinorResonanceDirectiveSpec {id := "dir-thermal-vent", name := "Thermal Lance Vent", frequencyId := "FREQ-02-PLASMA", minCogRequired := 2, rangeSectors := 8}) (cons (record MinorResonanceDirectiveSpec {id := "dir-cryo-lattice", name := "Cryo-Stasis Lattice", frequencyId := "FREQ-04-CRYO", minCogRequired := 2, rangeSectors := 6}) (cons (record MinorResonanceDirectiveSpec {id := "dir-void-siphon", name := "Void-Entropy Siphon", frequencyId := "FREQ-03-VOID", minCogRequired := 3, rangeSectors := 8}) (cons (record MinorResonanceDirectiveSpec {id := "dir-arc-discharge", name := "Arc-Conduit Discharge", frequencyId := "FREQ-02-PLASMA", minCogRequired := 2, rangeSectors := 6}) (cons (record MinorResonanceDirectiveSpec {id := "dir-neural-anchor", name := "Neural Spire Anchor", frequencyId := "FREQ-06-NEURAL", minCogRequired := 3, rangeSectors := 10}) (cons (record MinorResonanceDirectiveSpec {id := "dir-echo-pulse", name := "Sub-Harmonic Echo Scan", frequencyId := "FREQ-06-NEURAL", minCogRequired := 2, rangeSectors := 12}) (nil MinorResonanceDirectiveSpec)))))))))),
+  axioms: []
+}
+
+definition{
+  name: wardenThreatForces,
+  parameters: [],
+  result: (List WardenThreatForceSpec),
+  body: (cons (record WardenThreatForceSpec {threatTier := 1, label := "Low Threat Sub-Vault Patrol", unitEntriesCount := 3, totalBerthWeight := 4, commanderEchelonTier := 2}) (cons (record WardenThreatForceSpec {threatTier := 2, label := "Medium Threat Sector Garrison", unitEntriesCount := 4, totalBerthWeight := 5, commanderEchelonTier := 3}) (cons (record WardenThreatForceSpec {threatTier := 3, label := "High Threat Sovereign Vault Host", unitEntriesCount := 4, totalBerthWeight := 6, commanderEchelonTier := 4}) (nil WardenThreatForceSpec)))),
+  axioms: []
+}
+
+definition{
+  name: computeIsometricDepthKey,
+  parameters: [gridX : Nat, gridY : Nat, elevationLayer : Nat],
+  result: Nat,
+  body: (((prim multiply (gridX + gridY) 100 : Nat) + gridY) + (prim multiply elevationLayer 10 : Nat)),
+  axioms: []
+}
+
+definition{
+  name: absDiffNat,
+  parameters: [a : Nat, b : Nat],
+  result: Nat,
+  body: (if (a <=? b) then (prim subtract b a : Nat) else (prim subtract a b : Nat)),
+  axioms: []
+}
+
+definition{
+  name: manhattanSectorDistance,
+  parameters: [ax : Nat, ay : Nat, bx : Nat, by : Nat],
+  result: Nat,
+  body: ((absDiffNat ax bx) + (absDiffNat ay by)),
+  axioms: []
+}
+
+definition{
+  name: evaluateSpatialTrajectory,
+  parameters: [ax : Nat, ay : Nat, bx : Nat, by : Nat, moveAllowance : Nat, blockedSectors : Nat],
+  result: Bool,
+  body: (((manhattanSectorDistance ax ay bx by) <=? moveAllowance) && (blockedSectors =? 0)),
+  axioms: []
+}
+
+definition{
+  name: allPresetsFitCharter,
+  parameters: [xs : (List StartingCompanyPresetSpec)],
+  result: Bool,
+  body: (match xs
+    | List.nil => true
+    | List.cons head tail => (if ((((project head primeEchelonTier) =? 3) && ((project head totalBerthsUsed) =? 6)) && ((project head supportAlloySpent) =? 16)) then (allPresetsFitCharter tail) else false)),
+  axioms: [],
+  recursive_argument: xs
+}
+
+theorem{
+  name: spatialObjectCategoryCountIsSeven,
+  parameters: [],
+  statement: (((prim length (spatialObjectCategories) : Nat) =? 7) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: worldLocationCountIsSeven,
+  parameters: [],
+  statement: (((prim length (worldLocations) : Nat) =? 7) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: minorDirectiveCountIsNine,
+  parameters: [],
+  statement: (((prim length (minorResonanceDirectives) : Nat) =? 9) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: allStartingPresetsValid,
+  parameters: [],
+  statement: (((allPresetsFitCharter (startingCompanyPresets)) && ((prim length (startingCompanyPresets) : Nat) =? 4)) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: isometricDepthOrderingMonotonic,
+  parameters: [],
+  statement: ((((computeIsometricDepthKey 2 3 0) <? (computeIsometricDepthKey 3 3 0)) && (evaluateSpatialTrajectory 2 2 5 4 6 0)) = true),
+  proof: decide{},
+  axioms: []
+}
+\end{semanticmodule}
+\end{lexlean}

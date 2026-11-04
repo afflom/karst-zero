@@ -20,6 +20,8 @@ Every subsystem of the **Nemesis Core 4.0** game engine is specified in closed-l
    - 5-Round drop limit, Opaque Command Chit Pool with returning Warden Directive Chits, `1d6` Warden Berth wrap-around selector (`((d6 - 1) mod N) + 1`), Multi-Berth Boss activations (`ECH-3 = 2`, `ECH-4 = 3`), and 6 deterministic Doctrine AI routines.
 5. **Subsystem 5 — Orbital Bastion Campaign Ledger & Full Engine Binding (`src/CampaignBastion.lex.tex`, `src/NemesisEngine.lex.tex`, `KZ-06`, `KZ-07`)**:
    - 4 Pre-Drop Crew Assignments (`SectorRecon`, `ScrapSalvaging`, `MedBayOverhaul`, `CombatSimDrill`), 3 Orbital Bastion Facilities, 6 Core Sector Contracts, 6-Alloy salvage cap, canonical FNV-1a / BLAKE3 save digests, and full engine binding theorem `NemesisEngine::karstConsumesFullNemesisCore4Engine`.
+6. **Subsystem 6 — 2.5D Object-Spatial Projection & Karst-9 World Catalog (`src/SpatialWorld.lex.tex`, `KZ-16`)**:
+   - 2 Camera Modes (`isometric_2_5d` and `top_down_2d`), 7 Spatial Object Categories (`CarrierRoomNode`, `DropBerthNode`, `PlanetarySectorNode`, `CavernFloorTile`, `TerrainStructure`, `ObjectiveArtifact`, `CharacterUnit`), 7 Karst-9 World Locations (`1` Orbital Bastion + `6` Vault Sectors), 4 Starting Company Presets, 9 Minor Resonance Directives, 3 Threat-Tier Warden Force Profiles, and monotonic painter's depth sorting (`(x + y) * 100 + y + z * 10`).
 
 ## Verification & Build Commands
 
@@ -29,3 +31,4 @@ cargo run -p xtask -- render-view
 cargo run -p xtask -- validate
 cargo test --workspace --all-targets
 ```
+

@@ -7,3 +7,4 @@ build_root = ".prism"
 max_holo_bytes = 16777216
 max_entities = 100000
 max_diagnostics = 256
+

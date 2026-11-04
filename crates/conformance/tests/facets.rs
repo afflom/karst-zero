@@ -1,15 +1,20 @@
-//! Conformance tests for `KZ-08`..`KZ-15`.
+//! Conformance tests for `KZ-08`..`KZ-16`.
 //!
 //! Verifies the ISO/IEC/IEEE 42010 stakeholder/viewpoint architecture (`KZ-08`),
 //! 6-component / 8-edge Nemesis Core 4.0 system topology (`KZ-09`), ISO/IEC 27034
 //! security & ISO/IEC 25010 quality facets (`KZ-10`), ISO/PAS 19450 OPM & OMG UML
 //! 2.5.1 design views (`KZ-11`), WCAG 2.2 AA branding & UI/UX presentation (`KZ-12`),
 //! progressive 5-pole user journeys (`KZ-13`), normative standards profile (`KZ-14`),
-//! and the unified Karst: Zero Horizon release profile (`KZ-15`).
+//! the unified Karst: Zero Horizon release profile (`KZ-15`), and the 2.5D Object-Spatial
+//! Projection & Karst-9 World Catalog (`KZ-16`).
 
 use std::path::{Path, PathBuf};
 
 use karst_kernel::nemesis::meets_wcag_contrast_tenths;
+use karst_kernel::spatial::{
+    compute_isometric_depth_key, evaluate_spatial_trajectory, warden_force_for_threat,
+};
+use karst_kernel::synthesis::EchelonTier;
 
 fn repo_root() -> PathBuf {
     PathBuf::from(env!("CARGO_MANIFEST_DIR"))
@@ -214,9 +219,40 @@ fn contract_kz_15() {
     assert!(main_spec.contains("name: releaseProfile"));
     assert!(main_spec.contains("name: releaseSynthesizes150Archetypes"));
     assert!(main_spec.contains("name: releaseFullNemesisCore4Consumed"));
+    assert!(main_spec.contains("name: releaseSpatialWorldAndPresetsVerified"));
     assert!(main_spec.contains("name: releaseWcagAndStandardsVerified"));
     let model = load_prism_model(&root);
     assert!(model.get("architecture").is_some());
     assert!(model.get("security").is_some());
     assert!(model.get("quality").is_some());
+}
+
+#[test]
+fn system_kz_16() {
+    let root = repo_root();
+    let spec = std::fs::read_to_string(root.join("src/SpatialWorld.lex.tex"))
+        .expect("src/SpatialWorld.lex.tex must be readable");
+    assert!(spec.contains("name: spatialObjectCategoryCountIsSeven"));
+    assert!(spec.contains("name: worldLocationCountIsSeven"));
+    assert!(spec.contains("name: minorDirectiveCountIsNine"));
+    assert!(spec.contains("name: allStartingPresetsValid"));
+    assert!(spec.contains("name: isometricDepthOrderingMonotonic"));
+
+    assert!(compute_isometric_depth_key(2, 3, 0) < compute_isometric_depth_key(3, 3, 0));
+    assert!(compute_isometric_depth_key(3, 3, 0) < compute_isometric_depth_key(3, 3, 1));
+
+    let clear = evaluate_spatial_trajectory(2, 2, 5, 4, 6, 0);
+    assert_eq!(clear.manhattan_distance, 5);
+    assert!(clear.trajectory_clear);
+
+    let blocked = evaluate_spatial_trajectory(2, 2, 5, 4, 6, 1);
+    assert!(!blocked.trajectory_clear);
+
+    let low = warden_force_for_threat(1);
+    assert_eq!(low.total_berth_weight, 4);
+    assert_eq!(low.commander_echelon, EchelonTier::Ech2Vanguard);
+
+    let high = warden_force_for_threat(3);
+    assert_eq!(high.total_berth_weight, 6);
+    assert_eq!(high.commander_echelon, EchelonTier::Ech4Sovereign);
 }

@@ -9,59 +9,137 @@ index = 0
 id = "Architecture::stakeholder00TacticalCommander"
 code = "STK-COMMANDER"
 observer_quadruple = "OBS-COMMANDER"
-name = "Tactical Strike Commander & Solo/Co-Op Wargamer"
-text = "Deploys up to 6 Roster Berths onto the 8x8 Karst grid, resolves Unified d6 Strike Pool rolls, draws Opaque Command Chits, and navigates 5-round Vault Drops."
+name = "Tactical Commander (Solo / Co-Op Player)"
+text = "Commands the 6-Berth Strike Roster across 5-round subterranean vault drops, drawing Command Chits, spending Surge Cells, and claiming Alloy Caches."
 
 [[stakeholder]]
 index = 1
-id = "Architecture::stakeholder01RosterArchitect"
+id = "Architecture::stakeholder01StrikeRosterArchitect"
 code = "STK-QUARTERMASTER"
 observer_quadruple = "OBS-QUARTERMASTER"
-name = "Roster Synthesis Architect & Orbital Bastion Quartermaster"
-text = "Synthesizes units across the 150-archetype [Doctrine x Chassis x Echelon] matrix within the 6-Berth / 16-Alloy Charter, sockets Hardpoint Modules, and executes Pre-Drop Crew Assignments."
+name = "Strike Roster Architect & Campaign Quartermaster"
+text = "Synthesizes operatives across [Doctrine, Chassis, Echelon], manages the 16-Alloy starting charter, unlocks Hardpoint Sockets (3 XP = +1 Socket), and upgrades Orbital Bastion facilities."
 
 [[stakeholder]]
 index = 2
-id = "Architecture::stakeholder02NemesisEngineDesigner"
+id = "Architecture::stakeholder02NemesisSystemsDesigner"
 code = "STK-NEMESIS-ENGINE"
 observer_quadruple = "OBS-NEMESIS-ENGINE"
-name = "Nemesis Core 4.0 Game Engine Designer & Ruleset Steward"
-text = "Defines and verifies the 5 subsystems of the Nemesis Core 4.0 game engine (UnitSynthesis, CombatEngine, ResonanceWeave, NemesisChit, CampaignBastion) and their complete binding into Karst: Zero Horizon."
+name = "Nemesis Core 4.0 Game Engine & Balance Designer"
+text = "Authors the LexLean 1.2 formal rules for Zero-Stat-Inflation, Opposed Strike mitigation, Returning Warden Directive Chits, 2.5D Object-Spatial Projection, and 6-Frequency Resonance Harmonics."
 
 [[stakeholder]]
 index = 3
-id = "Architecture::stakeholder03RuntimeAuditor"
+id = "Architecture::stakeholder03PrismRuntimeAuditor"
 code = "STK-AUDITOR"
 observer_quadruple = "OBS-AUDITOR"
-name = "PrismPM / LexLean Runtime Conformance & Security Auditor"
-text = "Audits the compiled model.prism.json, OPM/UML design diagrams, zero-sorry LexLean v0.4 theorems, WCAG 2.2 AA contrast tokens, and hologram:guest/core-wasm@1 boundary invariants."
+name = "PrismPM .holo v4 Runtime & Verification Auditor"
+text = "Audits import-free Core-Wasm guest execution (hologram:guest/core-wasm@1), 34 acceptance vectors, ISO 42010/25010/27034 facets, and WCAG 2.2 AA contrast proofs."
 
 [[concern]]
 index = 0
-id = "Architecture::concern00UnitSynthesisBalance"
-name = "3D [Doctrine x Chassis x Echelon] 150-Archetype Synthesis & 6-Berth / 16-Alloy Charter"
+id = "Architecture::concern00ZeroStatInflationBalance"
+name = "Zero-Stat-Inflation Progression & Horizontal Hardpoint Modularity"
 
 [[concern]]
 index = 1
-id = "Architecture::concern01ZeroStatInflationProgression"
-name = "Zero-Stat-Inflation Horizontal Progression, 3-XP Hardpoint Sockets & Zero-Stat Permadeath"
+id = "Architecture::concern01DeterministicStrikeCombat"
+name = "Unified d6 Strike Resolution, Cover Geometry & Fireteam Spillover"
 
 [[concern]]
 index = 2
-id = "Architecture::concern02DeterministicStrikeCombat"
-name = "Unified d6 Strike Pool, Cover LoS, Automaton Subsystem Rupture & Fireteam Spillover"
+id = "Architecture::concern02AutonomousWardenChitAi"
+name = "Opaque Command Chit Pacing & Deterministic Warden AI Routines"
 
 [[concern]]
 index = 3
-id = "Architecture::concern03OpaqueCommandChitAi"
-name = "5-Round Opaque Command Chit Pool, 1d6 Warden Berth Wrap-Around & 6 Doctrine AI Routines"
+id = "Architecture::concern03ResonanceHarmonicWeaving"
+name = "6-Frequency Resonance Harmonics & Masterwork Hardpoint Economy"
 
 [[concern]]
 index = 4
-id = "Architecture::concern04CoreWasmDeterminism"
-name = "hologram:guest/core-wasm@1 52B/27B Boundary, 64 KiB Arena & Canonical FNV-1a Save Digest"
+id = "Architecture::concern04CoreWasmSandboxIsolation"
+name = "Import-Free Core-Wasm Guest Isolation & Bounded Wire Protocol"
 
 [[concern]]
 index = 5
-id = "Architecture::concern05FullNemesisEngineBinding"
-name = "Complete Consumption of All 5 Nemesis Core 4.0 Subsystems by Karst: Zero Horizon"
+id = "Architecture::concern05WcagTacticalErgonomics"
+name = "WCAG 2.2 AA Tactical Readability & 5-Pole Stakeholder Vantages"
+
+[[viewpoint]]
+index = 0
+id = "Architecture::viewpoint00TacticalCommandViewpoint"
+stakeholder_index = 0
+concern_index = 1
+model_kind_index = 0
+
+[[viewpoint]]
+index = 1
+id = "Architecture::viewpoint01RosterSynthesisViewpoint"
+stakeholder_index = 1
+concern_index = 0
+model_kind_index = 0
+
+[[viewpoint]]
+index = 2
+id = "Architecture::viewpoint02NemesisChitAiViewpoint"
+stakeholder_index = 2
+concern_index = 2
+model_kind_index = 0
+
+[[viewpoint]]
+index = 3
+id = "Architecture::viewpoint03ResonanceWeaveViewpoint"
+stakeholder_index = 2
+concern_index = 3
+model_kind_index = 1
+
+[[viewpoint]]
+index = 4
+id = "Architecture::viewpoint04CoreWasmAuditViewpoint"
+stakeholder_index = 3
+concern_index = 4
+model_kind_index = 2
+
+[[viewpoint]]
+index = 5
+id = "Architecture::viewpoint05WcagPresentationViewpoint"
+stakeholder_index = 3
+concern_index = 5
+model_kind_index = 1
+
+[[view]]
+index = 0
+id = "Architecture::view00TacticalBattlefieldView"
+viewpoint_index = 0
+holo_target = "holo://karst-zero/vantage/commander"
+
+[[view]]
+index = 1
+id = "Architecture::view01RosterForgeBastionView"
+viewpoint_index = 1
+holo_target = "holo://karst-zero/vantage/architect"
+
+[[view]]
+index = 2
+id = "Architecture::view02NemesisChitDirectorView"
+viewpoint_index = 2
+holo_target = "holo://karst-zero/vantage/designer"
+
+[[view]]
+index = 3
+id = "Architecture::view03ResonanceHardpointView"
+viewpoint_index = 3
+holo_target = "holo://karst-zero/vantage/designer"
+
+[[view]]
+index = 4
+id = "Architecture::view04CoreWasmTelemetryView"
+viewpoint_index = 4
+holo_target = "holo://karst-zero/vantage/auditor"
+
+[[view]]
+index = 5
+id = "Architecture::view05WcagVantageStepperView"
+viewpoint_index = 5
+holo_target = "holo://karst-zero/vantage/auditor"

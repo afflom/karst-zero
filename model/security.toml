@@ -6,20 +6,132 @@ module = "Architecture"
 
 [[asset]]
 index = 0
-id = "Architecture::asset00RosterCharterLedger"
+id = "Architecture::asset00StrikeRosterCharter"
+component_index = 0
 name = "6-Berth / 16-Alloy Strike Roster & Hardpoint Charter Ledger"
 
 [[asset]]
 index = 1
-id = "Architecture::asset01CommandChitPoolState"
-name = "Opaque Command Chit Pool & 1d6 Warden Berth Wrap-Around State"
+id = "Architecture::asset01CombatResolutionEngine"
+component_index = 1
+name = "Opposed d6 Strike Pool, Cover & Fireteam Spillover Resolver"
 
 [[asset]]
 index = 2
-id = "Architecture::asset02CoreWasmLinearMemory"
-name = "64 KiB Core-Wasm Linear Memory & 52B/27B holo_run Envelope"
+id = "Architecture::asset02CampaignSaveLedger"
+component_index = 4
+name = "Orbital Bastion Campaign Save & FNV-1a Canonical Digest"
 
 [[asset]]
 index = 3
-id = "Architecture::asset03CanonicalCampaignSave"
-name = "Orbital Bastion Campaign Save & FNV-1a Canonical Digest"
+id = "Architecture::asset03CoreWasmSandbox"
+component_index = 5
+name = "Import-Free 64 KiB Core-Wasm Sandbox & 52B/27B holo_run Envelope"
+
+[[threat]]
+index = 0
+id = "Architecture::threat00StatInflationTampering"
+name = "Campaign XP Stat Inflation or Unbounded Socket Tampering"
+
+[[threat]]
+index = 1
+id = "Architecture::threat01ArithmeticOverflowDesync"
+name = "Opposed Strike or Spillover Integer Overflow / Host-Guest Desync"
+
+[[threat]]
+index = 2
+id = "Architecture::threat02SaveLedgerForgery"
+name = "Post-Drop Salvage or Campaign Save Ledger Forgery"
+
+[[threat]]
+index = 3
+id = "Architecture::threat03WasmSandboxEscape"
+name = "Core-Wasm Host Import Injection or Frame Buffer Overrun"
+
+[[risk]]
+index = 0
+id = "Architecture::risk00StatInflationRisk"
+asset_index = 0
+threat_index = 0
+likelihood = "medium"
+impact = "major"
+
+[[risk]]
+index = 1
+id = "Architecture::risk01ArithmeticDesyncRisk"
+asset_index = 1
+threat_index = 1
+likelihood = "low"
+impact = "critical"
+
+[[risk]]
+index = 2
+id = "Architecture::risk02SaveForgeryRisk"
+asset_index = 2
+threat_index = 2
+likelihood = "medium"
+impact = "major"
+
+[[risk]]
+index = 3
+id = "Architecture::risk03SandboxEscapeRisk"
+asset_index = 3
+threat_index = 3
+likelihood = "low"
+impact = "critical"
+
+[[control]]
+index = 0
+id = "Architecture::control00ZeroStatInflationGate"
+risk_index = 0
+activity = "Architecture::activity00VerifyZeroStatInflationProofs"
+measurement = "Architecture::measurement00ZeroStatInflationVerified"
+passed = true
+
+[[control]]
+index = 1
+id = "Architecture::control01CheckedCoreWasmArithmetic"
+risk_index = 1
+activity = "Architecture::activity01Run34CoreWasmAcceptanceVectors"
+measurement = "Architecture::measurement01AcceptanceVectorsVerified"
+passed = true
+
+[[control]]
+index = 2
+id = "Architecture::control02CanonicalSaveDigestGate"
+risk_index = 2
+activity = "Architecture::activity02VerifyCanonicalSaveReceipt"
+measurement = "Architecture::measurement02CanonicalSaveVerified"
+passed = true
+
+[[control]]
+index = 3
+id = "Architecture::control03ImportFreeCoreWasmAbi"
+risk_index = 3
+activity = "Architecture::activity03VerifyZeroWasmImportsAndBounds"
+measurement = "Architecture::measurement03ZeroWasmImportsVerified"
+passed = true
+
+[[quality_measure]]
+index = 0
+id = "Architecture::measure00ArchetypesSynthesizedCount"
+requirement = "Architecture::requirement00UnitSynthesis150Archetypes"
+threshold = 150
+
+[[quality_measure]]
+index = 1
+id = "Architecture::measure01MaxFrameResponseBytes"
+requirement = "Architecture::requirement01SubMillisecondWasmDispatch"
+threshold = 52
+
+[[quality_measure]]
+index = 2
+id = "Architecture::measure02MinimumContrastTenths"
+requirement = "Architecture::requirement02WcagContrast45Tenths"
+threshold = 45
+
+[[quality_measure]]
+index = 3
+id = "Architecture::measure03VerifiedAcceptanceVectors"
+requirement = "Architecture::requirement03AcceptanceVectorPassCount"
+threshold = 34

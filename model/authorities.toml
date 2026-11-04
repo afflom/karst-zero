@@ -16,9 +16,9 @@ id = "NEMESIS-CORE-4.0"
 name = "Nemesis Core 4.0 Open Skirmish & Solo/Co-Op Wargame Engine"
 citation = "Nemesis Core 4.0 SRD — Open-Source Tactical Skirmish & Campaign Engine Specification"
 checksum = "none"
-checksum_reason = "Formalized directly in UnitSynthesis.lex.tex, CombatEngine.lex.tex, ResonanceWeave.lex.tex, NemesisChit.lex.tex, CampaignBastion.lex.tex, and NemesisEngine.lex.tex."
-statement = "3D Unit Synthesis [Doctrine x Chassis x Echelon], 6-Berth / 16-Alloy Charter, Zero-Stat-Inflation, Unified d6 Strike Pool, 6-Frequency Resonance Weave, 5-Round Opaque Command Chit AI, and Orbital Bastion Campaign Ledger."
-realized_by = ["KZ-01", "KZ-02", "KZ-03", "KZ-04", "KZ-05", "KZ-06", "KZ-07"]
+checksum_reason = "Formalized directly in UnitSynthesis.lex.tex, CombatEngine.lex.tex, ResonanceWeave.lex.tex, NemesisChit.lex.tex, CampaignBastion.lex.tex, SpatialWorld.lex.tex, and NemesisEngine.lex.tex."
+statement = "3D Unit Synthesis [Doctrine x Chassis x Echelon], 6-Berth / 16-Alloy Charter, Zero-Stat-Inflation, Unified d6 Strike Pool, 6-Frequency Resonance Weave, 5-Round Opaque Command Chit AI, 2.5D Object-Spatial Projection, and Orbital Bastion Campaign Ledger."
+realized_by = ["KZ-01", "KZ-02", "KZ-03", "KZ-04", "KZ-05", "KZ-06", "KZ-07", "KZ-16"]
 
 [[authority]]
 id = "LEXLEAN-0.4"
@@ -73,3 +73,4 @@ checksum = "none"
 checksum_reason = "Open web accessibility standards verified in Presentation.lex.tex."
 statement = "Relative luminance contrast ratios (>= 4.5:1 normal text, >= 3.0:1 UI), accessible navigation landmarks, and progressive 5-pole user journeys."
 realized_by = ["KZ-12", "KZ-13"]
+

@@ -6,3 +6,51 @@ module = "Presentation"
 poles = ["sensual-object", "sensual-quality", "real-quality", "withdrawn", "verification"]
 journey_count = 4
 steps_per_journey = 5
+
+[[journey]]
+id = "journey-commander"
+stakeholder_id = "stk-commander"
+title = "Tactical Commander 5-Pole Vault Drop Journey"
+steps = [
+  "sensual-object: Deploy 6-Berth Strike Roster onto the 18x18 Karst Vault Grid",
+  "sensual-quality: Draw Opaque Command Chits and inspect cover/elevation overlays",
+  "real-quality: Resolve Opposed d6 Strike Pools, Momentum Charges, and Fireteam Spillover",
+  "withdrawn: Dispatch ctr-strike-resolve and ctr-chit-step across Core-Wasm holo_run",
+  "verification: Audit 5-round extraction settlement and canonical FNV-1a save digest",
+]
+
+[[journey]]
+id = "journey-architect"
+stakeholder_id = "stk-architect"
+title = "Strike Roster Architect 5-Pole Synthesis & Bastion Journey"
+steps = [
+  "sensual-object: Select Doctrine, Chassis, and Echelon in the 3D Unit Synthesis Forge",
+  "sensual-quality: Balance the 6-Berth capacity and 16-Alloy starting charter budget",
+  "real-quality: Socket 1-slot and 2-slot Masterwork Hardpoints via 3-XP progression",
+  "withdrawn: Verify Zero-Stat-Inflation invariants in UnitSynthesis.lex.tex",
+  "verification: Confirm canonical charter and socket unlock proofs in CONFORMANCE.md",
+]
+
+[[journey]]
+id = "journey-designer"
+stakeholder_id = "stk-designer"
+title = "Nemesis Core 4.0 Systems Designer 5-Pole Rulebook Journey"
+steps = [
+  "sensual-object: Inspect the 6 Nemesis Core 4.0 Engine Subsystems and 6 Resonance Frequencies",
+  "sensual-quality: Trace Minor/Major Harmonics, Psionic Backlash, and Automaton Rupture tables",
+  "real-quality: Simulate returning Warden Directive Chits and 1d6 wrap-around berth selection",
+  "withdrawn: Compile UnitSynthesis, CombatEngine, ResonanceWeave, NemesisChit, CampaignBastion, and SpatialWorld",
+  "verification: Prove karstConsumesFullNemesisCore4Engine with zero sorry axioms",
+]
+
+[[journey]]
+id = "journey-auditor"
+stakeholder_id = "stk-auditor"
+title = "PrismPM Runtime Auditor 5-Pole Verification Journey"
+steps = [
+  "sensual-object: Open the PrismPM Conformance & Core-Wasm Telemetry Inspector",
+  "sensual-quality: Inspect WCAG 2.2 AA sRGB contrast ratios across light and dark palettes",
+  "real-quality: Trace ISO 42010 viewpoints, ISO 19450 OPM diagrams, and UML 2.5.1 views",
+  "withdrawn: Audit import-free hologram:guest/core-wasm@1 52B/27B wire frames and 34 vectors",
+  "verification: Validate template-contract.json SHA-256 pins and model.prism.json digest",
+]

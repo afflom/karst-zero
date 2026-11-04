@@ -1462,18 +1462,25 @@ export const KARST_LEXLEAN_MODULES: LexLeanModuleSpec[] = [
     summary: '4 Pre-Drop Crew Assignments, 3 Orbital Bastion Facilities, 6 Core Sector Contracts, 6-Alloy salvage cap, and canonical FNV-1a save digest.',
   },
   {
+    moduleName: 'SpatialWorld',
+    sourcePath: 'src/SpatialWorld.lex.tex',
+    conformanceId: 'KZ-16',
+    keyTheorem: 'SpatialWorld::isometricDepthOrderingMonotonic & allStartingPresetsValid',
+    summary: '2.5D Isometric & 2D Top-Down Object-Spatial Projection, 7 object kinds, 7 Karst-9 world locations, 4 starting presets, 9 minor directives, and 3 Warden threat forces.',
+  },
+  {
     moduleName: 'NemesisEngine',
     sourcePath: 'src/NemesisEngine.lex.tex',
     conformanceId: 'KZ-07',
     keyTheorem: 'NemesisEngine::karstConsumesFullNemesisCore4Engine',
-    summary: 'Proves that Karst: Zero Horizon binds and consumes all 5 Nemesis Core 4.0 subsystems across the verified runtime.',
+    summary: 'Verifies that Karst: Zero Horizon binds and consumes all 6 Nemesis Core 4.0 subsystems across the verified runtime.',
   },
   {
     moduleName: 'Architecture',
     sourcePath: 'src/Architecture.lex.tex',
     conformanceId: 'KZ-08 / KZ-09 / KZ-10',
     keyTheorem: 'Architecture::everyStakeholderMapsToObserverQuadruple',
-    summary: 'ISO 42010/25010/27005/27034 architecture: 4 stakeholders, 6 concerns, 6 viewpoints, 6 components, 8 edges, 4 security chains, and 4 quality measures.',
+    summary: 'ISO 42010/25010/27005/27034 architecture: 4 stakeholders, 6 concerns, 6 viewpoints, 6 components, 8 edges, 7 features, 4 security chains, and 4 quality measures.',
   },
   {
     moduleName: 'Design',
@@ -1501,7 +1508,7 @@ export const KARST_LEXLEAN_MODULES: LexLeanModuleSpec[] = [
     sourcePath: 'src/Main.lex.tex',
     conformanceId: 'KZ-15',
     keyTheorem: 'Main::releaseFullNemesisCore4Consumed',
-    summary: 'Top-level release profile binding all 17 LexLean v0.4 modules, 76 PrismPM facet entities, and the interactive Karst application.',
+    summary: 'Top-level release profile binding all 18 LexLean v0.4 modules, 76 PrismPM facet entities, and the interactive Karst application.',
   },
 ];
 

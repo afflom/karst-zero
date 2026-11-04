@@ -64,23 +64,35 @@ pub struct SynthesizedArchetype {
     pub echelon: EchelonTier,
     /// Bodies sharing a single Roster Berth (`3` for `ECH-0`, `2` for `ECH-1`, `1` for `ECH-2..4`).
     pub bodies_per_berth: u8,
+    /// Roster Berth capacity cost (`1` for `ECH-0..2`, `2` for `ECH-3`, `3` for `ECH-4`).
+    pub berth_cost: u8,
     /// Hit points per body.
     pub hp_per_body: u8,
     /// Total vitality across all bodies in the Berth.
     pub total_berth_vitality: u8,
-    /// Scrap Alloy recruitment cost.
+    /// Scrap Alloy recruitment cost (`2, 3, 5, 8, 12` in catalog; base tier cost).
     pub alloy_cost: u8,
     /// Base Hardpoint Sockets from Echelon + Chassis.
     pub base_hardpoints: u8,
+    /// Campaign maximum Hardpoint Sockets (`1, 2, 4, 5, 6`).
+    pub campaign_max_hardpoints: u8,
+    /// Base Surge Cells per Vault Drop (`0, 0, 1, 3, 4`).
+    pub base_surge: u8,
     /// Opaque Command Chits entered into the round pool (`1`, `2`, or `3`).
     pub command_chits: u8,
-    /// Movement allowance in sectors (`MOV`).
+    /// Unified Firepower / Strike Pool (`FPR = baseFpr + fprDelta`).
+    pub fpr: u8,
+    /// Unified Cognition / Tech & Resonance Pool (`COG = baseCog + cogDelta`).
+    pub cog: u8,
+    /// Movement allowance in sectors (`MOV = 6 + docMoveDelta + chMoveDelta`).
     pub mov: u8,
     /// Melee Strike dice (`MEL`).
     pub mel: u8,
     /// Ranged Strike dice (`RNG`).
     pub rng: u8,
-    /// Evasion Defense dice (`EVA`).
+    /// Ranged engagement range in sectors (`12` for `Deadeye`, `6` baseline).
+    pub ranged_range_sectors: u8,
+    /// Evasion Defense dice (`EVA = baseEva + evaDelta`).
     pub eva: u8,
     /// Reinforced Plating automatic reduction (`ARM`).
     pub arm: u8,
@@ -88,6 +100,10 @@ pub struct SynthesizedArchetype {
     pub tgh: u8,
     /// Psionic Resonance dice (`PSY`).
     pub psy: u8,
+    /// Whether this unit ignores rough terrain penalties (`PhaseBorn`).
+    pub ignores_rough_terrain: bool,
+    /// Whether this unit suffers Arc Backlash on `1`s (`PhaseBorn`).
+    pub has_arc_backlash: bool,
     /// Whether this unit is repaired with Scrap Alloy instead of Med-Bay Stims.
     pub uses_alloy_repair: bool,
     /// Whether this unit rolls on the `1d6` Subsystem Rupture table at `0` HP.
@@ -172,39 +188,63 @@ pub const fn compile_unit_archetype(
     let e_idx = echelon as u16;
     let archetype_index = d_idx * 25 + c_idx * 5 + e_idx;
 
-    let (bodies_per_berth, base_hp, alloy_cost, ech_hardpoints, command_chits, ech_dice_bonus) =
-        match echelon {
-            EchelonTier::Ech0Swarm => (3u8, 1u8, 1u8, 0u8, 1u8, 0u8),
-            EchelonTier::Ech1Trooper => (2u8, 2u8, 2u8, 1u8, 1u8, 1u8),
-            EchelonTier::Ech2Vanguard => (1u8, 4u8, 4u8, 2u8, 1u8, 2u8),
-            EchelonTier::Ech3Enforcer => (1u8, 7u8, 6u8, 3u8, 2u8, 3u8),
-            EchelonTier::Ech4Sovereign => (1u8, 12u8, 10u8, 4u8, 3u8, 4u8),
-        };
+    let (
+        bodies_per_berth,
+        berth_cost,
+        base_hp,
+        alloy_cost,
+        ech_hardpoints,
+        campaign_max_hardpoints,
+        base_surge,
+        command_chits,
+        base_fpr,
+        base_eva,
+        base_cog,
+        ech_dice_bonus,
+    ) = match echelon {
+        EchelonTier::Ech0Swarm => (3u8, 1u8, 1u8, 2u8, 0u8, 1u8, 0u8, 1u8, 2u8, 2u8, 1u8, 0u8),
+        EchelonTier::Ech1Trooper => (2u8, 1u8, 2u8, 3u8, 1u8, 2u8, 0u8, 1u8, 3u8, 3u8, 2u8, 1u8),
+        EchelonTier::Ech2Vanguard => (1u8, 1u8, 3u8, 5u8, 2u8, 4u8, 1u8, 1u8, 4u8, 3u8, 3u8, 2u8),
+        EchelonTier::Ech3Enforcer => (1u8, 2u8, 4u8, 8u8, 3u8, 5u8, 3u8, 2u8, 5u8, 4u8, 4u8, 3u8),
+        EchelonTier::Ech4Sovereign => (1u8, 3u8, 6u8, 12u8, 4u8, 6u8, 4u8, 3u8, 6u8, 5u8, 4u8, 4u8),
+    };
 
-    let (doc_mov, doc_mel, doc_rng, doc_eva, doc_arm, doc_tgh, doc_psy) = match doctrine {
-        CombatDoctrine::Breacher => (4u8, 3u8, 1u8, 2u8, 1u8, 1u8, 0u8),
-        CombatDoctrine::Aegis => (3u8, 2u8, 2u8, 1u8, 2u8, 2u8, 0u8),
-        CombatDoctrine::Outrider => (6u8, 2u8, 2u8, 3u8, 0u8, 1u8, 0u8),
-        CombatDoctrine::Deadeye => (3u8, 1u8, 4u8, 2u8, 0u8, 1u8, 0u8),
-        CombatDoctrine::Saboteur => (5u8, 2u8, 2u8, 3u8, 0u8, 1u8, 1u8),
-        CombatDoctrine::Psion => (4u8, 1u8, 2u8, 2u8, 0u8, 1u8, 3u8),
+    let (
+        doc_fpr_delta,
+        doc_eva_delta,
+        doc_cog_delta,
+        doc_mov,
+        doc_mel,
+        doc_rng,
+        doc_ranged_range,
+        doc_arm,
+        doc_tgh,
+        doc_psy,
+    ) = match doctrine {
+        CombatDoctrine::Breacher => (1u8, 0u8, 0u8, 6u8, 3u8, 1u8, 6u8, 1u8, 1u8, 0u8),
+        CombatDoctrine::Aegis => (0u8, 1u8, 0u8, 6u8, 2u8, 2u8, 6u8, 2u8, 2u8, 0u8),
+        CombatDoctrine::Outrider => (0u8, 0u8, 0u8, 8u8, 2u8, 2u8, 6u8, 0u8, 1u8, 0u8),
+        CombatDoctrine::Deadeye => (0u8, 0u8, 0u8, 6u8, 1u8, 4u8, 12u8, 0u8, 1u8, 0u8),
+        CombatDoctrine::Saboteur => (0u8, 0u8, 1u8, 6u8, 2u8, 2u8, 6u8, 0u8, 1u8, 1u8),
+        CombatDoctrine::Psion => (0u8, 0u8, 1u8, 6u8, 1u8, 2u8, 6u8, 0u8, 1u8, 3u8),
     };
 
     let (
         ch_hp_bonus,
         ch_mov_bonus,
         ch_mel_bonus,
-        ch_eva_bonus,
         ch_arm_bonus,
         ch_tgh_bonus,
         ch_psy_bonus,
         ch_hp_slots,
+        ignores_rough_terrain,
+        has_arc_backlash,
     ) = match chassis {
-        ChassisType::Spliced => (1u8, 0u8, 0u8, 0u8, 0u8, 1u8, 0u8, 0u8),
-        ChassisType::Automaton => (1u8, 0u8, 0u8, 0u8, 1u8, 0u8, 0u8, 0u8),
-        ChassisType::Xenomorph => (0u8, 1u8, 1u8, 1u8, 0u8, 0u8, 0u8, 0u8),
-        ChassisType::PhaseBorn => (0u8, 1u8, 0u8, 1u8, 0u8, 0u8, 1u8, 0u8),
-        ChassisType::RigWalker => (2u8, 0u8, 1u8, 0u8, 1u8, 1u8, 0u8, 1u8),
+        ChassisType::Spliced => (0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, false, false),
+        ChassisType::Automaton => (0u8, 0u8, 0u8, 1u8, 0u8, 0u8, 0u8, false, false),
+        ChassisType::Xenomorph => (0u8, 2u8, 1u8, 0u8, 1u8, 0u8, 0u8, false, false),
+        ChassisType::PhaseBorn => (0u8, 0u8, 0u8, 0u8, 0u8, 1u8, 0u8, true, true),
+        ChassisType::RigWalker => (0u8, 0u8, 1u8, 1u8, 0u8, 0u8, 0u8, false, false),
     };
 
     let hp_per_body = base_hp + ch_hp_bonus;
@@ -219,18 +259,26 @@ pub const fn compile_unit_archetype(
         chassis,
         echelon,
         bodies_per_berth,
+        berth_cost,
         hp_per_body,
         total_berth_vitality,
         alloy_cost,
         base_hardpoints,
+        campaign_max_hardpoints,
+        base_surge,
         command_chits,
+        fpr: base_fpr + doc_fpr_delta,
+        cog: base_cog + doc_cog_delta,
         mov: doc_mov + ch_mov_bonus,
         mel: doc_mel + ch_mel_bonus + (ech_dice_bonus / 2),
         rng: doc_rng + (ech_dice_bonus / 2),
-        eva: doc_eva + ch_eva_bonus,
+        ranged_range_sectors: doc_ranged_range,
+        eva: base_eva + doc_eva_delta,
         arm: doc_arm + ch_arm_bonus,
         tgh: doc_tgh + ch_tgh_bonus,
         psy: doc_psy + ch_psy_bonus,
+        ignores_rough_terrain,
+        has_arc_backlash,
         uses_alloy_repair,
         uses_subsystem_rupture,
     }

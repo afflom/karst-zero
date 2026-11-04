@@ -7,35 +7,141 @@ module = "Architecture"
 [[component]]
 index = 0
 id = "Architecture::component00UnitSynthesisCompiler"
-name = "Nemesis Core 4.0 3D Unit Synthesis & Hardpoint Compiler"
+kind = "service"
+name = "3D Unit Synthesis & Hardpoint Socket Compiler (UnitSynthesis.lex.tex)"
 module = "UnitSynthesis"
 
 [[component]]
 index = 1
 id = "Architecture::component01StrikePoolResolver"
-name = "Nemesis Core 4.0 Opposed d6 Strike Pool, Cover & Subsystem Rupture Resolver"
+kind = "service"
+name = "Unified d6 Strike Pool, Cover & Mitigation Resolver (CombatEngine.lex.tex)"
 module = "CombatEngine"
 
 [[component]]
 index = 2
 id = "Architecture::component02CommandChitDirector"
-name = "Nemesis Core 4.0 5-Round Opaque Command Chit & Doctrine AI Director"
+kind = "service"
+name = "Opaque Command Chit Pool & Autonomous Warden AI Director (NemesisChit.lex.tex)"
 module = "NemesisChit"
 
 [[component]]
 index = 3
 id = "Architecture::component03ResonanceWeaveEngine"
-name = "Nemesis Core 4.0 6-Frequency Resonance Weave & Hardpoint Ordnance Engine"
+kind = "service"
+name = "6-Frequency Resonance Weave & Masterwork Hardpoint Engine (ResonanceWeave.lex.tex)"
 module = "ResonanceWeave"
 
 [[component]]
 index = 4
 id = "Architecture::component04OrbitalBastionLedger"
-name = "Nemesis Core 4.0 Orbital Bastion Campaign, Pre-Drop & Extraction Ledger"
+kind = "database"
+name = "Orbital Bastion Campaign Hub & Canonical Save Ledger (CampaignBastion.lex.tex)"
 module = "CampaignBastion"
 
 [[component]]
 index = 5
 id = "Architecture::component05CoreWasmArithmeticGuest"
-name = "Karst hologram:guest/core-wasm@1 Deterministic Guest & Full Engine Bridge"
+kind = "releaseBinary"
+name = "Import-Free Core-Wasm Guest & HOLOVIEW Surface (Contract.lex.tex, Presentation.lex.tex)"
 module = "NemesisEngine"
+
+[[edge]]
+index = 0
+id = "Architecture::edge00SynthesisToBastion"
+from_index = 0
+to_index = 4
+kind = "dataFlow"
+
+[[edge]]
+index = 1
+id = "Architecture::edge01BastionToChitDirector"
+from_index = 4
+to_index = 2
+kind = "controlFlow"
+
+[[edge]]
+index = 2
+id = "Architecture::edge02ChitDirectorToCombat"
+from_index = 2
+to_index = 1
+kind = "controlFlow"
+
+[[edge]]
+index = 3
+id = "Architecture::edge03ResonanceToSynthesis"
+from_index = 3
+to_index = 0
+kind = "dataFlow"
+
+[[edge]]
+index = 4
+id = "Architecture::edge04ResonanceToCombat"
+from_index = 3
+to_index = 1
+kind = "dataFlow"
+
+[[edge]]
+index = 5
+id = "Architecture::edge05CombatToCoreWasm"
+from_index = 1
+to_index = 5
+kind = "dataFlow"
+
+[[edge]]
+index = 6
+id = "Architecture::edge06SynthesisToCoreWasm"
+from_index = 0
+to_index = 5
+kind = "dataFlow"
+
+[[edge]]
+index = 7
+id = "Architecture::edge07CombatToBastion"
+from_index = 1
+to_index = 4
+kind = "dataFlow"
+
+[[feature]]
+id = "Architecture::feature00UnitSynthesisAndCharter"
+statement = "Compile 150 unit archetypes across [Doctrine (6), Chassis (5), Echelon (5)] and enforce the 6-Berth / 16-Alloy starting charter and Zero-Stat-Inflation law."
+
+[[feature]]
+id = "Architecture::feature01OpposedStrikeAndMitigation"
+statement = "Resolve opposed d6 Strike Pools, 4-sector Momentum Charges, Barricade/Bulkhead cover, Plating/Resilience mitigation, and Fireteam casualty spillover."
+
+[[feature]]
+id = "Architecture::feature02ResonanceWeaveAndModules"
+statement = "Equip 1-Hardpoint (3 Alloy) and 2-Hardpoint Masterwork (6 Alloy) modules across 6 Resonance Frequencies with Minor/Major Harmonics and Overheat Backlash."
+
+[[feature]]
+id = "Architecture::feature03CommandChitAndWardenAi"
+statement = "Drive 5-round tactical drops via an opaque Command Chit Pool, returning Warden Directive Chit, 1d6 wrap-around berth selector, and 6 Doctrine AI routines."
+
+[[feature]]
+id = "Architecture::feature04OrbitalBastionAndContracts"
+statement = "Execute 4 Pre-Drop Crew Assignments with Push risk, upgrade 3 Orbital Bastion Facilities, launch 6 Core Sector Contracts, and verify save receipts."
+
+[[feature]]
+id = "Architecture::feature05NemesisEngineFullBinding"
+statement = "Enforce that Karst: Zero Horizon consumes all 6 Nemesis Core 4.0 engine subsystems and verifies all boundary contracts through Core-Wasm."
+
+[[feature]]
+id = "Architecture::feature06SpatialWorldAndPresets"
+statement = "Project the 2.5D isometric and 2D top-down object-spatial viewport across 7 Karst-9 locations, 9 Minor Resonance Directives, and 4 Starting Company Presets."
+
+[[journey]]
+id = "Architecture::journey00TacticalCommander"
+actor = "Architecture::stakeholder00TacticalCommander"
+
+[[journey]]
+id = "Architecture::journey01StrikeRosterArchitect"
+actor = "Architecture::stakeholder01StrikeRosterArchitect"
+
+[[journey]]
+id = "Architecture::journey02NemesisSystemsDesigner"
+actor = "Architecture::stakeholder02NemesisSystemsDesigner"
+
+[[journey]]
+id = "Architecture::journey03PrismRuntimeAuditor"
+actor = "Architecture::stakeholder03PrismRuntimeAuditor"
