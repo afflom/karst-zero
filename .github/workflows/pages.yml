@@ -1,4 +1,4 @@
-name: Deploy Karst: Zero Horizon to GitHub Pages
+name: Deploy KarstZero to GitHub Pages
 
 on:
   push:
