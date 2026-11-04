@@ -18,6 +18,9 @@ import {
   KARST_OBSERVER_POLES,
   KARST_VANTAGE_STEPS,
   KARST_STANDARDS_REGISTER,
+  KARST_COMPILED_DESIGN_VIEWS,
+  KARST_LEXLEAN_MODULES,
+  KARST_NEMESIS_COMPLETENESS,
   computeCanonicalSaveReceipt,
   verifyModelInvariants,
 } from '../lib/karstHoloModel';
@@ -578,6 +581,121 @@ export const PauseAuditModal: React.FC<PauseAuditModalProps> = ({
                           </td>
                           <td className="py-2.5 px-4 font-mono text-sky-400">
                             {std.conformance}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              {/* Nemesis Core 4.0 Full Engine Binding Proof (`NemesisEngine.lex.tex`) */}
+              <div className="bg-slate-950 border border-amber-500/40 rounded-lg overflow-hidden">
+                <div className="px-5 py-3.5 border-b border-slate-800 flex flex-wrap items-center justify-between gap-2">
+                  <div>
+                    <h3 className="text-sm font-bold text-white">
+                      LexLean v0.4 &amp; PrismPM v0.4 Nemesis Core 4.0 Completeness Witness (`{KARST_NEMESIS_COMPLETENESS.lexleanTheorem}`)
+                    </h3>
+                    <p className="text-xs text-slate-400 mt-0.5">
+                      Verifies that KARST: ZERO HORIZON consumes all 5 Nemesis Core 4.0 subsystems across `src/*.lex.tex`, `crates/karst-kernel`, and `src/game/nemesisEngine.ts`.
+                    </p>
+                  </div>
+                  <span className="px-2.5 py-1 rounded bg-emerald-500/20 border border-emerald-500/50 text-xs font-mono text-emerald-300">
+                    {KARST_NEMESIS_COMPLETENESS.subsystemCount}/5 SUBSYSTEMS · {KARST_NEMESIS_COMPLETENESS.archetypeMatrixCardinality} ARCHETYPES
+                  </span>
+                </div>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left border-collapse text-xs">
+                    <thead>
+                      <tr className="bg-slate-900 border-b border-slate-800 text-slate-400">
+                        <th className="py-2.5 px-4">Subsystem ID</th>
+                        <th className="py-2.5 px-4">LexLean / Rust Realization</th>
+                        <th className="py-2.5 px-4">Verified Invariant</th>
+                        <th className="py-2.5 px-4 text-right">Conformance</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-800">
+                      {KARST_NEMESIS_COMPLETENESS.subsystems.map((sub) => (
+                        <tr key={sub.id}>
+                          <td className="py-2.5 px-4">
+                            <div className="font-mono font-bold text-amber-400">{sub.id}</div>
+                            <div className="font-semibold text-white">{sub.title}</div>
+                          </td>
+                          <td className="py-2.5 px-4 font-mono">
+                            <div className="text-emerald-400">{sub.lexleanModule}.lex.tex</div>
+                            <div className="text-sky-400 text-[11px]">{sub.rustKernelModule}</div>
+                          </td>
+                          <td className="py-2.5 px-4 text-slate-300">{sub.invariantStatement}</td>
+                          <td className="py-2.5 px-4 text-right font-mono text-emerald-400 font-bold">
+                            {sub.conformanceId} · {sub.verified ? 'VERIFIED' : 'DRIFT'}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              {/* Compiled PrismPM OPM (.opl) & UML 2.5.1 (.puml) Design Artifacts */}
+              <div className="bg-slate-950 border border-slate-800 rounded-lg p-5 space-y-4">
+                <div>
+                  <h3 className="text-sm font-bold text-white">
+                    Compiled PrismPM Design Views (`.prism/build/&lt;digest&gt;/design/*.&#123;opl,puml&#125;`)
+                  </h3>
+                  <p className="text-xs text-slate-400 mt-0.5">
+                    Generated deterministically by `prismpm-compiler build` from `src/Design.lex.tex` (`KZ-11`).
+                  </p>
+                </div>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                  {KARST_COMPILED_DESIGN_VIEWS.map((dv) => (
+                    <div
+                      key={dv.id}
+                      className="p-3.5 bg-slate-900 border border-slate-800 rounded-lg space-y-2"
+                    >
+                      <div className="flex items-center justify-between text-xs">
+                        <span className="font-mono font-bold text-amber-400">{dv.filename}</span>
+                        <span className="font-mono text-emerald-400 text-[11px]">{dv.notation}</span>
+                      </div>
+                      <div className="text-xs font-semibold text-white">{dv.title}</div>
+                      <pre className="p-2.5 bg-slate-950 border border-slate-800 rounded text-[11px] font-mono text-slate-300 overflow-x-auto">
+                        {dv.sourceText}
+                      </pre>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* LexLean v0.4 Closed-Lexicon Modules (`src/*.lex.tex`) */}
+              <div className="bg-slate-950 border border-slate-800 rounded-lg overflow-hidden">
+                <div className="px-5 py-3.5 border-b border-slate-800">
+                  <h3 className="text-sm font-bold text-white">
+                    Closed-Lexicon LexLean v0.4 Specification Modules (`src/*.lex.tex` · `lexlean.lock`)
+                  </h3>
+                </div>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left border-collapse text-xs">
+                    <thead>
+                      <tr className="bg-slate-900 border-b border-slate-800 text-slate-400">
+                        <th className="py-2 px-4">Module</th>
+                        <th className="py-2 px-4">Source File</th>
+                        <th className="py-2 px-4">Key Theorem / Declaration</th>
+                        <th className="py-2 px-4">Specification Scope</th>
+                        <th className="py-2 px-4 text-right">ID</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-800">
+                      {KARST_LEXLEAN_MODULES.map((mod) => (
+                        <tr key={mod.moduleName}>
+                          <td className="py-2 px-4 font-mono font-bold text-amber-400">
+                            {mod.moduleName}
+                          </td>
+                          <td className="py-2 px-4 font-mono text-slate-300">{mod.sourcePath}</td>
+                          <td className="py-2 px-4 font-mono text-emerald-400">
+                            {mod.keyTheorem}
+                          </td>
+                          <td className="py-2 px-4 text-slate-300">{mod.summary}</td>
+                          <td className="py-2 px-4 text-right font-mono text-sky-400 font-bold">
+                            {mod.conformanceId}
                           </td>
                         </tr>
                       ))}

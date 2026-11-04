@@ -1,0 +1,21 @@
+spec = "lexlean/entry/1"
+id = "synthesizes-unit-matrix"
+category = "function"
+signature = "(pi ((explicit u (const lexlean.std.nat::nat))) (sort prop))"
+surface_arity = 1
+frame = "call"
+
+[denotation]
+kind = "lean"
+module = "KarstZero.UnitSynthesis"
+name = "KarstZero.UnitSynthesis.synthesizesUnitMatrix"
+
+[[form]]
+id = "synthesizes-unit-matrix"
+channel = "math"
+surface = "synthesizesUnitMatrix"
+canonical_source = true
+features = []
+
+[render]
+math = "(seq (operator-name synthesizesUnitMatrix) (paren (seq (slot 0))))"

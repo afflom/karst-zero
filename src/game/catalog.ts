@@ -15,6 +15,7 @@ import type {
   CompiledUnit,
   ScenarioSpec,
 } from './types';
+import { evaluateZeroStatInflationProgression } from './nemesisEngine';
 
 export const ECHELON_SPECS: Record<EchelonTier, EchelonSpec> = {
   0: {
@@ -583,6 +584,13 @@ export function compileUnitProfile(params: {
       ? ['res-arc-jolt', 'res-bio-mend', 'res-chrono-haste']
       : []);
 
+  const xpVal = params.xp ?? 0;
+  const progression = evaluateZeroStatInflationProgression(
+    ech.startingHardpoints,
+    ech.campaignMaxHardpoints,
+    xpVal
+  );
+
   return {
     id: params.id,
     name: params.name,
@@ -593,7 +601,7 @@ export function compileUnitProfile(params: {
     chassis: params.chassis,
     doctrine: params.doctrine,
     lockedHardpoints: params.lockedHardpoints,
-    unlockedTotalHardpoints: ech.startingHardpoints,
+    unlockedTotalHardpoints: progression.totalUnlockedHardpoints,
     knownDirectives: defaultDirectives,
 
     modelsMax: ech.unitCount,

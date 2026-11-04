@@ -1,0 +1,541 @@
+\begin{lexlean}{Design}
+\useglossary{lexlean.std.bool@1.2.0}
+\useglossary{lexlean.std.nat@1.2.0}
+\useglossary{prism.arch@1.0.0}
+\importmodule{Foundation.Arch}
+\importmodule{Architecture}
+\title{Architecture description model}
+\begin{semanticmodule}
+definition{
+  name: processSynthesizeUnit3D,
+  parameters: [],
+  result: Foundation.Arch::SystemProcess,
+  body: (record Foundation.Arch::SystemProcess {owner := "Architecture::component00UnitSynthesisCompiler"})
+}
+
+definition{
+  name: processUnlockHardpointSocket,
+  parameters: [],
+  result: Foundation.Arch::SystemProcess,
+  body: (record Foundation.Arch::SystemProcess {owner := "Architecture::component00UnitSynthesisCompiler"})
+}
+
+definition{
+  name: processWeaveResonanceHarmonic,
+  parameters: [],
+  result: Foundation.Arch::SystemProcess,
+  body: (record Foundation.Arch::SystemProcess {owner := "Architecture::component03ResonanceWeaveEngine"})
+}
+
+definition{
+  name: processDrawCommandChit,
+  parameters: [],
+  result: Foundation.Arch::SystemProcess,
+  body: (record Foundation.Arch::SystemProcess {owner := "Architecture::component02CommandChitDirector"})
+}
+
+definition{
+  name: processSelectWardenBerthWrap,
+  parameters: [],
+  result: Foundation.Arch::SystemProcess,
+  body: (record Foundation.Arch::SystemProcess {owner := "Architecture::component02CommandChitDirector"})
+}
+
+definition{
+  name: processResolveOpposedStrike,
+  parameters: [],
+  result: Foundation.Arch::SystemProcess,
+  body: (record Foundation.Arch::SystemProcess {owner := "Architecture::component01StrikePoolResolver"})
+}
+
+definition{
+  name: processDispatchCoreWasmRun,
+  parameters: [],
+  result: Foundation.Arch::SystemProcess,
+  body: (record Foundation.Arch::SystemProcess {owner := "Architecture::component05CoreWasmArithmeticGuest"})
+}
+
+definition{
+  name: processExecuteBastionPreDrop,
+  parameters: [],
+  result: Foundation.Arch::SystemProcess,
+  body: (record Foundation.Arch::SystemProcess {owner := "Architecture::component04OrbitalBastionLedger"})
+}
+
+definition{
+  name: processSettleCampaignExtraction,
+  parameters: [],
+  result: Foundation.Arch::SystemProcess,
+  body: (record Foundation.Arch::SystemProcess {owner := "Architecture::component04OrbitalBastionLedger"})
+}
+
+definition{
+  name: stateBastionDocked,
+  parameters: [],
+  result: Foundation.Arch::SystemState,
+  body: (record Foundation.Arch::SystemState {owner := "Architecture::component04OrbitalBastionLedger"})
+}
+
+definition{
+  name: statePreDropReconReady,
+  parameters: [],
+  result: Foundation.Arch::SystemState,
+  body: (record Foundation.Arch::SystemState {owner := "Architecture::component04OrbitalBastionLedger"})
+}
+
+definition{
+  name: stateVaultDropActive,
+  parameters: [],
+  result: Foundation.Arch::SystemState,
+  body: (record Foundation.Arch::SystemState {owner := "Architecture::component04OrbitalBastionLedger"})
+}
+
+definition{
+  name: stateExtractionSettled,
+  parameters: [],
+  result: Foundation.Arch::SystemState,
+  body: (record Foundation.Arch::SystemState {owner := "Architecture::component04OrbitalBastionLedger"})
+}
+
+definition{
+  name: stateArchetypeCompiled,
+  parameters: [],
+  result: Foundation.Arch::SystemState,
+  body: (record Foundation.Arch::SystemState {owner := "Architecture::component00UnitSynthesisCompiler"})
+}
+
+definition{
+  name: stateStrikeResolved,
+  parameters: [],
+  result: Foundation.Arch::SystemState,
+  body: (record Foundation.Arch::SystemState {owner := "Architecture::component01StrikePoolResolver"})
+}
+
+definition{
+  name: viewUnitSynthesisOpm,
+  parameters: [],
+  result: Foundation.Arch::DesignView,
+  body: (record Foundation.Arch::DesignView {title := "Roster Architect OPM View: 3D Unit Synthesis [Doctrine x Chassis x Echelon], Resonance Weave & 3-XP Hardpoint Socket Unlock", viewpoint := "Architecture::viewpoint01RosterSynthesisViewpoint", diagram := (ctor Foundation.Arch::DesignDiagram.opmObjectProcess)})
+}
+
+definition{
+  name: opmSynthCompiler,
+  parameters: [],
+  result: Foundation.Arch::OpmThing,
+  body: (record Foundation.Arch::OpmThing {view := "Design::viewUnitSynthesisOpm", kind := (ctor Foundation.Arch::OpmThingKind.object), subject := "Architecture::component00UnitSynthesisCompiler"})
+}
+
+definition{
+  name: opmSynthResonance,
+  parameters: [],
+  result: Foundation.Arch::OpmThing,
+  body: (record Foundation.Arch::OpmThing {view := "Design::viewUnitSynthesisOpm", kind := (ctor Foundation.Arch::OpmThingKind.object), subject := "Architecture::component03ResonanceWeaveEngine"})
+}
+
+definition{
+  name: opmSynthBastion,
+  parameters: [],
+  result: Foundation.Arch::OpmThing,
+  body: (record Foundation.Arch::OpmThing {view := "Design::viewUnitSynthesisOpm", kind := (ctor Foundation.Arch::OpmThingKind.object), subject := "Architecture::component04OrbitalBastionLedger"})
+}
+
+definition{
+  name: opmSynthWasm,
+  parameters: [],
+  result: Foundation.Arch::OpmThing,
+  body: (record Foundation.Arch::OpmThing {view := "Design::viewUnitSynthesisOpm", kind := (ctor Foundation.Arch::OpmThingKind.object), subject := "Architecture::component05CoreWasmArithmeticGuest"})
+}
+
+definition{
+  name: opmSynthProcessCompile,
+  parameters: [],
+  result: Foundation.Arch::OpmThing,
+  body: (record Foundation.Arch::OpmThing {view := "Design::viewUnitSynthesisOpm", kind := (ctor Foundation.Arch::OpmThingKind.process), subject := "Design::processSynthesizeUnit3D"})
+}
+
+definition{
+  name: opmSynthProcessUnlock,
+  parameters: [],
+  result: Foundation.Arch::OpmThing,
+  body: (record Foundation.Arch::OpmThing {view := "Design::viewUnitSynthesisOpm", kind := (ctor Foundation.Arch::OpmThingKind.process), subject := "Design::processUnlockHardpointSocket"})
+}
+
+definition{
+  name: opmSynthProcessWeave,
+  parameters: [],
+  result: Foundation.Arch::OpmThing,
+  body: (record Foundation.Arch::OpmThing {view := "Design::viewUnitSynthesisOpm", kind := (ctor Foundation.Arch::OpmThingKind.process), subject := "Design::processWeaveResonanceHarmonic"})
+}
+
+definition{
+  name: opmSynthStateCompiled,
+  parameters: [],
+  result: Foundation.Arch::OpmState,
+  body: (record Foundation.Arch::OpmState {view := "Design::viewUnitSynthesisOpm", thing := "Architecture::component00UnitSynthesisCompiler", state := "Design::stateArchetypeCompiled"})
+}
+
+definition{
+  name: opmSynthLinkResonanceInstrument,
+  parameters: [],
+  result: Foundation.Arch::OpmLink,
+  body: (record Foundation.Arch::OpmLink {view := "Design::viewUnitSynthesisOpm", kind := (ctor Foundation.Arch::OpmLinkKind.instrument), source := "Architecture::component03ResonanceWeaveEngine", target := "Design::processSynthesizeUnit3D"})
+}
+
+definition{
+  name: opmSynthLinkCompileResult,
+  parameters: [],
+  result: Foundation.Arch::OpmLink,
+  body: (record Foundation.Arch::OpmLink {view := "Design::viewUnitSynthesisOpm", kind := (ctor Foundation.Arch::OpmLinkKind.result), source := "Design::processSynthesizeUnit3D", target := "Architecture::component00UnitSynthesisCompiler"})
+}
+
+definition{
+  name: opmSynthLinkBastionEffect,
+  parameters: [],
+  result: Foundation.Arch::OpmLink,
+  body: (record Foundation.Arch::OpmLink {view := "Design::viewUnitSynthesisOpm", kind := (ctor Foundation.Arch::OpmLinkKind.effect), source := "Architecture::component04OrbitalBastionLedger", target := "Design::processUnlockHardpointSocket"})
+}
+
+definition{
+  name: opmSynthZoomCompileToUnlock,
+  parameters: [],
+  result: Foundation.Arch::OpmZoom,
+  body: (record Foundation.Arch::OpmZoom {view := "Design::viewUnitSynthesisOpm", process := "Design::processSynthesizeUnit3D", subprocess := "Design::processUnlockHardpointSocket", order := 0})
+}
+
+definition{
+  name: viewCombatChitOpm,
+  parameters: [],
+  result: Foundation.Arch::DesignView,
+  body: (record Foundation.Arch::DesignView {title := "Tactical Commander OPM View: Opaque Command Chit Pool, 1d6 Warden Berth Wrap & Opposed d6 Strike Resolution", viewpoint := "Architecture::viewpoint00TacticalCommandViewpoint", diagram := (ctor Foundation.Arch::DesignDiagram.opmObjectProcess)})
+}
+
+definition{
+  name: opmCombatChitDirector,
+  parameters: [],
+  result: Foundation.Arch::OpmThing,
+  body: (record Foundation.Arch::OpmThing {view := "Design::viewCombatChitOpm", kind := (ctor Foundation.Arch::OpmThingKind.object), subject := "Architecture::component02CommandChitDirector"})
+}
+
+definition{
+  name: opmCombatStrikeResolver,
+  parameters: [],
+  result: Foundation.Arch::OpmThing,
+  body: (record Foundation.Arch::OpmThing {view := "Design::viewCombatChitOpm", kind := (ctor Foundation.Arch::OpmThingKind.object), subject := "Architecture::component01StrikePoolResolver"})
+}
+
+definition{
+  name: opmCombatCoreWasm,
+  parameters: [],
+  result: Foundation.Arch::OpmThing,
+  body: (record Foundation.Arch::OpmThing {view := "Design::viewCombatChitOpm", kind := (ctor Foundation.Arch::OpmThingKind.object), subject := "Architecture::component05CoreWasmArithmeticGuest"})
+}
+
+definition{
+  name: opmCombatProcessDraw,
+  parameters: [],
+  result: Foundation.Arch::OpmThing,
+  body: (record Foundation.Arch::OpmThing {view := "Design::viewCombatChitOpm", kind := (ctor Foundation.Arch::OpmThingKind.process), subject := "Design::processDrawCommandChit"})
+}
+
+definition{
+  name: opmCombatProcessWrap,
+  parameters: [],
+  result: Foundation.Arch::OpmThing,
+  body: (record Foundation.Arch::OpmThing {view := "Design::viewCombatChitOpm", kind := (ctor Foundation.Arch::OpmThingKind.process), subject := "Design::processSelectWardenBerthWrap"})
+}
+
+definition{
+  name: opmCombatProcessStrike,
+  parameters: [],
+  result: Foundation.Arch::OpmThing,
+  body: (record Foundation.Arch::OpmThing {view := "Design::viewCombatChitOpm", kind := (ctor Foundation.Arch::OpmThingKind.process), subject := "Design::processResolveOpposedStrike"})
+}
+
+definition{
+  name: opmCombatStateResolved,
+  parameters: [],
+  result: Foundation.Arch::OpmState,
+  body: (record Foundation.Arch::OpmState {view := "Design::viewCombatChitOpm", thing := "Architecture::component01StrikePoolResolver", state := "Design::stateStrikeResolved"})
+}
+
+definition{
+  name: opmCombatLinkDirectorAgent,
+  parameters: [],
+  result: Foundation.Arch::OpmLink,
+  body: (record Foundation.Arch::OpmLink {view := "Design::viewCombatChitOpm", kind := (ctor Foundation.Arch::OpmLinkKind.agent), source := "Architecture::component02CommandChitDirector", target := "Design::processDrawCommandChit"})
+}
+
+definition{
+  name: opmCombatLinkDrawInvokeStrike,
+  parameters: [],
+  result: Foundation.Arch::OpmLink,
+  body: (record Foundation.Arch::OpmLink {view := "Design::viewCombatChitOpm", kind := (ctor Foundation.Arch::OpmLinkKind.invocation), source := "Design::processDrawCommandChit", target := "Design::processResolveOpposedStrike"})
+}
+
+definition{
+  name: opmCombatLinkStrikeResult,
+  parameters: [],
+  result: Foundation.Arch::OpmLink,
+  body: (record Foundation.Arch::OpmLink {view := "Design::viewCombatChitOpm", kind := (ctor Foundation.Arch::OpmLinkKind.result), source := "Design::processResolveOpposedStrike", target := "Architecture::component01StrikePoolResolver"})
+}
+
+definition{
+  name: opmCombatZoomDrawToWrap,
+  parameters: [],
+  result: Foundation.Arch::OpmZoom,
+  body: (record Foundation.Arch::OpmZoom {view := "Design::viewCombatChitOpm", process := "Design::processDrawCommandChit", subprocess := "Design::processSelectWardenBerthWrap", order := 0})
+}
+
+definition{
+  name: viewNemesisComponentUml,
+  parameters: [],
+  result: Foundation.Arch::DesignView,
+  body: (record Foundation.Arch::DesignView {title := "Nemesis Core 4.0 UML 2.5.1 Component Topology: 6 Engine Subsystems & 8 Data/Control Edges", viewpoint := "Architecture::viewpoint02NemesisChitAiViewpoint", diagram := (ctor Foundation.Arch::DesignDiagram.umlComponent)})
+}
+
+definition{
+  name: umlComp00Synthesis,
+  parameters: [],
+  result: Foundation.Arch::UmlComponent,
+  body: (record Foundation.Arch::UmlComponent {view := "Design::viewNemesisComponentUml", component := "Architecture::component00UnitSynthesisCompiler"})
+}
+
+definition{
+  name: umlComp01Combat,
+  parameters: [],
+  result: Foundation.Arch::UmlComponent,
+  body: (record Foundation.Arch::UmlComponent {view := "Design::viewNemesisComponentUml", component := "Architecture::component01StrikePoolResolver"})
+}
+
+definition{
+  name: umlComp02ChitDirector,
+  parameters: [],
+  result: Foundation.Arch::UmlComponent,
+  body: (record Foundation.Arch::UmlComponent {view := "Design::viewNemesisComponentUml", component := "Architecture::component02CommandChitDirector"})
+}
+
+definition{
+  name: umlComp03Resonance,
+  parameters: [],
+  result: Foundation.Arch::UmlComponent,
+  body: (record Foundation.Arch::UmlComponent {view := "Design::viewNemesisComponentUml", component := "Architecture::component03ResonanceWeaveEngine"})
+}
+
+definition{
+  name: umlComp04Bastion,
+  parameters: [],
+  result: Foundation.Arch::UmlComponent,
+  body: (record Foundation.Arch::UmlComponent {view := "Design::viewNemesisComponentUml", component := "Architecture::component04OrbitalBastionLedger"})
+}
+
+definition{
+  name: umlComp05CoreWasm,
+  parameters: [],
+  result: Foundation.Arch::UmlComponent,
+  body: (record Foundation.Arch::UmlComponent {view := "Design::viewNemesisComponentUml", component := "Architecture::component05CoreWasmArithmeticGuest"})
+}
+
+definition{
+  name: umlConn00,
+  parameters: [],
+  result: Foundation.Arch::UmlConnector,
+  body: (record Foundation.Arch::UmlConnector {view := "Design::viewNemesisComponentUml", edge := "Architecture::edge00SynthesisToBastion"})
+}
+
+definition{
+  name: umlConn01,
+  parameters: [],
+  result: Foundation.Arch::UmlConnector,
+  body: (record Foundation.Arch::UmlConnector {view := "Design::viewNemesisComponentUml", edge := "Architecture::edge01BastionToChitDirector"})
+}
+
+definition{
+  name: umlConn02,
+  parameters: [],
+  result: Foundation.Arch::UmlConnector,
+  body: (record Foundation.Arch::UmlConnector {view := "Design::viewNemesisComponentUml", edge := "Architecture::edge02ChitDirectorToCombat"})
+}
+
+definition{
+  name: umlConn03,
+  parameters: [],
+  result: Foundation.Arch::UmlConnector,
+  body: (record Foundation.Arch::UmlConnector {view := "Design::viewNemesisComponentUml", edge := "Architecture::edge03ResonanceToSynthesis"})
+}
+
+definition{
+  name: umlConn04,
+  parameters: [],
+  result: Foundation.Arch::UmlConnector,
+  body: (record Foundation.Arch::UmlConnector {view := "Design::viewNemesisComponentUml", edge := "Architecture::edge04ResonanceToCombat"})
+}
+
+definition{
+  name: umlConn05,
+  parameters: [],
+  result: Foundation.Arch::UmlConnector,
+  body: (record Foundation.Arch::UmlConnector {view := "Design::viewNemesisComponentUml", edge := "Architecture::edge05CombatToCoreWasm"})
+}
+
+definition{
+  name: umlConn06,
+  parameters: [],
+  result: Foundation.Arch::UmlConnector,
+  body: (record Foundation.Arch::UmlConnector {view := "Design::viewNemesisComponentUml", edge := "Architecture::edge06SynthesisToCoreWasm"})
+}
+
+definition{
+  name: umlConn07,
+  parameters: [],
+  result: Foundation.Arch::UmlConnector,
+  body: (record Foundation.Arch::UmlConnector {view := "Design::viewNemesisComponentUml", edge := "Architecture::edge07CombatToBastion"})
+}
+
+definition{
+  name: viewStrikeDispatchSequenceUml,
+  parameters: [],
+  result: Foundation.Arch::DesignView,
+  body: (record Foundation.Arch::DesignView {title := "Runtime Auditor UML 2.5.1 Sequence View: Command Chit Draw, Opposed Strike Pool, Core-Wasm holo_run & Bastion Ledger Settlement", viewpoint := "Architecture::viewpoint04CoreWasmAuditViewpoint", diagram := (ctor Foundation.Arch::DesignDiagram.umlSequence)})
+}
+
+definition{
+  name: seqLife00Bastion,
+  parameters: [],
+  result: Foundation.Arch::UmlLifeline,
+  body: (record Foundation.Arch::UmlLifeline {view := "Design::viewStrikeDispatchSequenceUml", component := "Architecture::component04OrbitalBastionLedger", order := 0})
+}
+
+definition{
+  name: seqLife01Synthesis,
+  parameters: [],
+  result: Foundation.Arch::UmlLifeline,
+  body: (record Foundation.Arch::UmlLifeline {view := "Design::viewStrikeDispatchSequenceUml", component := "Architecture::component00UnitSynthesisCompiler", order := 1})
+}
+
+definition{
+  name: seqLife02ChitDirector,
+  parameters: [],
+  result: Foundation.Arch::UmlLifeline,
+  body: (record Foundation.Arch::UmlLifeline {view := "Design::viewStrikeDispatchSequenceUml", component := "Architecture::component02CommandChitDirector", order := 2})
+}
+
+definition{
+  name: seqLife03Combat,
+  parameters: [],
+  result: Foundation.Arch::UmlLifeline,
+  body: (record Foundation.Arch::UmlLifeline {view := "Design::viewStrikeDispatchSequenceUml", component := "Architecture::component01StrikePoolResolver", order := 3})
+}
+
+definition{
+  name: seqLife04CoreWasm,
+  parameters: [],
+  result: Foundation.Arch::UmlLifeline,
+  body: (record Foundation.Arch::UmlLifeline {view := "Design::viewStrikeDispatchSequenceUml", component := "Architecture::component05CoreWasmArithmeticGuest", order := 4})
+}
+
+definition{
+  name: seqMsg00SynthesisToBastion,
+  parameters: [],
+  result: Foundation.Arch::UmlMessage,
+  body: (record Foundation.Arch::UmlMessage {view := "Design::viewStrikeDispatchSequenceUml", kind := (ctor Foundation.Arch::UmlMessageKind.synchronous), order := 0, source := "Architecture::component00UnitSynthesisCompiler", target := "Architecture::component04OrbitalBastionLedger", process := "Design::processExecuteBastionPreDrop"})
+}
+
+definition{
+  name: seqMsg01BastionToChitDirector,
+  parameters: [],
+  result: Foundation.Arch::UmlMessage,
+  body: (record Foundation.Arch::UmlMessage {view := "Design::viewStrikeDispatchSequenceUml", kind := (ctor Foundation.Arch::UmlMessageKind.synchronous), order := 1, source := "Architecture::component04OrbitalBastionLedger", target := "Architecture::component02CommandChitDirector", process := "Design::processDrawCommandChit"})
+}
+
+definition{
+  name: seqMsg02ChitDirectorToCombat,
+  parameters: [],
+  result: Foundation.Arch::UmlMessage,
+  body: (record Foundation.Arch::UmlMessage {view := "Design::viewStrikeDispatchSequenceUml", kind := (ctor Foundation.Arch::UmlMessageKind.synchronous), order := 2, source := "Architecture::component02CommandChitDirector", target := "Architecture::component01StrikePoolResolver", process := "Design::processResolveOpposedStrike"})
+}
+
+definition{
+  name: seqMsg03CombatToCoreWasm,
+  parameters: [],
+  result: Foundation.Arch::UmlMessage,
+  body: (record Foundation.Arch::UmlMessage {view := "Design::viewStrikeDispatchSequenceUml", kind := (ctor Foundation.Arch::UmlMessageKind.synchronous), order := 3, source := "Architecture::component01StrikePoolResolver", target := "Architecture::component05CoreWasmArithmeticGuest", process := "Design::processDispatchCoreWasmRun"})
+}
+
+definition{
+  name: seqMsg04CoreWasmReplyCombat,
+  parameters: [],
+  result: Foundation.Arch::UmlMessage,
+  body: (record Foundation.Arch::UmlMessage {view := "Design::viewStrikeDispatchSequenceUml", kind := (ctor Foundation.Arch::UmlMessageKind.reply), order := 4, source := "Architecture::component05CoreWasmArithmeticGuest", target := "Architecture::component01StrikePoolResolver", process := "Design::processDispatchCoreWasmRun"})
+}
+
+definition{
+  name: seqMsg05CombatToBastion,
+  parameters: [],
+  result: Foundation.Arch::UmlMessage,
+  body: (record Foundation.Arch::UmlMessage {view := "Design::viewStrikeDispatchSequenceUml", kind := (ctor Foundation.Arch::UmlMessageKind.asynchronous), order := 5, source := "Architecture::component01StrikePoolResolver", target := "Architecture::component04OrbitalBastionLedger", process := "Design::processSettleCampaignExtraction"})
+}
+
+definition{
+  name: viewCampaignTurnStateUml,
+  parameters: [],
+  result: Foundation.Arch::DesignView,
+  body: (record Foundation.Arch::DesignView {title := "Campaign Quartermaster UML 2.5.1 State Machine: Orbital Bastion -> Pre-Drop Recon -> 5-Round Vault Drop -> Extraction Settlement", viewpoint := "Architecture::viewpoint01RosterSynthesisViewpoint", diagram := (ctor Foundation.Arch::DesignDiagram.umlStateMachine)})
+}
+
+definition{
+  name: smState00Docked,
+  parameters: [],
+  result: Foundation.Arch::UmlState,
+  body: (record Foundation.Arch::UmlState {view := "Design::viewCampaignTurnStateUml", state := "Design::stateBastionDocked", initial := true})
+}
+
+definition{
+  name: smState01ReconReady,
+  parameters: [],
+  result: Foundation.Arch::UmlState,
+  body: (record Foundation.Arch::UmlState {view := "Design::viewCampaignTurnStateUml", state := "Design::statePreDropReconReady", initial := false})
+}
+
+definition{
+  name: smState02VaultDrop,
+  parameters: [],
+  result: Foundation.Arch::UmlState,
+  body: (record Foundation.Arch::UmlState {view := "Design::viewCampaignTurnStateUml", state := "Design::stateVaultDropActive", initial := false})
+}
+
+definition{
+  name: smState03Settled,
+  parameters: [],
+  result: Foundation.Arch::UmlState,
+  body: (record Foundation.Arch::UmlState {view := "Design::viewCampaignTurnStateUml", state := "Design::stateExtractionSettled", initial := false})
+}
+
+definition{
+  name: smTrans00ExecutePreDrop,
+  parameters: [],
+  result: Foundation.Arch::UmlTransition,
+  body: (record Foundation.Arch::UmlTransition {view := "Design::viewCampaignTurnStateUml", order := 0, source := "Design::stateBastionDocked", target := "Design::statePreDropReconReady", trigger := "Design::processExecuteBastionPreDrop"})
+}
+
+definition{
+  name: smTrans01LaunchVaultDrop,
+  parameters: [],
+  result: Foundation.Arch::UmlTransition,
+  body: (record Foundation.Arch::UmlTransition {view := "Design::viewCampaignTurnStateUml", order := 1, source := "Design::statePreDropReconReady", target := "Design::stateVaultDropActive", trigger := "Design::processExecuteBastionPreDrop"})
+}
+
+definition{
+  name: smTrans02CompleteDrop,
+  parameters: [],
+  result: Foundation.Arch::UmlTransition,
+  body: (record Foundation.Arch::UmlTransition {view := "Design::viewCampaignTurnStateUml", order := 2, source := "Design::stateVaultDropActive", target := "Design::stateExtractionSettled", trigger := "Design::processSettleCampaignExtraction"})
+}
+
+definition{
+  name: smTrans03ReturnToBastion,
+  parameters: [],
+  result: Foundation.Arch::UmlTransition,
+  body: (record Foundation.Arch::UmlTransition {view := "Design::viewCampaignTurnStateUml", order := 3, source := "Design::stateExtractionSettled", target := "Design::stateBastionDocked", trigger := "Design::processSettleCampaignExtraction"})
+}
+\end{semanticmodule}
+\end{lexlean}

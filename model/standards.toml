@@ -1,0 +1,29 @@
+# Normative Standards Conformance Register
+# Synchronized with `src/Standards.lex.tex` and `src/Architecture.lex.tex`.
+
+spec = "prismpm/standards/1"
+module = "Standards"
+
+[[standard]]
+id = "nemesis-core-4-0"
+title = "Nemesis Core 4.0 Open Skirmish & Solo/Co-Op Wargame Engine SRD"
+
+[[standard]]
+id = "iso-42010-2022"
+title = "ISO/IEC/IEEE 42010:2022 Systems and Software Engineering — Architecture Description"
+
+[[standard]]
+id = "iso-25010-2023"
+title = "ISO/IEC 25010:2023 Systems and Software Quality Requirements and Evaluation (SQuaRE)"
+
+[[standard]]
+id = "iso-27005-27034"
+title = "ISO/IEC 27005:2022 & ISO/IEC 27034-1:2011 Information Security Risk & Application Security"
+
+[[standard]]
+id = "prismpm-holo-v4"
+title = "PrismPM v0.4 & LexLean v0.4 Closed-Lexicon Holistic Package & Holo Container Contract"
+
+[[standard]]
+id = "wcag-2-2-aa"
+title = "W3C WCAG 2.2 Level AA Contrast & WAI-ARIA 1.2 Accessible Tactical Interface Standard"

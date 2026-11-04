@@ -1,7 +1,13 @@
-node_modules/
-build/
-dist/
-coverage/
+/target/
+/dist/
+/view/
+/node_modules/
+/.lexlean/
+/.prism/sdk/
+/.prism/build/*/lexlean/
+__pycache__/
+*.pyc
+/.prism/.prismpm.lock
 .DS_Store
 *.log
 .env*

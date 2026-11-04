@@ -1,0 +1,32 @@
+[workspace]
+resolver = "2"
+members = ["crates/*", "xtask"]
+
+[workspace.package]
+version = "0.4.0"
+edition = "2021"
+rust-version = "1.89"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/afflom/karst-zero"
+homepage = "https://afflom.github.io/karst-zero/"
+authors = ["UOR Foundation", "Karst Zero Horizon"]
+keywords = ["karst", "nemesis", "lexlean", "prismpm", "uor"]
+categories = ["games", "simulation", "compilers"]
+
+[workspace.dependencies]
+karst-kernel = { version = "0.4.0", path = "crates/karst-kernel" }
+repo-model = { version = "0.4.0", path = "crates/model" }
+repo-conformance = { version = "0.4.0", path = "crates/conformance" }
+
+[workspace.lints.rust]
+missing_docs = "deny"
+unsafe_op_in_unsafe_fn = "deny"
+
+[workspace.lints.clippy]
+undocumented_unsafe_blocks = "deny"
+missing_safety_doc = "deny"
+
+[profile.release]
+opt-level = 3
+lto = "thin"
+codegen-units = 1

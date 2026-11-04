@@ -1,0 +1,21 @@
+spec = "lexlean/entry/1"
+id = "weaves-resonance-harmonic"
+category = "function"
+signature = "(pi ((explicit r (const lexlean.std.nat::nat))) (sort prop))"
+surface_arity = 1
+frame = "call"
+
+[denotation]
+kind = "lean"
+module = "KarstZero.ResonanceWeave"
+name = "KarstZero.ResonanceWeave.weavesResonanceHarmonic"
+
+[[form]]
+id = "weaves-resonance-harmonic"
+channel = "math"
+surface = "weavesResonanceHarmonic"
+canonical_source = true
+features = []
+
+[render]
+math = "(seq (operator-name weavesResonanceHarmonic) (paren (seq (slot 0))))"

@@ -1,0 +1,5 @@
+# model/ledger.toml --- the honesty ledger for non-ID claims (R2).
+
+spec = "template/1"
+
+claim = []

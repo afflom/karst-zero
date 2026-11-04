@@ -1,0 +1,16 @@
+View: Design::viewCombatChitOpm
+Title: Tactical Commander OPM View: Opaque Command Chit Pool, 1d6 Warden Berth Wrap & Opposed d6 Strike Resolution
+Viewpoint: Architecture::viewpoint00TacticalCommandViewpoint
+Notation: ISO/PAS 19450:2015 OPM, Prism OPL profile
+
+component01StrikePoolResolver is an object.
+component01StrikePoolResolver can be stateStrikeResolved.
+component02CommandChitDirector is an object.
+component05CoreWasmArithmeticGuest is an object.
+processDrawCommandChit is a process.
+processResolveOpposedStrike is a process.
+processSelectWardenBerthWrap is a process.
+component02CommandChitDirector handles processDrawCommandChit.
+processResolveOpposedStrike yields component01StrikePoolResolver.
+processDrawCommandChit invokes processResolveOpposedStrike.
+processDrawCommandChit zooms into processSelectWardenBerthWrap, in that sequence.

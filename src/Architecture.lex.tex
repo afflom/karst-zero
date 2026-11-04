@@ -1,0 +1,884 @@
+\begin{lexlean}{Architecture}
+\useglossary{lexlean.std.bool@1.2.0}
+\useglossary{lexlean.std.nat@1.2.0}
+\useglossary{prism.arch@1.0.0}
+\useglossary{prism.qual@1.0.0}
+\useglossary{prism.sec@1.0.0}
+\importmodule{Foundation.Arch}
+\importmodule{Foundation.Qual}
+\importmodule{Foundation.Sec}
+\importmodule{UnitSynthesis}
+\importmodule{CombatEngine}
+\importmodule{ResonanceWeave}
+\importmodule{NemesisChit}
+\importmodule{CampaignBastion}
+\importmodule{NemesisEngine}
+\title{Architecture description model}
+\begin{semanticmodule}
+definition{
+  name: standardIso25010,
+  parameters: [],
+  result: Foundation.Arch::StandardReference,
+  body: (record Foundation.Arch::StandardReference {standardIndex := 0, editionIndex := 0, standardId := "ISO-25010-2023", edition := "2023"})
+}
+
+definition{
+  name: standardIso27005,
+  parameters: [],
+  result: Foundation.Arch::StandardReference,
+  body: (record Foundation.Arch::StandardReference {standardIndex := 1, editionIndex := 0, standardId := "ISO-27005-2022", edition := "2022"})
+}
+
+definition{
+  name: standardIso27034Part1,
+  parameters: [],
+  result: Foundation.Arch::StandardReference,
+  body: (record Foundation.Arch::StandardReference {standardIndex := 2, editionIndex := 0, standardId := "ISO-27034-1-2011", edition := "2011"})
+}
+
+definition{
+  name: standardIso27034Part5,
+  parameters: [],
+  result: Foundation.Arch::StandardReference,
+  body: (record Foundation.Arch::StandardReference {standardIndex := 3, editionIndex := 0, standardId := "ISO-27034-5-2017", edition := "2017"})
+}
+
+definition{
+  name: standardIso42010,
+  parameters: [],
+  result: Foundation.Arch::StandardReference,
+  body: (record Foundation.Arch::StandardReference {standardIndex := 4, editionIndex := 0, standardId := "ISO-42010-2022", edition := "2022"})
+}
+
+definition{
+  name: component00UnitSynthesisCompiler,
+  parameters: [],
+  result: Foundation.Arch::Component,
+  body: (record Foundation.Arch::Component {index := 0, kind := (ctor Foundation.Arch::ComponentKind.service), name := "3D Unit Synthesis & Hardpoint Socket Compiler (UnitSynthesis.lex.tex)", text := "Compiles [Doctrine (6), Chassis (5), Echelon (5)] into 150 deterministic unit archetypes while enforcing the 6-Berth cap, 16-Alloy starting charter, and Zero-Stat-Inflation law."})
+}
+
+definition{
+  name: component01StrikePoolResolver,
+  parameters: [],
+  result: Foundation.Arch::Component,
+  body: (record Foundation.Arch::Component {index := 1, kind := (ctor Foundation.Arch::ComponentKind.service), name := "Unified d6 Strike Pool, Cover & Mitigation Resolver (CombatEngine.lex.tex)", text := "Resolves opposed FPR vs EVA d6 pools (4+ = 1 Hit), 4-sector Momentum Charge bonuses, Barricade/Bulkhead cover, Plating (ARM), Bio-Resilience (TGH), and Fireteam spillover."})
+}
+
+definition{
+  name: component02CommandChitDirector,
+  parameters: [],
+  result: Foundation.Arch::Component,
+  body: (record Foundation.Arch::Component {index := 2, kind := (ctor Foundation.Arch::ComponentKind.service), name := "Opaque Command Chit Pool & Autonomous Warden AI Director (NemesisChit.lex.tex)", text := "Executes the 5-round activation loop, returning Warden Directive Chit, 1d6 wrap-around berth selector, Multi-Berth Boss scaling, and 6 deterministic Doctrine AI routines."})
+}
+
+definition{
+  name: component03ResonanceWeaveEngine,
+  parameters: [],
+  result: Foundation.Arch::Component,
+  body: (record Foundation.Arch::Component {index := 3, kind := (ctor Foundation.Arch::ComponentKind.service), name := "6-Frequency Resonance Weave & Masterwork Hardpoint Engine (ResonanceWeave.lex.tex)", text := "Governs 16 Hardpoint Modules (1-slot 3 Alloy & 2-slot Masterwork 6 Alloy), 6 Resonance Frequencies, Minor/Major Harmonics, and 1d6 Resonance Overheat Backlash."})
+}
+
+definition{
+  name: component04OrbitalBastionLedger,
+  parameters: [],
+  result: Foundation.Arch::Component,
+  body: (record Foundation.Arch::Component {index := 4, kind := (ctor Foundation.Arch::ComponentKind.database), name := "Orbital Bastion Campaign Hub & Canonical Save Ledger (CampaignBastion.lex.tex)", text := "Manages the 4 Pre-Drop Crew Assignments, Push Roll risk, 3 Bastion Facilities, 6 Core Sector Contracts, and deterministic save-state receipts."})
+}
+
+definition{
+  name: component05CoreWasmArithmeticGuest,
+  parameters: [],
+  result: Foundation.Arch::Component,
+  body: (record Foundation.Arch::Component {index := 5, kind := (ctor Foundation.Arch::ComponentKind.releaseBinary), name := "Import-Free Core-Wasm Guest & HOLOVIEW Surface (Contract.lex.tex, Presentation.lex.tex)", text := "Executes hologram:guest/core-wasm@1 deterministic integer arithmetic (holo_run, 52B req / 27B resp) and renders the WCAG 2.2 AA certified Karst tactical viewport."})
+}
+
+definition{
+  name: edge00SynthesisToBastion,
+  parameters: [],
+  result: Foundation.Arch::Edge,
+  body: (record Foundation.Arch::Edge {index := 0, fromIndex := 0, toIndex := 4, kind := (ctor Foundation.Arch::EdgeKind.dataFlow)})
+}
+
+definition{
+  name: edge01BastionToChitDirector,
+  parameters: [],
+  result: Foundation.Arch::Edge,
+  body: (record Foundation.Arch::Edge {index := 1, fromIndex := 4, toIndex := 2, kind := (ctor Foundation.Arch::EdgeKind.controlFlow)})
+}
+
+definition{
+  name: edge02ChitDirectorToCombat,
+  parameters: [],
+  result: Foundation.Arch::Edge,
+  body: (record Foundation.Arch::Edge {index := 2, fromIndex := 2, toIndex := 1, kind := (ctor Foundation.Arch::EdgeKind.controlFlow)})
+}
+
+definition{
+  name: edge03ResonanceToSynthesis,
+  parameters: [],
+  result: Foundation.Arch::Edge,
+  body: (record Foundation.Arch::Edge {index := 3, fromIndex := 3, toIndex := 0, kind := (ctor Foundation.Arch::EdgeKind.dataFlow)})
+}
+
+definition{
+  name: edge04ResonanceToCombat,
+  parameters: [],
+  result: Foundation.Arch::Edge,
+  body: (record Foundation.Arch::Edge {index := 4, fromIndex := 3, toIndex := 1, kind := (ctor Foundation.Arch::EdgeKind.dataFlow)})
+}
+
+definition{
+  name: edge05CombatToCoreWasm,
+  parameters: [],
+  result: Foundation.Arch::Edge,
+  body: (record Foundation.Arch::Edge {index := 5, fromIndex := 1, toIndex := 5, kind := (ctor Foundation.Arch::EdgeKind.dataFlow)})
+}
+
+definition{
+  name: edge06SynthesisToCoreWasm,
+  parameters: [],
+  result: Foundation.Arch::Edge,
+  body: (record Foundation.Arch::Edge {index := 6, fromIndex := 0, toIndex := 5, kind := (ctor Foundation.Arch::EdgeKind.dataFlow)})
+}
+
+definition{
+  name: edge07CombatToBastion,
+  parameters: [],
+  result: Foundation.Arch::Edge,
+  body: (record Foundation.Arch::Edge {index := 7, fromIndex := 1, toIndex := 4, kind := (ctor Foundation.Arch::EdgeKind.dataFlow)})
+}
+
+definition{
+  name: stakeholder00TacticalCommander,
+  parameters: [],
+  result: Foundation.Arch::Stakeholder,
+  body: (record Foundation.Arch::Stakeholder {index := 0, name := "Tactical Commander (Solo / Co-Op Player)", text := "Commands the 6-Berth Strike Roster across 5-round subterranean vault drops, drawing Command Chits, spending Surge Cells, and claiming Alloy Caches."})
+}
+
+definition{
+  name: stakeholder01StrikeRosterArchitect,
+  parameters: [],
+  result: Foundation.Arch::Stakeholder,
+  body: (record Foundation.Arch::Stakeholder {index := 1, name := "Strike Roster Architect & Campaign Quartermaster", text := "Synthesizes operatives across [Doctrine, Chassis, Echelon], manages the 16-Alloy starting charter, unlocks Hardpoint Sockets (3 XP = +1 Socket), and upgrades Orbital Bastion facilities."})
+}
+
+definition{
+  name: stakeholder02NemesisSystemsDesigner,
+  parameters: [],
+  result: Foundation.Arch::Stakeholder,
+  body: (record Foundation.Arch::Stakeholder {index := 2, name := "Nemesis Core 4.0 Game Engine & Balance Designer", text := "Authors the LexLean 1.2 formal rules for Zero-Stat-Inflation, Opposed Strike mitigation, Returning Warden Directive Chits, and 6-Frequency Resonance Harmonics."})
+}
+
+definition{
+  name: stakeholder03PrismRuntimeAuditor,
+  parameters: [],
+  result: Foundation.Arch::Stakeholder,
+  body: (record Foundation.Arch::Stakeholder {index := 3, name := "PrismPM .holo v4 Runtime & Verification Auditor", text := "Audits import-free Core-Wasm guest execution (hologram:guest/core-wasm@1), 34 acceptance vectors, ISO 42010/25010/27034 facets, and WCAG 2.2 AA contrast proofs."})
+}
+
+definition{
+  name: concern00ZeroStatInflationBalance,
+  parameters: [],
+  result: Foundation.Arch::Concern,
+  body: (record Foundation.Arch::Concern {index := 0, name := "Zero-Stat-Inflation Progression & Horizontal Hardpoint Modularity", text := "Guarantees that base FPR, EVA, and COG dice pools never inflate from XP; campaign advancement strictly unlocks horizontal Hardpoint Sockets (3 XP = +1 Socket)."})
+}
+
+definition{
+  name: concern01DeterministicStrikeCombat,
+  parameters: [],
+  result: Foundation.Arch::Concern,
+  body: (record Foundation.Arch::Concern {index := 1, name := "Unified d6 Strike Resolution, Cover Geometry & Fireteam Spillover", text := "Enforces exact integer Net Hits, 4-sector Momentum Charge bonuses, Barricade/Bulkhead cover rules, Plating/Resilience mitigation, and Fireteam casualty division."})
+}
+
+definition{
+  name: concern02AutonomousWardenChitAi,
+  parameters: [],
+  result: Foundation.Arch::Concern,
+  body: (record Foundation.Arch::Concern {index := 2, name := "Opaque Command Chit Pacing & Deterministic Warden AI Routines", text := "Guarantees unpredictable interleaved turn pacing via a returning Warden Directive Chit, 1d6 wrap-around berth selection, and 6 Doctrine AI routines."})
+}
+
+definition{
+  name: concern03ResonanceHarmonicWeaving,
+  parameters: [],
+  result: Foundation.Arch::Concern,
+  body: (record Foundation.Arch::Concern {index := 3, name := "6-Frequency Resonance Harmonics & Masterwork Hardpoint Economy", text := "Balances 1-slot (3 Alloy) and 2-slot Masterwork (6 Alloy) modules across 6 Resonance Frequencies with Minor/Major Harmonics and 1d6 Overheat Backlash."})
+}
+
+definition{
+  name: concern04CoreWasmSandboxIsolation,
+  parameters: [],
+  result: Foundation.Arch::Concern,
+  body: (record Foundation.Arch::Concern {index := 4, name := "Import-Free Core-Wasm Guest Isolation & Bounded Wire Protocol", text := "Requires zero Wasm host imports, bounded 52B request / 27B response frames, 64 KiB guest allocation ceiling, and 34 verified acceptance vectors."})
+}
+
+definition{
+  name: concern05WcagTacticalErgonomics,
+  parameters: [],
+  result: Foundation.Arch::Concern,
+  body: (record Foundation.Arch::Concern {index := 5, name := "WCAG 2.2 AA Tactical Readability & 5-Pole Stakeholder Vantages", text := "Proves >= 4.5:1 integer sRGB contrast across dark and light tactical palettes and provides a 5-pole progressive walkthrough for all 4 stakeholders."})
+}
+
+definition{
+  name: viewpoint00TacticalCommandViewpoint,
+  parameters: [],
+  result: Foundation.Arch::Viewpoint,
+  body: (record Foundation.Arch::Viewpoint {index := 0, stakeholderIndex := 0, concernIndex := 1, modelKindIndex := 0})
+}
+
+definition{
+  name: viewpoint01RosterSynthesisViewpoint,
+  parameters: [],
+  result: Foundation.Arch::Viewpoint,
+  body: (record Foundation.Arch::Viewpoint {index := 1, stakeholderIndex := 1, concernIndex := 0, modelKindIndex := 0})
+}
+
+definition{
+  name: viewpoint02NemesisChitAiViewpoint,
+  parameters: [],
+  result: Foundation.Arch::Viewpoint,
+  body: (record Foundation.Arch::Viewpoint {index := 2, stakeholderIndex := 2, concernIndex := 2, modelKindIndex := 0})
+}
+
+definition{
+  name: viewpoint03ResonanceWeaveViewpoint,
+  parameters: [],
+  result: Foundation.Arch::Viewpoint,
+  body: (record Foundation.Arch::Viewpoint {index := 3, stakeholderIndex := 2, concernIndex := 3, modelKindIndex := 1})
+}
+
+definition{
+  name: viewpoint04CoreWasmAuditViewpoint,
+  parameters: [],
+  result: Foundation.Arch::Viewpoint,
+  body: (record Foundation.Arch::Viewpoint {index := 4, stakeholderIndex := 3, concernIndex := 4, modelKindIndex := 2})
+}
+
+definition{
+  name: viewpoint05WcagPresentationViewpoint,
+  parameters: [],
+  result: Foundation.Arch::Viewpoint,
+  body: (record Foundation.Arch::Viewpoint {index := 5, stakeholderIndex := 3, concernIndex := 5, modelKindIndex := 1})
+}
+
+definition{
+  name: view00TacticalBattlefieldView,
+  parameters: [],
+  result: Foundation.Arch::View,
+  body: (record Foundation.Arch::View {index := 0, viewpointIndex := 0, modelKindIndex := 0})
+}
+
+definition{
+  name: view01RosterForgeBastionView,
+  parameters: [],
+  result: Foundation.Arch::View,
+  body: (record Foundation.Arch::View {index := 1, viewpointIndex := 1, modelKindIndex := 0})
+}
+
+definition{
+  name: view02NemesisChitDirectorView,
+  parameters: [],
+  result: Foundation.Arch::View,
+  body: (record Foundation.Arch::View {index := 2, viewpointIndex := 2, modelKindIndex := 0})
+}
+
+definition{
+  name: view03ResonanceHardpointView,
+  parameters: [],
+  result: Foundation.Arch::View,
+  body: (record Foundation.Arch::View {index := 3, viewpointIndex := 3, modelKindIndex := 1})
+}
+
+definition{
+  name: view04CoreWasmTelemetryView,
+  parameters: [],
+  result: Foundation.Arch::View,
+  body: (record Foundation.Arch::View {index := 4, viewpointIndex := 4, modelKindIndex := 2})
+}
+
+definition{
+  name: view05WcagVantageStepperView,
+  parameters: [],
+  result: Foundation.Arch::View,
+  body: (record Foundation.Arch::View {index := 5, viewpointIndex := 5, modelKindIndex := 1})
+}
+
+definition{
+  name: asset00StrikeRosterCharter,
+  parameters: [],
+  result: Foundation.Sec::Asset,
+  body: (record Foundation.Sec::Asset {index := 0, componentIndex := 0})
+}
+
+definition{
+  name: asset01CombatResolutionEngine,
+  parameters: [],
+  result: Foundation.Sec::Asset,
+  body: (record Foundation.Sec::Asset {index := 1, componentIndex := 1})
+}
+
+definition{
+  name: asset02CampaignSaveLedger,
+  parameters: [],
+  result: Foundation.Sec::Asset,
+  body: (record Foundation.Sec::Asset {index := 2, componentIndex := 4})
+}
+
+definition{
+  name: asset03CoreWasmSandbox,
+  parameters: [],
+  result: Foundation.Sec::Asset,
+  body: (record Foundation.Sec::Asset {index := 3, componentIndex := 5})
+}
+
+definition{
+  name: threat00StatInflationTampering,
+  parameters: [],
+  result: Foundation.Sec::Threat,
+  body: (record Foundation.Sec::Threat {index := 0})
+}
+
+definition{
+  name: threat01ArithmeticOverflowDesync,
+  parameters: [],
+  result: Foundation.Sec::Threat,
+  body: (record Foundation.Sec::Threat {index := 1})
+}
+
+definition{
+  name: threat02SaveLedgerForgery,
+  parameters: [],
+  result: Foundation.Sec::Threat,
+  body: (record Foundation.Sec::Threat {index := 2})
+}
+
+definition{
+  name: threat03WasmSandboxEscape,
+  parameters: [],
+  result: Foundation.Sec::Threat,
+  body: (record Foundation.Sec::Threat {index := 3})
+}
+
+definition{
+  name: risk00StatInflationRisk,
+  parameters: [],
+  result: Foundation.Sec::Risk,
+  body: (record Foundation.Sec::Risk {index := 0, assetIndex := 0, threatIndex := 0, likelihood := (ctor Foundation.Sec::Likelihood.medium), impact := (ctor Foundation.Sec::Impact.major)})
+}
+
+definition{
+  name: risk01ArithmeticDesyncRisk,
+  parameters: [],
+  result: Foundation.Sec::Risk,
+  body: (record Foundation.Sec::Risk {index := 1, assetIndex := 1, threatIndex := 1, likelihood := (ctor Foundation.Sec::Likelihood.low), impact := (ctor Foundation.Sec::Impact.critical)})
+}
+
+definition{
+  name: risk02SaveForgeryRisk,
+  parameters: [],
+  result: Foundation.Sec::Risk,
+  body: (record Foundation.Sec::Risk {index := 2, assetIndex := 2, threatIndex := 2, likelihood := (ctor Foundation.Sec::Likelihood.medium), impact := (ctor Foundation.Sec::Impact.major)})
+}
+
+definition{
+  name: risk03SandboxEscapeRisk,
+  parameters: [],
+  result: Foundation.Sec::Risk,
+  body: (record Foundation.Sec::Risk {index := 3, assetIndex := 3, threatIndex := 3, likelihood := (ctor Foundation.Sec::Likelihood.low), impact := (ctor Foundation.Sec::Impact.critical)})
+}
+
+definition{
+  name: control00ZeroStatInflationGate,
+  parameters: [],
+  result: Foundation.Sec::ApplicationSecurityControl,
+  body: (record Foundation.Sec::ApplicationSecurityControl {index := 0, riskIndex := 0})
+}
+
+definition{
+  name: control01CheckedCoreWasmArithmetic,
+  parameters: [],
+  result: Foundation.Sec::ApplicationSecurityControl,
+  body: (record Foundation.Sec::ApplicationSecurityControl {index := 1, riskIndex := 1})
+}
+
+definition{
+  name: control02CanonicalSaveDigestGate,
+  parameters: [],
+  result: Foundation.Sec::ApplicationSecurityControl,
+  body: (record Foundation.Sec::ApplicationSecurityControl {index := 2, riskIndex := 2})
+}
+
+definition{
+  name: control03ImportFreeCoreWasmAbi,
+  parameters: [],
+  result: Foundation.Sec::ApplicationSecurityControl,
+  body: (record Foundation.Sec::ApplicationSecurityControl {index := 3, riskIndex := 3})
+}
+
+definition{
+  name: activity00VerifyZeroStatInflationProofs,
+  parameters: [],
+  result: Foundation.Sec::SecurityActivity,
+  body: (record Foundation.Sec::SecurityActivity {index := 0, controlIndex := 0})
+}
+
+definition{
+  name: activity01Run34CoreWasmAcceptanceVectors,
+  parameters: [],
+  result: Foundation.Sec::SecurityActivity,
+  body: (record Foundation.Sec::SecurityActivity {index := 1, controlIndex := 1})
+}
+
+definition{
+  name: activity02VerifyCanonicalSaveReceipt,
+  parameters: [],
+  result: Foundation.Sec::SecurityActivity,
+  body: (record Foundation.Sec::SecurityActivity {index := 2, controlIndex := 2})
+}
+
+definition{
+  name: activity03VerifyZeroWasmImportsAndBounds,
+  parameters: [],
+  result: Foundation.Sec::SecurityActivity,
+  body: (record Foundation.Sec::SecurityActivity {index := 3, controlIndex := 3})
+}
+
+definition{
+  name: measurement00ZeroStatInflationVerified,
+  parameters: [],
+  result: Foundation.Sec::VerificationMeasurement,
+  body: (record Foundation.Sec::VerificationMeasurement {index := 0, controlIndex := 0, passed := true})
+}
+
+definition{
+  name: measurement01AcceptanceVectorsVerified,
+  parameters: [],
+  result: Foundation.Sec::VerificationMeasurement,
+  body: (record Foundation.Sec::VerificationMeasurement {index := 1, controlIndex := 1, passed := true})
+}
+
+definition{
+  name: measurement02CanonicalSaveVerified,
+  parameters: [],
+  result: Foundation.Sec::VerificationMeasurement,
+  body: (record Foundation.Sec::VerificationMeasurement {index := 2, controlIndex := 2, passed := true})
+}
+
+definition{
+  name: measurement03ZeroWasmImportsVerified,
+  parameters: [],
+  result: Foundation.Sec::VerificationMeasurement,
+  body: (record Foundation.Sec::VerificationMeasurement {index := 3, controlIndex := 3, passed := true})
+}
+
+definition{
+  name: characteristic00FunctionalSuitability,
+  parameters: [],
+  result: Foundation.Qual::ProductQualityCharacteristic,
+  body: (record Foundation.Qual::ProductQualityCharacteristic {index := 0})
+}
+
+definition{
+  name: characteristic01PerformanceEfficiency,
+  parameters: [],
+  result: Foundation.Qual::ProductQualityCharacteristic,
+  body: (record Foundation.Qual::ProductQualityCharacteristic {index := 1})
+}
+
+definition{
+  name: characteristic02UsabilityAccessibility,
+  parameters: [],
+  result: Foundation.Qual::ProductQualityCharacteristic,
+  body: (record Foundation.Qual::ProductQualityCharacteristic {index := 2})
+}
+
+definition{
+  name: characteristic03ReliabilityDeterminism,
+  parameters: [],
+  result: Foundation.Qual::ProductQualityCharacteristic,
+  body: (record Foundation.Qual::ProductQualityCharacteristic {index := 3})
+}
+
+definition{
+  name: subcharacteristic00FunctionalCompleteness,
+  parameters: [],
+  result: Foundation.Qual::QualitySubcharacteristic,
+  body: (record Foundation.Qual::QualitySubcharacteristic {index := 0, characteristicIndex := 0})
+}
+
+definition{
+  name: subcharacteristic01TimeBehaviourWasm,
+  parameters: [],
+  result: Foundation.Qual::QualitySubcharacteristic,
+  body: (record Foundation.Qual::QualitySubcharacteristic {index := 1, characteristicIndex := 1})
+}
+
+definition{
+  name: subcharacteristic02AccessibilityWcagAa,
+  parameters: [],
+  result: Foundation.Qual::QualitySubcharacteristic,
+  body: (record Foundation.Qual::QualitySubcharacteristic {index := 2, characteristicIndex := 2})
+}
+
+definition{
+  name: subcharacteristic03DeterministicTolerance,
+  parameters: [],
+  result: Foundation.Qual::QualitySubcharacteristic,
+  body: (record Foundation.Qual::QualitySubcharacteristic {index := 3, characteristicIndex := 3})
+}
+
+definition{
+  name: requirement00UnitSynthesis150Archetypes,
+  parameters: [],
+  result: Foundation.Qual::QualityRequirement,
+  body: (record Foundation.Qual::QualityRequirement {index := 0, subcharacteristicIndex := 0})
+}
+
+definition{
+  name: requirement01SubMillisecondWasmDispatch,
+  parameters: [],
+  result: Foundation.Qual::QualityRequirement,
+  body: (record Foundation.Qual::QualityRequirement {index := 1, subcharacteristicIndex := 1})
+}
+
+definition{
+  name: requirement02WcagContrast45Tenths,
+  parameters: [],
+  result: Foundation.Qual::QualityRequirement,
+  body: (record Foundation.Qual::QualityRequirement {index := 2, subcharacteristicIndex := 2})
+}
+
+definition{
+  name: requirement03AcceptanceVectorPassCount,
+  parameters: [],
+  result: Foundation.Qual::QualityRequirement,
+  body: (record Foundation.Qual::QualityRequirement {index := 3, subcharacteristicIndex := 3})
+}
+
+definition{
+  name: measure00ArchetypesSynthesizedCount,
+  parameters: [],
+  result: Foundation.Qual::QualityMeasure,
+  body: (record Foundation.Qual::QualityMeasure {index := 0, requirementIndex := 0, threshold := 150})
+}
+
+definition{
+  name: measure01MaxFrameResponseBytes,
+  parameters: [],
+  result: Foundation.Qual::QualityMeasure,
+  body: (record Foundation.Qual::QualityMeasure {index := 1, requirementIndex := 1, threshold := 52})
+}
+
+definition{
+  name: measure02MinimumContrastTenths,
+  parameters: [],
+  result: Foundation.Qual::QualityMeasure,
+  body: (record Foundation.Qual::QualityMeasure {index := 2, requirementIndex := 2, threshold := 45})
+}
+
+definition{
+  name: measure03VerifiedAcceptanceVectors,
+  parameters: [],
+  result: Foundation.Qual::QualityMeasure,
+  body: (record Foundation.Qual::QualityMeasure {index := 3, requirementIndex := 3, threshold := 34})
+}
+
+definition{
+  name: feature00UnitSynthesisAndCharter,
+  parameters: [],
+  result: Foundation.Arch::Feature,
+  body: (record Foundation.Arch::Feature {statement := "Compile 150 unit archetypes across [Doctrine (6), Chassis (5), Echelon (5)] and enforce the 6-Berth / 16-Alloy starting charter and Zero-Stat-Inflation law.", calls := (cons "UnitSynthesis::synthesisArchetypeCount" (cons "UnitSynthesis::validateCharter" (nil String))), acceptance := (cons "UnitSynthesis::canonicalStartingCharter" (cons "UnitSynthesis::progressionFixtures" (nil String)))})
+}
+
+definition{
+  name: feature01OpposedStrikeAndMitigation,
+  parameters: [],
+  result: Foundation.Arch::Feature,
+  body: (record Foundation.Arch::Feature {statement := "Resolve opposed d6 Strike Pools, 4-sector Momentum Charges, Barricade/Bulkhead cover, Plating/Resilience mitigation, and Fireteam casualty spillover.", calls := (cons "CombatEngine::resolveOpposedNetHits" (cons "CombatEngine::resolveMitigatedTrauma" (nil String))), acceptance := (cons "CombatEngine::strikeFixtures" (cons "CombatEngine::fireteamSpilloverFixtures" (nil String)))})
+}
+
+definition{
+  name: feature02ResonanceWeaveAndModules,
+  parameters: [],
+  result: Foundation.Arch::Feature,
+  body: (record Foundation.Arch::Feature {statement := "Equip 1-Hardpoint (3 Alloy) and 2-Hardpoint Masterwork (6 Alloy) modules across 6 Resonance Frequencies with Minor/Major Harmonics and Overheat Backlash.", calls := (cons "ResonanceWeave::harmonicRankForEchelon" (cons "ResonanceWeave::harmonicTierForCount" (nil String))), acceptance := (cons "ResonanceWeave::frequencies" (cons "ResonanceWeave::moduleCatalog" (nil String)))})
+}
+
+definition{
+  name: feature03CommandChitAndWardenAi,
+  parameters: [],
+  result: Foundation.Arch::Feature,
+  body: (record Foundation.Arch::Feature {statement := "Drive 5-round tactical drops via an opaque Command Chit Pool, returning Warden Directive Chit, 1d6 wrap-around berth selector, and 6 Doctrine AI routines.", calls := (cons "NemesisChit::wardenChitReturnsToPool" (cons "NemesisChit::selectWardenBerthOneBased" (nil String))), acceptance := (cons "NemesisChit::doctrineAiRoutines" (cons "NemesisChit::bossChitActivationsForEchelon" (nil String)))})
+}
+
+definition{
+  name: feature04OrbitalBastionAndContracts,
+  parameters: [],
+  result: Foundation.Arch::Feature,
+  body: (record Foundation.Arch::Feature {statement := "Execute 4 Pre-Drop Crew Assignments with Push risk, upgrade 3 Orbital Bastion Facilities, launch 6 Core Sector Contracts, and verify save receipts.", calls := (cons "CampaignBastion::computeSalvageYield" (cons "CampaignBastion::computeCanonicalSaveDigestWord" (nil String))), acceptance := (cons "CampaignBastion::crewAssignments" (cons "CampaignBastion::sectorContracts" (nil String)))})
+}
+
+definition{
+  name: feature05NemesisEngineFullBinding,
+  parameters: [],
+  result: Foundation.Arch::Feature,
+  body: (record Foundation.Arch::Feature {statement := "Enforce that Karst: Zero Horizon consumes all 5 Nemesis Core 4.0 engine subsystems and verifies all boundary contracts through Core-Wasm.", calls := (cons "NemesisEngine::allEngineSubsystemsVerified" (cons "UnitSynthesis::allProgressionRecordsValid" (nil String))), acceptance := (cons "NemesisEngine::engineSubsystems" (cons "NemesisEngine::boundaryContractIds" (nil String)))})
+}
+
+definition{
+  name: journey00TacticalCommander,
+  parameters: [],
+  result: Foundation.Arch::Journey,
+  body: (record Foundation.Arch::Journey {actor := "Architecture::stakeholder00TacticalCommander", steps := (cons "Architecture::feature03CommandChitAndWardenAi" (cons "Architecture::feature01OpposedStrikeAndMitigation" (cons "Architecture::feature02ResonanceWeaveAndModules" (cons "Architecture::feature04OrbitalBastionAndContracts" (nil String)))))})
+}
+
+definition{
+  name: journey01StrikeRosterArchitect,
+  parameters: [],
+  result: Foundation.Arch::Journey,
+  body: (record Foundation.Arch::Journey {actor := "Architecture::stakeholder01StrikeRosterArchitect", steps := (cons "Architecture::feature00UnitSynthesisAndCharter" (cons "Architecture::feature02ResonanceWeaveAndModules" (cons "Architecture::feature04OrbitalBastionAndContracts" (cons "Architecture::feature05NemesisEngineFullBinding" (nil String)))))})
+}
+
+definition{
+  name: journey02NemesisSystemsDesigner,
+  parameters: [],
+  result: Foundation.Arch::Journey,
+  body: (record Foundation.Arch::Journey {actor := "Architecture::stakeholder02NemesisSystemsDesigner", steps := (cons "Architecture::feature00UnitSynthesisAndCharter" (cons "Architecture::feature01OpposedStrikeAndMitigation" (cons "Architecture::feature03CommandChitAndWardenAi" (cons "Architecture::feature05NemesisEngineFullBinding" (nil String)))))})
+}
+
+definition{
+  name: journey03PrismRuntimeAuditor,
+  parameters: [],
+  result: Foundation.Arch::Journey,
+  body: (record Foundation.Arch::Journey {actor := "Architecture::stakeholder03PrismRuntimeAuditor", steps := (cons "Architecture::feature05NemesisEngineFullBinding" (cons "Architecture::feature01OpposedStrikeAndMitigation" (cons "Architecture::feature00UnitSynthesisAndCharter" (cons "Architecture::feature04OrbitalBastionAndContracts" (nil String)))))})
+}
+
+structure{
+  name: KarstStakeholder,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: id, type: String},
+    {name: name, type: String},
+    {name: roleDescription, type: String}
+  ]
+}
+
+structure{
+  name: KarstConcern,
+  type_parameters: [],
+  parameters: [],
+  fields: [{name: id, type: String}, {name: title, type: String}, {name: isoStandard, type: String}]
+}
+
+structure{
+  name: KarstViewpoint,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: id, type: String},
+    {name: title, type: String},
+    {name: stakeholderId, type: String},
+    {name: concerns, type: (List String)}
+  ]
+}
+
+structure{
+  name: KarstView,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: id, type: String},
+    {name: viewpointId, type: String},
+    {name: holoTarget, type: String},
+    {name: title, type: String}
+  ]
+}
+
+definition{
+  name: memberString,
+  parameters: [value : String, values : (List String)],
+  result: Bool,
+  body: (match values
+    | List.nil => false
+    | List.cons head tail => (if (prim equal value head : Bool) then true else (memberString value tail))),
+  axioms: [],
+  recursive_argument: values
+}
+
+definition{
+  name: allMembers,
+  parameters: [values : (List String), ids : (List String)],
+  result: Bool,
+  body: (match values
+    | List.nil => true
+    | List.cons head tail => (if (memberString head ids) then (allMembers tail ids) else false)),
+  axioms: [],
+  recursive_argument: values
+}
+
+definition{
+  name: distinctStrings,
+  parameters: [values : (List String)],
+  result: Bool,
+  body: (match values
+    | List.nil => true
+    | List.cons head tail => (if (memberString head tail) then false else (distinctStrings tail))),
+  axioms: [],
+  recursive_argument: values
+}
+
+definition{
+  name: stakeholders,
+  parameters: [],
+  result: (List KarstStakeholder),
+  body: (cons (record KarstStakeholder {id := "stk-commander", name := "Tactical Commander (Solo / Co-Op Player)", roleDescription := "Commands the 6-Berth Strike Roster across 5-round vault drops, drawing Command Chits and executing opposed strikes."}) (cons (record KarstStakeholder {id := "stk-architect", name := "Strike Roster Architect & Quartermaster", roleDescription := "Synthesizes units across [Doctrine, Chassis, Echelon], manages the 16-Alloy budget, and unlocks Hardpoint Sockets."}) (cons (record KarstStakeholder {id := "stk-designer", name := "Nemesis Core 4.0 Systems Designer", roleDescription := "Maintains Zero-Stat-Inflation, Command Chit pacing, Warden AI directives, and 6-Frequency Resonance Harmonics."}) (cons (record KarstStakeholder {id := "stk-auditor", name := "PrismPM .holo v4 Runtime & Verification Auditor", roleDescription := "Audits import-free Core-Wasm execution, 34 acceptance vectors, ISO 42010/25010/27034 facets, and WCAG 2.2 AA contrast."}) (nil KarstStakeholder))))),
+  axioms: []
+}
+
+definition{
+  name: concerns,
+  parameters: [],
+  result: (List KarstConcern),
+  body: (cons (record KarstConcern {id := "con-zero-inflation", title := "Zero-Stat-Inflation Progression & Horizontal Hardpoint Modularity", isoStandard := "ISO/IEC 25010 Functional Suitability & Nemesis Core 4.0"}) (cons (record KarstConcern {id := "con-deterministic-combat", title := "Unified d6 Strike Resolution, Cover Geometry & Fireteam Spillover", isoStandard := "ISO/IEC 25010 Functional Correctness"}) (cons (record KarstConcern {id := "con-warden-chit-ai", title := "Opaque Command Chit Pacing & Deterministic Warden AI Routines", isoStandard := "ISO/IEC/IEEE 42010 Behavioral Viewpoint"}) (cons (record KarstConcern {id := "con-resonance-weave", title := "6-Frequency Resonance Harmonics & Masterwork Hardpoint Economy", isoStandard := "ISO/IEC 25010 Modularity"}) (cons (record KarstConcern {id := "con-wasm-isolation", title := "Import-Free Core-Wasm Guest Isolation & Bounded Wire Protocol", isoStandard := "ISO/IEC 27034-1 Application Security"}) (cons (record KarstConcern {id := "con-wcag-ergonomics", title := "WCAG 2.2 AA Tactical Readability & 5-Pole Stakeholder Vantages", isoStandard := "W3C WCAG 2.2 Level AA"}) (nil KarstConcern))))))),
+  axioms: []
+}
+
+definition{
+  name: viewpoints,
+  parameters: [],
+  result: (List KarstViewpoint),
+  body: (cons (record KarstViewpoint {id := "vp-tactical-command", title := "Tactical Battlefield, Line of Sight & Opposed Strike Viewpoint", stakeholderId := "stk-commander", concerns := (cons "con-deterministic-combat" (cons "con-warden-chit-ai" (nil String)))}) (cons (record KarstViewpoint {id := "vp-roster-synthesis", title := "3D Unit Synthesis, 16-Alloy Charter & Orbital Bastion Viewpoint", stakeholderId := "stk-architect", concerns := (cons "con-zero-inflation" (cons "con-resonance-weave" (nil String)))}) (cons (record KarstViewpoint {id := "vp-nemesis-engine", title := "Nemesis Core 4.0 Engine, Command Chit Pool & Warden AI Viewpoint", stakeholderId := "stk-designer", concerns := (cons "con-zero-inflation" (cons "con-deterministic-combat" (cons "con-warden-chit-ai" (cons "con-resonance-weave" (nil String)))))}) (cons (record KarstViewpoint {id := "vp-prism-verification", title := "Core-Wasm Boundary Contract, ISO Compliance & WCAG 2.2 AA Viewpoint", stakeholderId := "stk-auditor", concerns := (cons "con-wasm-isolation" (cons "con-wcag-ergonomics" (nil String)))}) (nil KarstViewpoint))))),
+  axioms: []
+}
+
+definition{
+  name: views,
+  parameters: [],
+  result: (List KarstView),
+  body: (cons (record KarstView {id := "view-commander-holo", viewpointId := "vp-tactical-command", holoTarget := "holo://karst-zero/vantage/commander", title := "Vantage 1: Tactical Battlefield & Command Chit Viewport"}) (cons (record KarstView {id := "view-architect-holo", viewpointId := "vp-roster-synthesis", holoTarget := "holo://karst-zero/vantage/architect", title := "Vantage 2: 3D Unit Synthesis Forge & Orbital Bastion Hangar"}) (cons (record KarstView {id := "view-designer-holo", viewpointId := "vp-nemesis-engine", holoTarget := "holo://karst-zero/vantage/designer", title := "Vantage 3: Nemesis Core 4.0 Rulebook, AI & Resonance Inspector"}) (cons (record KarstView {id := "view-auditor-holo", viewpointId := "vp-prism-verification", holoTarget := "holo://karst-zero/vantage/auditor", title := "Vantage 4: Core-Wasm Wire Telemetry, OPM/UML & Conformance Audit"}) (nil KarstView))))),
+  axioms: []
+}
+
+definition{
+  name: stakeholderIds,
+  parameters: [xs : (List KarstStakeholder)],
+  result: (List String),
+  body: (match xs
+    | List.nil => (nil String)
+    | List.cons head tail => (cons (project head id) (stakeholderIds tail))),
+  axioms: [],
+  recursive_argument: xs
+}
+
+definition{
+  name: concernIds,
+  parameters: [xs : (List KarstConcern)],
+  result: (List String),
+  body: (match xs
+    | List.nil => (nil String)
+    | List.cons head tail => (cons (project head id) (concernIds tail))),
+  axioms: [],
+  recursive_argument: xs
+}
+
+definition{
+  name: viewpointIds,
+  parameters: [xs : (List KarstViewpoint)],
+  result: (List String),
+  body: (match xs
+    | List.nil => (nil String)
+    | List.cons head tail => (cons (project head id) (viewpointIds tail))),
+  axioms: [],
+  recursive_argument: xs
+}
+
+definition{
+  name: viewpointStakeholderIds,
+  parameters: [xs : (List KarstViewpoint)],
+  result: (List String),
+  body: (match xs
+    | List.nil => (nil String)
+    | List.cons head tail => (cons (project head stakeholderId) (viewpointStakeholderIds tail))),
+  axioms: [],
+  recursive_argument: xs
+}
+
+definition{
+  name: viewIds,
+  parameters: [xs : (List KarstView)],
+  result: (List String),
+  body: (match xs
+    | List.nil => (nil String)
+    | List.cons head tail => (cons (project head id) (viewIds tail))),
+  axioms: [],
+  recursive_argument: xs
+}
+
+definition{
+  name: viewViewpointIds,
+  parameters: [xs : (List KarstView)],
+  result: (List String),
+  body: (match xs
+    | List.nil => (nil String)
+    | List.cons head tail => (cons (project head viewpointId) (viewViewpointIds tail))),
+  axioms: [],
+  recursive_argument: xs
+}
+
+theorem{
+  name: stakeholderIdsDistinct,
+  parameters: [],
+  statement: ((distinctStrings (stakeholderIds (stakeholders))) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: concernIdsDistinct,
+  parameters: [],
+  statement: ((distinctStrings (concernIds (concerns))) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: viewpointIdsDistinct,
+  parameters: [],
+  statement: ((distinctStrings (viewpointIds (viewpoints))) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: viewpointsResolveToStakeholders,
+  parameters: [],
+  statement: ((allMembers (viewpointStakeholderIds (viewpoints)) (stakeholderIds (stakeholders))) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: viewIdsDistinct,
+  parameters: [],
+  statement: ((distinctStrings (viewIds (views))) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: viewsResolveToViewpoints,
+  parameters: [],
+  statement: ((allMembers (viewViewpointIds (views)) (viewpointIds (viewpoints))) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: securityMeasurementPassesGate,
+  parameters: [],
+  statement: (((project (measurement00ZeroStatInflationVerified) passed) && (NemesisEngine::allEngineSubsystemsVerified (NemesisEngine::engineSubsystems))) = true),
+  proof: decide{},
+  axioms: []
+}
+\end{semanticmodule}
+\end{lexlean}

@@ -1,0 +1,101 @@
+\begin{lexlean}{Main}
+\useglossary{lexlean.std.bool@1.2.0}
+\useglossary{lexlean.std.nat@1.2.0}
+\importmodule{Application}
+\importmodule{Architecture}
+\importmodule{CampaignBastion}
+\importmodule{CombatEngine}
+\importmodule{Contract}
+\importmodule{Design}
+\importmodule{NemesisChit}
+\importmodule{NemesisEngine}
+\importmodule{Presentation}
+\importmodule{ResonanceWeave}
+\importmodule{Standards}
+\importmodule{UnitSynthesis}
+\title{Boolean}
+\begin{semanticmodule}
+structure{
+  name: KarstZeroReleaseProfile,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: id, type: String},
+    {name: engineName, type: String},
+    {name: lexleanVersion, type: String},
+    {name: languageVersion, type: String},
+    {name: leanToolchain, type: String},
+    {name: prismReleaseSchema, type: String},
+    {name: holoContainerMagic, type: String},
+    {name: coreWasmContract, type: String},
+    {name: doctrinesCount, type: Nat},
+    {name: chassisCount, type: Nat},
+    {name: echelonsCount, type: Nat},
+    {name: synthesizedArchetypesCount, type: Nat},
+    {name: resonanceFrequenciesCount, type: Nat},
+    {name: hardpointModulesCount, type: Nat},
+    {name: doctrineAiRoutinesCount, type: Nat},
+    {name: crewAssignmentsCount, type: Nat},
+    {name: bastionFacilitiesCount, type: Nat},
+    {name: sectorContractsCount, type: Nat},
+    {name: nemesisSubsystemsCount, type: Nat},
+    {name: normativeStandardsCount, type: Nat},
+    {name: zeroStatInflationVerified, type: Bool},
+    {name: startingCharterVerified, type: Bool},
+    {name: opposedStrikeFixturesVerified, type: Bool},
+    {name: fireteamSpilloverVerified, type: Bool},
+    {name: hardpointPricingVerified, type: Bool},
+    {name: fullNemesisEngineConsumed, type: Bool},
+    {name: wcagContrastVerified, type: Bool}
+  ]
+}
+
+definition{
+  name: releaseProfile,
+  parameters: [],
+  result: KarstZeroReleaseProfile,
+  body: (record KarstZeroReleaseProfile {id := "karst-zero-horizon-v0.4", engineName := "Nemesis Core 4.0", lexleanVersion := "0.4.0", languageVersion := "1.2", leanToolchain := "leanprover/lean4:v4.32.1", prismReleaseSchema := "prismpm/product-release/1", holoContainerMagic := "HOLO-v4.0", coreWasmContract := "hologram:guest/core-wasm@1", doctrinesCount := (prim length (UnitSynthesis::doctrines) : Nat), chassisCount := (prim length (UnitSynthesis::chassisList) : Nat), echelonsCount := (prim length (UnitSynthesis::echelons) : Nat), synthesizedArchetypesCount := (UnitSynthesis::synthesisArchetypeCount), resonanceFrequenciesCount := (prim length (ResonanceWeave::frequencies) : Nat), hardpointModulesCount := (prim length (ResonanceWeave::moduleCatalog) : Nat), doctrineAiRoutinesCount := (prim length (NemesisChit::doctrineAiRoutines) : Nat), crewAssignmentsCount := (prim length (CampaignBastion::crewAssignments) : Nat), bastionFacilitiesCount := (prim length (CampaignBastion::bastionFacilities) : Nat), sectorContractsCount := (prim length (CampaignBastion::sectorContracts) : Nat), nemesisSubsystemsCount := (prim length (NemesisEngine::engineSubsystems) : Nat), normativeStandardsCount := (prim length (Standards::standards) : Nat), zeroStatInflationVerified := (UnitSynthesis::allProgressionRecordsValid (UnitSynthesis::progressionFixtures)), startingCharterVerified := (UnitSynthesis::validateCharter (UnitSynthesis::canonicalStartingCharter)), opposedStrikeFixturesVerified := (CombatEngine::allStrikeFixturesPass (CombatEngine::strikeFixtures)), fireteamSpilloverVerified := (CombatEngine::allFireteamFixturesHold (CombatEngine::fireteamSpilloverFixtures)), hardpointPricingVerified := (ResonanceWeave::allModulesCorrectlyPriced (ResonanceWeave::moduleCatalog)), fullNemesisEngineConsumed := (NemesisEngine::allEngineSubsystemsVerified (NemesisEngine::engineSubsystems)), wcagContrastVerified := ((Presentation::pairsMeetContrast (Presentation::contrastPairs) "light" (Presentation::designTokens)) && (Presentation::pairsMeetContrast (Presentation::contrastPairs) "dark" (Presentation::designTokens)))}),
+  axioms: []
+}
+
+theorem{
+  name: releaseSynthesizes150Archetypes,
+  parameters: [],
+  statement: (((project (releaseProfile) synthesizedArchetypesCount) =? 150) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: releaseZeroStatInflationAndCharterVerified,
+  parameters: [],
+  statement: (((project (releaseProfile) zeroStatInflationVerified) && (project (releaseProfile) startingCharterVerified)) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: releaseCombatAndFireteamVerified,
+  parameters: [],
+  statement: (((project (releaseProfile) opposedStrikeFixturesVerified) && (project (releaseProfile) fireteamSpilloverVerified)) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: releaseFullNemesisCore4Consumed,
+  parameters: [],
+  statement: (((project (releaseProfile) fullNemesisEngineConsumed) && ((project (releaseProfile) nemesisSubsystemsCount) =? 5)) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: releaseWcagAndStandardsVerified,
+  parameters: [],
+  statement: (((project (releaseProfile) wcagContrastVerified) && ((project (releaseProfile) normativeStandardsCount) =? 6)) = true),
+  proof: decide{},
+  axioms: []
+}
+\end{semanticmodule}
+\end{lexlean}

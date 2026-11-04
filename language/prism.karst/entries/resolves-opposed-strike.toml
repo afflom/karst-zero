@@ -1,0 +1,21 @@
+spec = "lexlean/entry/1"
+id = "resolves-opposed-strike"
+category = "function"
+signature = "(pi ((explicit k (const lexlean.std.nat::nat))) (sort prop))"
+surface_arity = 1
+frame = "call"
+
+[denotation]
+kind = "lean"
+module = "KarstZero.CombatEngine"
+name = "KarstZero.CombatEngine.resolvesOpposedStrike"
+
+[[form]]
+id = "resolves-opposed-strike"
+channel = "math"
+surface = "resolvesOpposedStrike"
+canonical_source = true
+features = []
+
+[render]
+math = "(seq (operator-name resolvesOpposedStrike) (paren (seq (slot 0))))"

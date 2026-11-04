@@ -1,0 +1,15 @@
+@startuml
+' UML 2.5.1 state machine diagram
+' view: Design::viewCampaignTurnStateUml
+' viewpoint: Architecture::viewpoint01RosterSynthesisViewpoint
+title Campaign Quartermaster UML 2.5.1 State Machine: Orbital Bastion -> Pre-Drop Recon -> 5-Round Vault Drop -> Extraction Settlement
+state "stateBastionDocked" as s0
+state "stateExtractionSettled" as s1
+state "statePreDropReconReady" as s2
+state "stateVaultDropActive" as s3
+[*] --> s0
+s0 --> s2 : processExecuteBastionPreDrop
+s2 --> s3 : processExecuteBastionPreDrop
+s3 --> s1 : processSettleCampaignExtraction
+s1 --> s0 : processSettleCampaignExtraction
+@enduml

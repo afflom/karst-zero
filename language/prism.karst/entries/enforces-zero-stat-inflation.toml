@@ -1,0 +1,21 @@
+spec = "lexlean/entry/1"
+id = "enforces-zero-stat-inflation"
+category = "function"
+signature = "(pi ((explicit s (const lexlean.std.nat::nat))) (sort prop))"
+surface_arity = 1
+frame = "call"
+
+[denotation]
+kind = "lean"
+module = "KarstZero.UnitSynthesis"
+name = "KarstZero.UnitSynthesis.enforcesZeroStatInflation"
+
+[[form]]
+id = "enforces-zero-stat-inflation"
+channel = "math"
+surface = "enforcesZeroStatInflation"
+canonical_source = true
+features = []
+
+[render]
+math = "(seq (operator-name enforcesZeroStatInflation) (paren (seq (slot 0))))"

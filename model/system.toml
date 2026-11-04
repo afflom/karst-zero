@@ -1,0 +1,41 @@
+# System Component, Edge, Feature, and Journey Register
+# Synchronized with `src/Architecture.lex.tex` and `.prism/build/<digest>/model.prism.json`.
+
+spec = "prismpm/system/1"
+module = "Architecture"
+
+[[component]]
+index = 0
+id = "Architecture::component00UnitSynthesisCompiler"
+name = "Nemesis Core 4.0 3D Unit Synthesis & Hardpoint Compiler"
+module = "UnitSynthesis"
+
+[[component]]
+index = 1
+id = "Architecture::component01StrikePoolResolver"
+name = "Nemesis Core 4.0 Opposed d6 Strike Pool, Cover & Subsystem Rupture Resolver"
+module = "CombatEngine"
+
+[[component]]
+index = 2
+id = "Architecture::component02CommandChitDirector"
+name = "Nemesis Core 4.0 5-Round Opaque Command Chit & Doctrine AI Director"
+module = "NemesisChit"
+
+[[component]]
+index = 3
+id = "Architecture::component03ResonanceWeaveEngine"
+name = "Nemesis Core 4.0 6-Frequency Resonance Weave & Hardpoint Ordnance Engine"
+module = "ResonanceWeave"
+
+[[component]]
+index = 4
+id = "Architecture::component04OrbitalBastionLedger"
+name = "Nemesis Core 4.0 Orbital Bastion Campaign, Pre-Drop & Extraction Ledger"
+module = "CampaignBastion"
+
+[[component]]
+index = 5
+id = "Architecture::component05CoreWasmArithmeticGuest"
+name = "Karst hologram:guest/core-wasm@1 Deterministic Guest & Full Engine Bridge"
+module = "NemesisEngine"

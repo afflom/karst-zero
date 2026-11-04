@@ -1,0 +1,15 @@
+[package]
+name = "karst-kernel"
+description = "Agency-free, #![no_std] certified Rust realization of the Karst: Zero Horizon & Nemesis Core 4.0 LexLean v0.4 kernel"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+homepage.workspace = true
+authors.workspace = true
+keywords.workspace = true
+categories.workspace = true
+
+[lints]
+workspace = true

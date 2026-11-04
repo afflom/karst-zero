@@ -1,0 +1,209 @@
+\begin{lexlean}{Contract}
+\useglossary{lexlean.std.bool@1.2.0}
+\useglossary{lexlean.std.nat@1.2.0}
+\useglossary{prism.arch@1.0.0}
+\importmodule{Foundation.Bytes}
+\title{Text application model}
+\begin{semanticmodule}
+structure{
+  name: ContractTextView,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: title, type: String},
+    {name: heading, type: String},
+    {name: inputLabel, type: String},
+    {name: submitLabel, type: String},
+    {name: outputLabel, type: String},
+    {name: inputError, type: String},
+    {name: responseError, type: String}
+  ]
+}
+
+structure{
+  name: ContractAcceptanceVector,
+  type_parameters: [],
+  parameters: [],
+  fields: [{name: request, type: Bytes}, {name: response, type: Bytes}]
+}
+
+structure{
+  name: ContractManifest,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: profile, type: String},
+    {name: name, type: String},
+    {name: cargoName, type: String},
+    {name: cargoVersion, type: String},
+    {name: cargoDescription, type: String},
+    {name: cargoRepository, type: String},
+    {name: cargoHomepage, type: String},
+    {name: libraryRoots, type: (List String)},
+    {name: acceptanceVectors, type: (List ContractAcceptanceVector)},
+    {name: entryRoot, type: String},
+    {name: coreContract, type: String},
+    {name: requestMaximum, type: UInt32},
+    {name: responseMaximum, type: UInt32},
+    {name: guestAllocationMaximum, type: UInt32},
+    {name: capabilitiesEmpty, type: Bool},
+    {name: fatArchive, type: Bool},
+    {name: primaryLayer, type: UInt8},
+    {name: viewLayer, type: UInt8},
+    {name: view, type: ContractTextView}
+  ]
+}
+
+structure{
+  name: Digest,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: w0, type: Nat},
+    {name: w1, type: Nat},
+    {name: w2, type: Nat},
+    {name: w3, type: Nat}
+  ]
+}
+
+structure{
+  name: Pin,
+  type_parameters: [],
+  parameters: [],
+  fields: [{name: expected, type: Digest}, {name: observed, type: Digest}]
+}
+
+structure{
+  name: Observation,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: devcontainer, type: Pin},
+    {name: bootstrap, type: Pin},
+    {name: agents, type: Pin},
+    {name: verification, type: Pin},
+    {name: prismpmLock, type: Pin},
+    {name: templateContract, type: Pin}
+  ]
+}
+
+definition{
+  name: sameDigest,
+  parameters: [left : Digest, right : Digest],
+  result: Bool,
+  body: (((project left w0) =? (project right w0)) && (((project left w1) =? (project right w1)) && (((project left w2) =? (project right w2)) && ((project left w3) =? (project right w3)))))
+}
+
+definition{
+  name: SameDigest,
+  parameters: [left : Digest, right : Digest],
+  result: Prop,
+  body: (((project left w0) = (project right w0)) /\ (((project left w1) = (project right w1)) /\ (((project left w2) = (project right w2)) /\ ((project left w3) = (project right w3)))))
+}
+
+definition{
+  name: pinMatches,
+  parameters: [pin : Pin],
+  result: Bool,
+  body: (sameDigest (project pin expected) (project pin observed))
+}
+
+definition{
+  name: conformant,
+  parameters: [observation : Observation],
+  result: Bool,
+  body: ((pinMatches (project observation devcontainer)) && ((pinMatches (project observation bootstrap)) && ((pinMatches (project observation agents)) && ((pinMatches (project observation verification)) && ((pinMatches (project observation prismpmLock)) && (pinMatches (project observation templateContract)))))))
+}
+
+definition{
+  name: Conformant,
+  parameters: [observation : Observation],
+  result: Prop,
+  body: ((SameDigest (project (project observation devcontainer) expected) (project (project observation devcontainer) observed)) /\ ((SameDigest (project (project observation bootstrap) expected) (project (project observation bootstrap) observed)) /\ ((SameDigest (project (project observation agents) expected) (project (project observation agents) observed)) /\ ((SameDigest (project (project observation verification) expected) (project (project observation verification) observed)) /\ ((SameDigest (project (project observation prismpmLock) expected) (project (project observation prismpmLock) observed)) /\ (SameDigest (project (project observation templateContract) expected) (project (project observation templateContract) observed)))))))
+}
+
+theorem{
+  name: conformant_decides,
+  parameters: [observation : Observation],
+  statement: (((conformant observation) = true) <-> (Conformant observation)),
+  proof: simplify{
+    definitions: [
+      Bool.and_eq_true,
+      Conformant,
+      Nat.beq_eq,
+      SameDigest,
+      conformant,
+      pinMatches,
+      sameDigest
+    ]
+  },
+  axioms: [propext]
+}
+
+definition{
+  name: digestFrom,
+  parameters: [value : Bytes, offset : Nat, remaining : Nat, accumulated : Nat],
+  result: Nat,
+  body: (match remaining
+    | Nat.zero => accumulated
+    | Nat.succ rest => (match (Foundation.Bytes::byteAt value offset)
+      | Option.none => accumulated
+      | Option.some byte => (digestFrom value (offset + 1) rest ((prim multiply accumulated 256 : Nat) + (prim to_nat byte : Nat))))),
+  axioms: [Quot.sound, propext],
+  recursive_argument: remaining
+}
+
+definition{
+  name: digestAt,
+  parameters: [value : Bytes, offset : Nat],
+  result: Digest,
+  body: (record Digest {w0 := (digestFrom value offset 8 0), w1 := (digestFrom value (offset + 8) 8 0), w2 := (digestFrom value (offset + 16) 8 0), w3 := (digestFrom value (offset + 24) 8 0)}),
+  axioms: [Quot.sound, propext]
+}
+
+definition{
+  name: pinAt,
+  parameters: [value : Bytes, offset : Nat],
+  result: Pin,
+  body: (record Pin {expected := (digestAt value offset), observed := (digestAt value (offset + 32))}),
+  axioms: [Quot.sound, propext]
+}
+
+definition{
+  name: observe,
+  parameters: [value : Bytes],
+  result: Observation,
+  body: (record Observation {devcontainer := (pinAt value 0), bootstrap := (pinAt value 64), agents := (pinAt value 128), verification := (pinAt value 192), prismpmLock := (pinAt value 256), templateContract := (pinAt value 320)}),
+  axioms: [Quot.sound, propext]
+}
+
+definition{
+  name: driftEntry,
+  parameters: [pin : Pin, path : Bytes],
+  result: Bytes,
+  body: (if (pinMatches pin) then 0x else path)
+}
+
+definition{
+  name: drifted,
+  parameters: [observation : Observation],
+  result: Bytes,
+  body: (prim append (driftEntry (project observation devcontainer) (prim utf8_encode " .devcontainer/devcontainer.json" : Bytes)) (prim append (driftEntry (project observation bootstrap) (prim utf8_encode " .github/workflows/bootstrap.yml" : Bytes)) (prim append (driftEntry (project observation agents) (prim utf8_encode " AGENTS.md" : Bytes)) (prim append (driftEntry (project observation verification) (prim utf8_encode " VERIFICATION.md" : Bytes)) (prim append (driftEntry (project observation prismpmLock) (prim utf8_encode " prismpm.lock" : Bytes)) (driftEntry (project observation templateContract) (prim utf8_encode " template-contract.json" : Bytes)) : Bytes) : Bytes) : Bytes) : Bytes) : Bytes)
+}
+
+definition{
+  name: dispatch,
+  parameters: [value : Bytes],
+  result: Bytes,
+  body: (if ((Foundation.Bytes::byteLength value) =? 384) then (if (conformant (observe value)) then (prim utf8_encode "conformant" : Bytes) else (prim append (prim utf8_encode "drift:" : Bytes) (drifted (observe value)) : Bytes)) else (prim utf8_encode "invalid request" : Bytes)),
+  axioms: [Quot.sound, propext]
+}
+
+definition{
+  name: application,
+  parameters: [],
+  result: ContractManifest,
+  body: (record ContractManifest {profile := "prismpm/text-application/1", name := "Template contract", cargoName := "prism-template-contract", cargoVersion := "0.1.0", cargoDescription := "Checks each universal policy file of a UOR template repository against its locked digest.", cargoRepository := "https://github.com/UOR-Foundation/template", cargoHomepage := "https://github.com/UOR-Foundation/template", libraryRoots := (cons "KarstZero.Contract.dispatch" (nil String)), acceptanceVectors := (cons (record ContractAcceptanceVector {request := 0x, response := 0x696e76616c69642072657175657374}) (nil ContractAcceptanceVector)), entryRoot := "KarstZero.Contract.dispatch", coreContract := "hologram:guest/core-wasm@1", requestMaximum := (384 : UInt32), responseMaximum := (256 : UInt32), guestAllocationMaximum := (512 : UInt32), capabilitiesEmpty := true, fatArchive := true, primaryLayer := (0 : UInt8), viewLayer := (1 : UInt8), view := (record ContractTextView {title := "Template contract", heading := "Template contract", inputLabel := "Expected and observed digests", submitLabel := "Check", outputLabel := "Verdict", inputError := "Invalid request", responseError := "Invalid response"})})
+}
+\end{semanticmodule}
+\end{lexlean}

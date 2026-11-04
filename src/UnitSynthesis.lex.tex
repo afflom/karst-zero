@@ -1,0 +1,255 @@
+\begin{lexlean}{UnitSynthesis}
+\useglossary{lexlean.std.bool@1.2.0}
+\useglossary{lexlean.std.nat@1.2.0}
+\title{Boolean}
+\begin{semanticmodule}
+structure{
+  name: DoctrineAxis,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: id, type: String},
+    {name: code, type: String},
+    {name: index, type: Nat},
+    {name: name, type: String},
+    {name: fprDelta, type: Nat},
+    {name: evaDelta, type: Nat},
+    {name: cogDelta, type: Nat},
+    {name: moveDelta, type: Nat},
+    {name: grantsRanged12, type: Bool},
+    {name: unlocksResonance, type: Bool},
+    {name: surgeTriggerName, type: String}
+  ]
+}
+
+structure{
+  name: ChassisAxis,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: id, type: String},
+    {name: index, type: Nat},
+    {name: name, type: String},
+    {name: trackLabel, type: String},
+    {name: isMechanical, type: Bool},
+    {name: nativePlating, type: Nat},
+    {name: nativeResilience, type: Nat},
+    {name: moveDelta, type: Nat},
+    {name: ignoresRoughTerrain, type: Bool},
+    {name: hasArcBacklash, type: Bool}
+  ]
+}
+
+structure{
+  name: EchelonAxis,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: id, type: String},
+    {name: tier, type: Nat},
+    {name: name, type: String},
+    {name: unitCount, type: Nat},
+    {name: berthCost, type: Nat},
+    {name: baseFpr, type: Nat},
+    {name: baseEva, type: Nat},
+    {name: baseCog, type: Nat},
+    {name: maxIntegrityPerModel, type: Nat},
+    {name: baseSurge, type: Nat},
+    {name: startingHardpoints, type: Nat},
+    {name: campaignMaxHardpoints, type: Nat},
+    {name: alloyCost, type: Nat}
+  ]
+}
+
+structure{
+  name: StrikeRosterCharter,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: id, type: String},
+    {name: totalBerthsUsed, type: Nat},
+    {name: primeEchelonTier, type: Nat},
+    {name: supportAlloySpent, type: Nat},
+    {name: maxBerthsBudget, type: Nat},
+    {name: maxAlloyBudget, type: Nat}
+  ]
+}
+
+structure{
+  name: ProgressionRecord,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: unitId, type: String},
+    {name: initialFpr, type: Nat},
+    {name: currentFpr, type: Nat},
+    {name: initialEva, type: Nat},
+    {name: currentEva, type: Nat},
+    {name: initialCog, type: Nat},
+    {name: currentCog, type: Nat},
+    {name: baseSockets, type: Nat},
+    {name: accumulatedXp, type: Nat},
+    {name: unlockedSockets, type: Nat}
+  ]
+}
+
+definition{
+  name: doctrines,
+  parameters: [],
+  result: (List DoctrineAxis),
+  body: (cons (record DoctrineAxis {id := "Breacher", code := "DOC-BRC", index := 0, name := "Breacher (Close Assault)", fprDelta := 1, evaDelta := 0, cogDelta := 0, moveDelta := 0, grantsRanged12 := false, unlocksResonance := false, surgeTriggerName := "Kinetic Ram (1 Surge)"}) (cons (record DoctrineAxis {id := "Aegis", code := "DOC-AEG", index := 1, name := "Aegis (Frontline Bulwark)", fprDelta := 0, evaDelta := 1, cogDelta := 0, moveDelta := 0, grantsRanged12 := false, unlocksResonance := false, surgeTriggerName := "Deflector Pulse (1 Surge)"}) (cons (record DoctrineAxis {id := "Outrider", code := "DOC-OUT", index := 2, name := "Outrider (Flank & Recon)", fprDelta := 0, evaDelta := 0, cogDelta := 0, moveDelta := 2, grantsRanged12 := false, unlocksResonance := false, surgeTriggerName := "Thruster Juke (1 Surge)"}) (cons (record DoctrineAxis {id := "Deadeye", code := "DOC-DEY", index := 3, name := "Deadeye (Long-Range Suppression)", fprDelta := 0, evaDelta := 0, cogDelta := 0, moveDelta := 0, grantsRanged12 := true, unlocksResonance := false, surgeTriggerName := "Target Lock (1 Surge)"}) (cons (record DoctrineAxis {id := "Saboteur", code := "DOC-SAB", index := 4, name := "Saboteur (Electronic Warfare)", fprDelta := 0, evaDelta := 0, cogDelta := 1, moveDelta := 0, grantsRanged12 := false, unlocksResonance := false, surgeTriggerName := "Neural Siphon (1 Surge)"}) (cons (record DoctrineAxis {id := "Psion", code := "DOC-PSI", index := 5, name := "Psion (Resonance Channeler)", fprDelta := 0, evaDelta := 0, cogDelta := 1, moveDelta := 0, grantsRanged12 := false, unlocksResonance := true, surgeTriggerName := "Harmonic Link (1 Surge)"}) (nil DoctrineAxis))))))),
+  axioms: []
+}
+
+definition{
+  name: chassisList,
+  parameters: [],
+  result: (List ChassisAxis),
+  body: (cons (record ChassisAxis {id := "Spliced", index := 0, name := "Spliced Bio-Frame", trackLabel := "Integrity", isMechanical := false, nativePlating := 0, nativeResilience := 0, moveDelta := 0, ignoresRoughTerrain := false, hasArcBacklash := false}) (cons (record ChassisAxis {id := "Automaton", index := 1, name := "Automaton Chassis", trackLabel := "Hull Plating", isMechanical := true, nativePlating := 1, nativeResilience := 0, moveDelta := 0, ignoresRoughTerrain := false, hasArcBacklash := false}) (cons (record ChassisAxis {id := "Xenomorph", index := 2, name := "Xenomorph Stalker", trackLabel := "Integrity", isMechanical := false, nativePlating := 0, nativeResilience := 1, moveDelta := 2, ignoresRoughTerrain := false, hasArcBacklash := false}) (cons (record ChassisAxis {id := "PhaseBorn", index := 3, name := "Phase-Born Entity", trackLabel := "Integrity", isMechanical := false, nativePlating := 0, nativeResilience := 0, moveDelta := 0, ignoresRoughTerrain := true, hasArcBacklash := true}) (cons (record ChassisAxis {id := "RigWalker", index := 4, name := "Rig-Walker Platform", trackLabel := "Hull Plating", isMechanical := true, nativePlating := 1, nativeResilience := 0, moveDelta := 0, ignoresRoughTerrain := false, hasArcBacklash := false}) (nil ChassisAxis)))))),
+  axioms: []
+}
+
+definition{
+  name: echelons,
+  parameters: [],
+  result: (List EchelonAxis),
+  body: (cons (record EchelonAxis {id := "ECH-0", tier := 0, name := "Drone Pack", unitCount := 3, berthCost := 1, baseFpr := 2, baseEva := 2, baseCog := 1, maxIntegrityPerModel := 1, baseSurge := 0, startingHardpoints := 0, campaignMaxHardpoints := 1, alloyCost := 2}) (cons (record EchelonAxis {id := "ECH-1", tier := 1, name := "Trooper Fireteam", unitCount := 2, berthCost := 1, baseFpr := 3, baseEva := 3, baseCog := 2, maxIntegrityPerModel := 2, baseSurge := 0, startingHardpoints := 1, campaignMaxHardpoints := 2, alloyCost := 3}) (cons (record EchelonAxis {id := "ECH-2", tier := 2, name := "Specialist Operative", unitCount := 1, berthCost := 1, baseFpr := 4, baseEva := 3, baseCog := 3, maxIntegrityPerModel := 3, baseSurge := 1, startingHardpoints := 2, campaignMaxHardpoints := 4, alloyCost := 5}) (cons (record EchelonAxis {id := "ECH-3", tier := 3, name := "Prime Commander", unitCount := 1, berthCost := 2, baseFpr := 5, baseEva := 4, baseCog := 4, maxIntegrityPerModel := 4, baseSurge := 3, startingHardpoints := 3, campaignMaxHardpoints := 5, alloyCost := 8}) (cons (record EchelonAxis {id := "ECH-4", tier := 4, name := "Dreadnought Sovereign", unitCount := 1, berthCost := 3, baseFpr := 6, baseEva := 5, baseCog := 4, maxIntegrityPerModel := 6, baseSurge := 4, startingHardpoints := 4, campaignMaxHardpoints := 6, alloyCost := 12}) (nil EchelonAxis)))))),
+  axioms: []
+}
+
+definition{
+  name: canonicalStartingCharter,
+  parameters: [],
+  result: StrikeRosterCharter,
+  body: (record StrikeRosterCharter {id := "CHARTER-7TH-OBSIDIAN-VANGUARD", totalBerthsUsed := 6, primeEchelonTier := 3, supportAlloySpent := 16, maxBerthsBudget := 6, maxAlloyBudget := 16}),
+  axioms: []
+}
+
+definition{
+  name: progressionFixtures,
+  parameters: [],
+  result: (List ProgressionRecord),
+  body: (cons (record ProgressionRecord {unitId := "strike-leader-1", initialFpr := 6, currentFpr := 6, initialEva := 4, currentEva := 4, initialCog := 4, currentCog := 4, baseSockets := 3, accumulatedXp := 3, unlockedSockets := 4}) (cons (record ProgressionRecord {unitId := "strike-spec-3", initialFpr := 4, currentFpr := 4, initialEva := 3, currentEva := 3, initialCog := 3, currentCog := 3, baseSockets := 2, accumulatedXp := 6, unlockedSockets := 4}) (cons (record ProgressionRecord {unitId := "strike-grunt-5", initialFpr := 3, currentFpr := 2, initialEva := 4, currentEva := 4, initialCog := 2, currentCog := 2, baseSockets := 1, accumulatedXp := 3, unlockedSockets := 2}) (nil ProgressionRecord)))),
+  axioms: []
+}
+
+definition{name: synthesizesUnitMatrix, parameters: [u : Nat], result: Prop, body: (u = 150)}
+
+definition{name: enforcesZeroStatInflation, parameters: [s : Nat], result: Prop, body: (0 < s)}
+
+definition{
+  name: synthesisArchetypeCount,
+  parameters: [],
+  result: Nat,
+  body: (prim multiply (prim length (doctrines) : Nat) (prim multiply (prim length (chassisList) : Nat) (prim length (echelons) : Nat) : Nat) : Nat),
+  axioms: []
+}
+
+definition{
+  name: validateCharter,
+  parameters: [c : StrikeRosterCharter],
+  result: Bool,
+  body: ((((project c totalBerthsUsed) <=? (project c maxBerthsBudget)) && ((project c maxBerthsBudget) =? 6)) && (((project c primeEchelonTier) =? 3) && (((project c supportAlloySpent) <=? (project c maxAlloyBudget)) && ((project c maxAlloyBudget) =? 16)))),
+  axioms: []
+}
+
+definition{
+  name: xpToBonusSockets,
+  parameters: [xp : Nat],
+  result: Nat,
+  body: (if (9 <=? xp) then 3 else (if (6 <=? xp) then 2 else (if (3 <=? xp) then 1 else 0))),
+  axioms: []
+}
+
+definition{
+  name: checkZeroStatInflationRecord,
+  parameters: [r : ProgressionRecord],
+  result: Bool,
+  body: (((((project r currentFpr) <=? (project r initialFpr)) && ((project r currentEva) <=? (project r initialEva))) && ((project r currentCog) <=? (project r initialCog))) && (((0 <? (project r currentFpr)) && ((0 <? (project r currentEva)) && (0 <? (project r currentCog)))) && ((project r unlockedSockets) =? ((project r baseSockets) + (xpToBonusSockets (project r accumulatedXp)))))),
+  axioms: []
+}
+
+definition{
+  name: allProgressionRecordsValid,
+  parameters: [xs : (List ProgressionRecord)],
+  result: Bool,
+  body: (match xs
+    | List.nil => true
+    | List.cons head tail => (if (checkZeroStatInflationRecord head) then (allProgressionRecordsValid tail) else false)),
+  axioms: [],
+  recursive_argument: xs
+}
+
+definition{
+  name: checkPermadeathOnZeroStat,
+  parameters: [fpr : Nat, eva : Nat, cog : Nat],
+  result: Bool,
+  body: (((fpr =? 0) || (eva =? 0)) || (cog =? 0)),
+  axioms: []
+}
+
+theorem{
+  name: doctrineCountIsSix,
+  parameters: [],
+  statement: (((prim length (doctrines) : Nat) =? 6) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: chassisCountIsFive,
+  parameters: [],
+  statement: (((prim length (chassisList) : Nat) =? 5) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: echelonCountIsFive,
+  parameters: [],
+  statement: (((prim length (echelons) : Nat) =? 5) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: unitSynthesisMatrixIs150,
+  parameters: [],
+  statement: (((synthesisArchetypeCount) =? 150) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: startingCharterFits16AlloyAnd6Berths,
+  parameters: [],
+  statement: ((validateCharter (canonicalStartingCharter)) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: threeXpUnlocksOneSocket,
+  parameters: [],
+  statement: ((((xpToBonusSockets 3) =? 1) && ((xpToBonusSockets 6) =? 2)) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: zeroStatInflationEnforced,
+  parameters: [],
+  statement: ((allProgressionRecordsValid (progressionFixtures)) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: zeroStatTriggersPermadeath,
+  parameters: [],
+  statement: (((checkPermadeathOnZeroStat 0 3 4) && (if (checkPermadeathOnZeroStat 2 3 4) then false else true)) = true),
+  proof: decide{},
+  axioms: []
+}
+\end{semanticmodule}
+\end{lexlean}

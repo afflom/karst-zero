@@ -1,0 +1,94 @@
+\begin{lexlean}{NemesisChit}
+\useglossary{lexlean.std.bool@1.2.0}
+\useglossary{lexlean.std.nat@1.2.0}
+\title{Boolean}
+\begin{semanticmodule}
+structure{
+  name: DoctrineAiRoutine,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: id, type: String},
+    {name: doctrineId, type: String},
+    {name: primaryDirective, type: String},
+    {name: fallbackDirective, type: String}
+  ]
+}
+
+definition{name: drawsOpaqueCommandChit, parameters: [c : Nat], result: Prop, body: (0 < c)}
+
+definition{name: maxBattleRounds, parameters: [], result: Nat, body: 5, axioms: []}
+
+definition{
+  name: wardenChitReturnsToPool,
+  parameters: [activeWardenBerths : Nat, playerChitsRemaining : Nat],
+  result: Bool,
+  body: ((0 <? activeWardenBerths) && (0 <? playerChitsRemaining)),
+  axioms: []
+}
+
+definition{
+  name: selectWardenBerthOneBased,
+  parameters: [dieRoll : Nat, activeBerths : Nat],
+  result: Nat,
+  body: (if (activeBerths =? 0) then 0 else (if (dieRoll <=? activeBerths) then dieRoll else (if ((prim subtract dieRoll activeBerths : Nat) <=? activeBerths) then (prim subtract dieRoll activeBerths : Nat) else 1))),
+  axioms: []
+}
+
+definition{
+  name: bossChitActivationsForEchelon,
+  parameters: [echelonTier : Nat],
+  result: Nat,
+  body: (if (echelonTier =? 4) then 3 else (if (echelonTier =? 3) then 2 else 1)),
+  axioms: []
+}
+
+definition{
+  name: doctrineAiRoutines,
+  parameters: [],
+  result: (List DoctrineAiRoutine),
+  body: (cons (record DoctrineAiRoutine {id := "AI-BREACHER", doctrineId := "Breacher", primaryDirective := "Sprint and execute 4-sector Momentum Charge against nearest Strike Roster unit in LoS", fallbackDirective := "Advance toward nearest contested Objective Marker"}) (cons (record DoctrineAiRoutine {id := "AI-AEGIS", doctrineId := "Aegis", primaryDirective := "Secure nearest Objective Cache or screen highest-Echelon Warden Boss with Deflector Pulse", fallbackDirective := "Hold central Barricade Cover sector"}) (cons (record DoctrineAiRoutine {id := "AI-OUTRIDER", doctrineId := "Outrider", primaryDirective := "Flank via cover and strike player unit with lowest Evasion or fewest Integrity/Hull", fallbackDirective := "Claim unguarded flank Alloy Cache"}) (cons (record DoctrineAiRoutine {id := "AI-DEADEYE", doctrineId := "Deadeye", primaryDirective := "Hold cover up to 12 inches away and fire Target Lock shot on most exposed target", fallbackDirective := "Reposition to clear Bulkhead Line of Sight"}) (cons (record DoctrineAiRoutine {id := "AI-SABOTEUR", doctrineId := "Saboteur", primaryDirective := "Execute Neural Siphon against player unit with highest Surge pool or Prime Commander", fallbackDirective := "Inflict Staggered on nearest Specialist Operative"}) (cons (record DoctrineAiRoutine {id := "AI-PSION", doctrineId := "Psion", primaryDirective := "Channel Harmonic Link on nearby Wardens or fire 12-inch Plasma-Arc Lance on high-value target", fallbackDirective := "Retreat behind Low Barricade and recharge Surge Cell"}) (nil DoctrineAiRoutine))))))),
+  axioms: []
+}
+
+theorem{
+  name: battleRoundLimitIsFive,
+  parameters: [],
+  statement: (((maxBattleRounds) =? 5) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: wardenChitReturnsWhileActiveBerthsRemain,
+  parameters: [],
+  statement: (((wardenChitReturnsToPool 3 2) && (if (wardenChitReturnsToPool 0 2) then false else true)) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: wardenSelectorWrapsDeterministically,
+  parameters: [],
+  statement: ((((selectWardenBerthOneBased 2 4) =? 2) && ((selectWardenBerthOneBased 5 4) =? 1)) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: apexBossGrantsThreeChitActivations,
+  parameters: [],
+  statement: (((((bossChitActivationsForEchelon 2) =? 1) && ((bossChitActivationsForEchelon 3) =? 2)) && ((bossChitActivationsForEchelon 4) =? 3)) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: doctrineAiRoutineCountIsSix,
+  parameters: [],
+  statement: (((prim length (doctrineAiRoutines) : Nat) =? 6) = true),
+  proof: decide{},
+  axioms: []
+}
+\end{semanticmodule}
+\end{lexlean}

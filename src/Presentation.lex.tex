@@ -1,0 +1,989 @@
+\begin{lexlean}{Presentation}
+\useglossary{lexlean.std.bool@1.2.0}
+\useglossary{lexlean.std.nat@1.2.0}
+\importmodule{Architecture}
+\importmodule{NemesisEngine}
+\title{Boolean}
+\begin{semanticmodule}
+structure{
+  name: Brand,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: id, type: String},
+    {name: title, type: String},
+    {name: subtitle, type: String},
+    {name: mark, type: String},
+    {name: posture, type: String}
+  ]
+}
+
+structure{
+  name: PortalPage,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: id, type: String},
+    {name: artifactId, type: String},
+    {name: path, type: String},
+    {name: personaScope, type: String},
+    {name: title, type: String},
+    {name: sectionCount, type: Nat},
+    {name: maxSectionsBudget, type: Nat}
+  ]
+}
+
+structure{
+  name: Artifact,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: id, type: String},
+    {name: path, type: String},
+    {name: media, type: String},
+    {name: producer, type: String},
+    {name: description, type: String}
+  ]
+}
+
+structure{
+  name: Panel,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: id, type: String},
+    {name: heading, type: String},
+    {name: viewpointId, type: String},
+    {name: artifactIds, type: (List String)},
+    {name: Empty, type: String}
+  ]
+}
+
+structure{
+  name: JourneyStep,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: id, type: String},
+    {name: pole, type: String},
+    {name: panelId, type: String},
+    {name: action, type: String},
+    {name: artifactId, type: String}
+  ]
+}
+
+structure{
+  name: Journey,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: id, type: String},
+    {name: stakeholderId, type: String},
+    {name: summary, type: String},
+    {name: steps, type: (List JourneyStep)}
+  ]
+}
+
+structure{
+  name: Pattern,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: id, type: String},
+    {name: authority, type: String},
+    {name: statement, type: String}
+  ]
+}
+
+structure{
+  name: Navigation,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: id, type: String},
+    {name: label, type: String},
+    {name: pattern, type: String},
+    {name: statement, type: String}
+  ]
+}
+
+structure{
+  name: NavItem,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: id, type: String},
+    {name: navigation, type: String},
+    {name: pattern, type: String},
+    {name: kind, type: String},
+    {name: target, type: String},
+    {name: order, type: Nat}
+  ]
+}
+
+structure{
+  name: VizPanel,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: id, type: String},
+    {name: panelId, type: String},
+    {name: artifactId, type: String},
+    {name: renders, type: (List String)}
+  ]
+}
+
+structure{
+  name: PedagogyGuide,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: id, type: String},
+    {name: stepId, type: String},
+    {name: pole, type: String},
+    {name: panelId, type: String},
+    {name: standardId, type: String},
+    {name: heading, type: String},
+    {name: whyItMatters, type: String},
+    {name: coachingTip, type: String},
+    {name: ruleContext, type: String}
+  ]
+}
+
+definition{
+  name: brand,
+  parameters: [],
+  result: Brand,
+  body: (record Brand {id := "karst-zero-horizon-nemesis-4", title := "Karst: Zero Horizon — Nemesis Core 4.0 Tactical Wargame & PrismPM .holo v4 Workbench", subtitle := "3D Unit Synthesis [Doctrine x Chassis x Echelon], Zero-Stat-Inflation, Opaque Command Chit Pool & Core-Wasm Verification", mark := "holo://karst-zero/logo.svg", posture := "LexLean v0.4.0 Kernel Verified · Closed-Lexicon prism.karst@1.0.0 · Nemesis Core 4.0 · PrismPM .holo v4 Ready"}),
+  axioms: []
+}
+
+definition{
+  name: portalPages,
+  parameters: [],
+  result: (List PortalPage),
+  body: (cons (record PortalPage {id := "page-commander", artifactId := "commander-holo", path := "commander.holo", personaScope := "commander", title := "Vantage 1: Tactical Commander — 36x36 Subterranean Vault Grid, Command Chit Pool & Opposed Strike Pool", sectionCount := 4, maxSectionsBudget := 5}) (cons (record PortalPage {id := "page-architect", artifactId := "architect-holo", path := "architect.holo", personaScope := "architect", title := "Vantage 2: Strike Roster Architect — 3D Unit Synthesis [6x5x5], 16-Alloy Charter & Orbital Bastion Hangar", sectionCount := 5, maxSectionsBudget := 5}) (cons (record PortalPage {id := "page-designer", artifactId := "designer-holo", path := "designer.holo", personaScope := "designer", title := "Vantage 3: Nemesis Core 4.0 Designer — Zero-Stat-Inflation, Warden AI Directives & 6-Frequency Resonance", sectionCount := 5, maxSectionsBudget := 5}) (cons (record PortalPage {id := "page-auditor", artifactId := "auditor-holo", path := "auditor.holo", personaScope := "auditor", title := "Vantage 4: PrismPM Runtime Auditor — Core-Wasm holo_run Telemetry, OPM/UML Views & WCAG 2.2 AA Proofs", sectionCount := 5, maxSectionsBudget := 5}) (nil PortalPage))))),
+  axioms: []
+}
+
+definition{
+  name: forbiddenMetaTerms,
+  parameters: [],
+  result: (List String),
+  body: (cons "MockData" (cons "PlaceholderStub" (cons "TodoFixme" (cons "SimulatedBackend" (cons "FakeApiEndpoint" (cons "LoremIpsum" (cons "CannedResponse" (cons "ServerOnlyRpc" (nil String))))))))),
+  axioms: []
+}
+
+definition{
+  name: poles,
+  parameters: [],
+  result: (List String),
+  body: (cons "sensual-object" (cons "sensual-quality" (cons "real-quality" (cons "withdrawn" (cons "verification" (nil String)))))),
+  axioms: []
+}
+
+definition{
+  name: artifacts,
+  parameters: [],
+  result: (List Artifact),
+  body: (cons (record Artifact {id := "commander-holo", path := "commander.holo", media := "application/vnd.prismpm.holo", producer := "holo_build", description := "Vantage 1: Tactical Battlefield, LoS/Cover & Command Chit .holo v4 View"}) (cons (record Artifact {id := "architect-holo", path := "architect.holo", media := "application/vnd.prismpm.holo", producer := "holo_build", description := "Vantage 2: 3D Unit Synthesis Forge & Orbital Bastion .holo v4 View"}) (cons (record Artifact {id := "designer-holo", path := "designer.holo", media := "application/vnd.prismpm.holo", producer := "holo_build", description := "Vantage 3: Nemesis Core 4.0 Engine & Resonance Weave .holo v4 View"}) (cons (record Artifact {id := "auditor-holo", path := "auditor.holo", media := "application/vnd.prismpm.holo", producer := "holo_build", description := "Vantage 4: Core-Wasm Telemetry, OPM/UML & ISO Audit .holo v4 View"}) (cons (record Artifact {id := "synthesis-lex", path := "src/UnitSynthesis.lex.tex", media := "application/x-lexlean", producer := "lexlean_verify", description := "3D Unit Synthesis [Doctrine x Chassis x Echelon], 6-Berth Cap & Zero-Stat-Inflation"}) (cons (record Artifact {id := "combat-lex", path := "src/CombatEngine.lex.tex", media := "application/x-lexlean", producer := "lexlean_verify", description := "Unified d6 Strike Pool, Momentum Charge, Cover, ARM/TGH & Fireteam Spillover"}) (cons (record Artifact {id := "resonance-lex", path := "src/ResonanceWeave.lex.tex", media := "application/x-lexlean", producer := "lexlean_verify", description := "16 Hardpoint Modules, 6 Resonance Frequencies, Harmonics & Backlash"}) (cons (record Artifact {id := "chit-lex", path := "src/NemesisChit.lex.tex", media := "application/x-lexlean", producer := "lexlean_verify", description := "5-Round Opaque Command Chit Pool, 1d6 Warden Wrap & 6 Doctrine AI Routines"}) (cons (record Artifact {id := "bastion-lex", path := "src/CampaignBastion.lex.tex", media := "application/x-lexlean", producer := "lexlean_verify", description := "4 Pre-Drop Crew Assignments, 3 Bastion Facilities & 6 Sector Contracts"}) (cons (record Artifact {id := "engine-lex", path := "src/NemesisEngine.lex.tex", media := "application/x-lexlean", producer := "lexlean_verify", description := "Full Nemesis Core 4.0 Engine Binding to Karst: Zero Horizon"}) (nil Artifact))))))))))),
+  axioms: []
+}
+
+definition{
+  name: panels,
+  parameters: [],
+  result: (List Panel),
+  body: (cons (record Panel {id := "panel-commander", heading := "1. Vantage 1 (Tactical Commander): 36x36 Vault Grid, Command Chit Pool & Opposed Strike Resolution", viewpointId := "vp-tactical-command", artifactIds := (cons "commander-holo" (cons "combat-lex" (cons "chit-lex" (nil String)))), Empty := "Select any Strike Roster operative on the 18x18 vault grid or draw from the Command Chit Pool."}) (cons (record Panel {id := "panel-architect", heading := "2. Vantage 2 (Roster Architect): 3D Unit Synthesis [6x5x5], 16-Alloy Charter & Orbital Bastion Hangar", viewpointId := "vp-roster-synthesis", artifactIds := (cons "architect-holo" (cons "synthesis-lex" (cons "bastion-lex" (nil String)))), Empty := "Configure any [Doctrine, Chassis, Echelon] operative or assign Pre-Drop Crew Tasks in Low-Karst Orbit."}) (cons (record Panel {id := "panel-designer", heading := "3. Vantage 3 (Nemesis Core 4.0 Designer): Zero-Stat-Inflation, Warden AI & 6-Frequency Resonance", viewpointId := "vp-nemesis-engine", artifactIds := (cons "designer-holo" (cons "resonance-lex" (cons "engine-lex" (nil String)))), Empty := "Inspect the 150 synthesized unit profiles, 16 Hardpoint Modules, and 6 Warden AI Doctrine routines."}) (cons (record Panel {id := "panel-auditor", heading := "4. Vantage 4 (PrismPM Auditor): Core-Wasm holo_run Telemetry, OPM/UML Diagrams & WCAG 2.2 AA Proofs", viewpointId := "vp-prism-verification", artifactIds := (cons "auditor-holo" (cons "engine-lex" (cons "synthesis-lex" (nil String)))), Empty := "Audit the 34 Core-Wasm acceptance vectors, 5 OPM/UML design diagrams, and canonical save receipt."}) (nil Panel))))),
+  axioms: []
+}
+
+definition{
+  name: journeys,
+  parameters: [],
+  result: (List Journey),
+  body: (cons (record Journey {id := "journey-commander", stakeholderId := "stk-commander", summary := "Vantage 1 (Tactical Commander) 5-Step Journey: Survey the 36x36 subterranean vault sector, inspect LoS and Barricade Cover, draw from the Opaque Command Chit Pool, execute an Opposed d6 Strike through Core-Wasm, and verify post-mitigation trauma.", steps := (cons (record JourneyStep {id := "cmd-step-1", pole := "sensual-object", panelId := "panel-commander", action := "Step 1 — Vault Sector Drop: Survey the 18x18 (36x36 inch) subterranean Karst grid, Objective Caches, and deployed Strike Roster.", artifactId := "commander-holo"}) (cons (record JourneyStep {id := "cmd-step-2", pole := "sensual-quality", panelId := "panel-commander", action := "Step 2 — LoS & Cover Telemetry: Inspect Low Barricade Partial Cover (+1 auto-EVA) and Bulkhead Full Cover Line-of-Sight blockers.", artifactId := "combat-lex"}) (cons (record JourneyStep {id := "cmd-step-3", pole := "real-quality", panelId := "panel-designer", action := "Step 3 — Opaque Command Chit Draw: Draw from interleaved Player Strike Chits and the returning Warden Directive Chit.", artifactId := "chit-lex"}) (cons (record JourneyStep {id := "cmd-step-4", pole := "withdrawn", panelId := "panel-auditor", action := "Step 4 — Core-Wasm Strike Dispatch: Route opposed FPR vs EVA hits and Plating/Resilience mitigation through holo_run.", artifactId := "engine-lex"}) (cons (record JourneyStep {id := "cmd-step-5", pole := "verification", panelId := "panel-commander", action := "Step 5 — Verified Combat Breakdown: Audit the deterministic Net Hits, Fireteam spillover, and Wasm wire trace.", artifactId := "combat-lex"}) (nil JourneyStep))))))}) (cons (record Journey {id := "journey-architect", stakeholderId := "stk-architect", summary := "Vantage 2 (Strike Roster Architect) 5-Step Journey: Inspect the 6-Berth / 16-Alloy Strike Charter, synthesize operatives across [Doctrine, Chassis, Echelon], equip Hardpoint Modules, execute Pre-Drop Crew Assignments, and verify Zero-Stat-Inflation.", steps := (cons (record JourneyStep {id := "arc-step-1", pole := "sensual-object", panelId := "panel-architect", action := "Step 1 — Orbital Bastion Hangar: Review the 6-Berth Strike Roster, Free Echelon 3 Prime Leader, and 16-Alloy starting charter.", artifactId := "architect-holo"}) (cons (record JourneyStep {id := "arc-step-2", pole := "sensual-quality", panelId := "panel-architect", action := "Step 2 — 3D Unit Synthesis [6x5x5]: Combine 6 Doctrines, 5 Chassis, and 5 Echelons into 150 deterministic unit archetypes.", artifactId := "synthesis-lex"}) (cons (record JourneyStep {id := "arc-step-3", pole := "real-quality", panelId := "panel-designer", action := "Step 3 — Hardpoint & Masterwork Loadout: Slot 1-Hardpoint (3 Alloy) and 2-Hardpoint Masterwork (6 Alloy) modules.", artifactId := "resonance-lex"}) (cons (record JourneyStep {id := "arc-step-4", pole := "withdrawn", panelId := "panel-architect", action := "Step 4 — Pre-Drop Crew Assignments: Resolve Sector Recon, Scrap Salvaging, Med-Bay Overhaul, and Combat Sim-Drill.", artifactId := "bastion-lex"}) (cons (record JourneyStep {id := "arc-step-5", pole := "verification", panelId := "panel-auditor", action := "Step 5 — Zero-Stat-Inflation Proof: Confirm 3 XP unlocks +1 Hardpoint Socket while base FPR/EVA/COG never inflate.", artifactId := "synthesis-lex"}) (nil JourneyStep))))))}) (cons (record Journey {id := "journey-designer", stakeholderId := "stk-designer", summary := "Vantage 3 (Nemesis Core 4.0 Systems Designer) 5-Step Journey: Inspect the 5 Nemesis Core 4.0 engine subsystems, trace the returning Warden Directive Chit and 1d6 wrap selector, audit 6-Frequency Resonance Harmonics, review Automaton Subsystem Ruptures, and verify full Karst engine binding.", steps := (cons (record JourneyStep {id := "des-step-1", pole := "sensual-object", panelId := "panel-designer", action := "Step 1 — Nemesis Core 4.0 Architecture: Review the 5 core engine subsystems and their formal binding to Karst: Zero Horizon.", artifactId := "designer-holo"}) (cons (record JourneyStep {id := "des-step-2", pole := "sensual-quality", panelId := "panel-designer", action := "Step 2 — Returning Warden Chit & Boss Scaling: Verify Echelon 3 (2 activations) and Echelon 4 (3 activations) boss scaling.", artifactId := "chit-lex"}) (cons (record JourneyStep {id := "des-step-3", pole := "real-quality", panelId := "panel-designer", action := "Step 3 — 6-Frequency Resonance Weave: Audit Ferro-Kinetics, Plasma-Arc, Bio-Synth, Neuro-Hacking, Fold-Space, and Chrono-Drift.", artifactId := "resonance-lex"}) (cons (record JourneyStep {id := "des-step-4", pole := "withdrawn", panelId := "panel-commander", action := "Step 4 — Spliced Trauma vs Automaton Rupture: Compare biological Staggered/Critical Trauma against 1d6 mechanical Subsystem Rupture.", artifactId := "combat-lex"}) (cons (record JourneyStep {id := "des-step-5", pole := "verification", panelId := "panel-auditor", action := "Step 5 — Engine Completeness Proof: Verify karstConsumesFullNemesisCore4Engine in NemesisEngine.lex.tex.", artifactId := "engine-lex"}) (nil JourneyStep))))))}) (cons (record Journey {id := "journey-auditor", stakeholderId := "stk-auditor", summary := "Vantage 4 (PrismPM Runtime & Verification Auditor) 5-Step Journey: Inspect the KarstZeroHorizon.holo v4 archive header, audit the import-free Core-Wasm guest ABI, replay all 34 acceptance vectors, inspect the 5 OPM/UML design diagrams, and verify WCAG 2.2 AA contrast.", steps := (cons (record JourneyStep {id := "aud-step-1", pole := "sensual-object", panelId := "panel-auditor", action := "Step 1 — .holo v4 Container & Manifest: Inspect the HOLO v4 header, model.prism.json, and SHA-256 content-addressed digests.", artifactId := "auditor-holo"}) (cons (record JourneyStep {id := "aud-step-2", pole := "sensual-quality", panelId := "panel-auditor", action := "Step 2 — Core-Wasm Boundary Contracts: Audit ctr-unit-compile, ctr-strike-resolve, ctr-chit-step, and ctr-socket-unlock.", artifactId := "engine-lex"}) (cons (record JourneyStep {id := "aud-step-3", pole := "real-quality", panelId := "panel-auditor", action := "Step 3 — 34 Acceptance Vectors & Zero Imports: Verify bounded 52B request / 27B response frames and zero Wasm host imports.", artifactId := "combat-lex"}) (cons (record JourneyStep {id := "aud-step-4", pole := "withdrawn", panelId := "panel-architect", action := "Step 4 — Canonical Save-State Receipt: Verify deterministic FNV-1a / SHA-256 campaign ledger integrity.", artifactId := "bastion-lex"}) (cons (record JourneyStep {id := "aud-step-5", pole := "verification", panelId := "panel-auditor", action := "Step 5 — WCAG 2.2 AA & ISO Conformance: Confirm >= 4.5:1 integer contrast across light and dark palettes and 15/15 CONFORMANCE IDs.", artifactId := "auditor-holo"}) (nil JourneyStep))))))}) (nil Journey))))),
+  axioms: []
+}
+
+definition{
+  name: navPatterns,
+  parameters: [],
+  result: (List Pattern),
+  body: (cons (record Pattern {id := "tablist-navigation", authority := "https://www.w3.org/WAI/ARIA/apg/patterns/tabs/", statement := "A WAI-ARIA tablist (role=tablist, role=tab, aria-selected, aria-controls) switching between the four domain workspace panels."}) (cons (record Pattern {id := "vantage-selector", authority := "https://www.w3.org/WAI/ARIA/apg/patterns/button/", statement := "A group of toggle buttons (aria-pressed) selecting the active stakeholder vantage journey."}) (cons (record Pattern {id := "stepper-sequence", authority := "https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/", statement := "An ordered five-pole step sequence (aria-current=step) walking the active comprehension journey."}) (nil Pattern)))),
+  axioms: []
+}
+
+definition{
+  name: navigations,
+  parameters: [],
+  result: (List Navigation),
+  body: (cons (record Navigation {id := "nav-primary", label := "Workspace Viewpoint Tabs", pattern := "tablist-navigation", statement := "Primary navigation bar reaching all four domain panels."}) (cons (record Navigation {id := "nav-vantages", label := "Stakeholder Vantage & Journey Selector", pattern := "vantage-selector", statement := "Switches between Commander, Roster Architect, Nemesis Designer, and PrismPM Auditor journeys."}) (cons (record Navigation {id := "nav-stepper", label := "Five-Pole Journey Stepper", pattern := "stepper-sequence", statement := "Ordered five-pole progression (sensual-object, sensual-quality, real-quality, withdrawn, verification) for each journey."}) (nil Navigation)))),
+  axioms: []
+}
+
+definition{
+  name: navItems,
+  parameters: [],
+  result: (List NavItem),
+  body: (cons (record NavItem {id := "nav-tab-panel-commander", navigation := "nav-primary", pattern := "tablist-navigation", kind := "panel", target := "panel-commander", order := 1}) (cons (record NavItem {id := "nav-tab-panel-architect", navigation := "nav-primary", pattern := "tablist-navigation", kind := "panel", target := "panel-architect", order := 2}) (cons (record NavItem {id := "nav-tab-panel-designer", navigation := "nav-primary", pattern := "tablist-navigation", kind := "panel", target := "panel-designer", order := 3}) (cons (record NavItem {id := "nav-tab-panel-auditor", navigation := "nav-primary", pattern := "tablist-navigation", kind := "panel", target := "panel-auditor", order := 4}) (cons (record NavItem {id := "nav-vantage-journey-commander", navigation := "nav-vantages", pattern := "vantage-selector", kind := "journey", target := "journey-commander", order := 1}) (cons (record NavItem {id := "nav-vantage-journey-architect", navigation := "nav-vantages", pattern := "vantage-selector", kind := "journey", target := "journey-architect", order := 2}) (cons (record NavItem {id := "nav-vantage-journey-designer", navigation := "nav-vantages", pattern := "vantage-selector", kind := "journey", target := "journey-designer", order := 3}) (cons (record NavItem {id := "nav-vantage-journey-auditor", navigation := "nav-vantages", pattern := "vantage-selector", kind := "journey", target := "journey-auditor", order := 4}) (cons (record NavItem {id := "nav-stepper-journey-commander", navigation := "nav-stepper", pattern := "stepper-sequence", kind := "journey", target := "journey-commander", order := 1}) (cons (record NavItem {id := "nav-stepper-journey-architect", navigation := "nav-stepper", pattern := "stepper-sequence", kind := "journey", target := "journey-architect", order := 2}) (cons (record NavItem {id := "nav-stepper-journey-designer", navigation := "nav-stepper", pattern := "stepper-sequence", kind := "journey", target := "journey-designer", order := 3}) (cons (record NavItem {id := "nav-stepper-journey-auditor", navigation := "nav-stepper", pattern := "stepper-sequence", kind := "journey", target := "journey-auditor", order := 4}) (nil NavItem))))))))))))),
+  axioms: []
+}
+
+definition{
+  name: vizPanels,
+  parameters: [],
+  result: (List VizPanel),
+  body: (cons (record VizPanel {id := "viz-commander-battlefield", panelId := "panel-commander", artifactId := "commander-holo", renders := (cons "NEMESIS-SUB-02-COMBAT" (cons "NEMESIS-SUB-04-CHIT-DIRECTOR" (nil String)))}) (cons (record VizPanel {id := "viz-architect-forge", panelId := "panel-architect", artifactId := "architect-holo", renders := (cons "NEMESIS-SUB-01-SYNTHESIS" (cons "NEMESIS-SUB-05-BASTION" (nil String)))}) (cons (record VizPanel {id := "viz-designer-resonance", panelId := "panel-designer", artifactId := "designer-holo", renders := (cons "NEMESIS-SUB-03-RESONANCE" (cons "NEMESIS-SUB-04-CHIT-DIRECTOR" (nil String)))}) (cons (record VizPanel {id := "viz-auditor-telemetry", panelId := "panel-auditor", artifactId := "auditor-holo", renders := (cons "NEMESIS-SUB-01-SYNTHESIS" (cons "NEMESIS-SUB-02-COMBAT" (nil String)))}) (nil VizPanel))))),
+  axioms: []
+}
+
+definition{
+  name: pedagogyGuides,
+  parameters: [],
+  result: (List PedagogyGuide),
+  body: (cons (record PedagogyGuide {id := "ped-cmd-1", stepId := "cmd-step-1", pole := "sensual-object", panelId := "panel-commander", standardId := "nemesis-core-4-0", heading := "Unified d6 Strike Pool & Returning Warden Directive Chit", whyItMatters := "Traditional turn-based tactics suffer from alpha-strike snowballs. Nemesis Core 4.0 interleaves 1 Strike Chit per player operative with a returning Warden Directive Chit that re-enters the pool until every player operative has activated.", coachingTip := "Use Low Barricade Partial Cover (+1 auto-EVA) and 4-sector straight-line Momentum Charges (+1 FPR die) to swing opposed Net Hits.", ruleContext := "Nemesis Core 4.0 Combat & Chit Specification · CombatEngine.lex.tex · NemesisChit.lex.tex"}) (cons (record PedagogyGuide {id := "ped-arc-1", stepId := "arc-step-2", pole := "sensual-quality", panelId := "panel-architect", standardId := "iso-42010-2022", heading := "3D Unit Synthesis [Doctrine x Chassis x Echelon] & Zero-Stat-Inflation", whyItMatters := "Stat inflation renders early-campaign encounters trivial and late-campaign math brittle. In Nemesis Core 4.0, base FPR/EVA/COG never inflate from XP; every 3 XP unlocks +1 horizontal Hardpoint Socket.", coachingTip := "Pair a Free Echelon 3 Prime Commander (2 Berths) with two Echelon 2 Specialists and two Echelon 1 Fireteams to maximize the 6-Berth / 16-Alloy charter.", ruleContext := "Nemesis Core 4.0 Synthesis Law · UnitSynthesis.lex.tex · ISO/IEC/IEEE 42010:2022"}) (cons (record PedagogyGuide {id := "ped-des-1", stepId := "des-step-3", pole := "real-quality", panelId := "panel-designer", standardId := "iso-25010-2023", heading := "6-Frequency Resonance Harmonics & Masterwork Hardpoints", whyItMatters := "Slotting modules of matching Resonance Frequencies (FerroKinetics, PlasmaArc, BioSynth, NeuroHacking, FoldSpace, ChronoDrift) weaves Minor (2) and Major (3+) Harmonics scaled by Rank = Echelon - 1.", coachingTip := "Balance 2-slot Masterwork modules (6 Alloy) against 1d6 Resonance Overheat Backlash risks.", ruleContext := "ResonanceWeave.lex.tex · NemesisEngine.lex.tex · ISO/IEC 25010:2023"}) (cons (record PedagogyGuide {id := "ped-aud-1", stepId := "aud-step-2", pole := "verification", panelId := "panel-auditor", standardId := "prismpm-holo-v4", heading := "Import-Free Core-Wasm Guest & WCAG 2.2 AA Verification", whyItMatters := "Every combat hit subtraction, Alloy deduction, and XP socket division dispatches through the import-free hologram:guest/core-wasm@1 binary and is verified against 34 acceptance vectors.", coachingTip := "Open ESC · Telemetry at any moment in Orbit or on the Battlefield to inspect live Core-Wasm wire frames and OPM/UML diagrams.", ruleContext := "Contract.lex.tex · Presentation.lex.tex · ISO/IEC 27034-1:2011 · W3C WCAG 2.2 AA"}) (nil PedagogyGuide))))),
+  axioms: []
+}
+
+definition{
+  name: memberString,
+  parameters: [value : String, values : (List String)],
+  result: Bool,
+  body: (match values
+    | List.nil => false
+    | List.cons head tail => (if (prim equal value head : Bool) then true else (memberString value tail))),
+  axioms: [],
+  recursive_argument: values
+}
+
+definition{
+  name: allMembers,
+  parameters: [values : (List String), ids : (List String)],
+  result: Bool,
+  body: (match values
+    | List.nil => true
+    | List.cons head tail => (if (memberString head ids) then (allMembers tail ids) else false)),
+  axioms: [],
+  recursive_argument: values
+}
+
+definition{
+  name: distinctStrings,
+  parameters: [values : (List String)],
+  result: Bool,
+  body: (match values
+    | List.nil => true
+    | List.cons head tail => (if (memberString head tail) then false else (distinctStrings tail))),
+  axioms: [],
+  recursive_argument: values
+}
+
+definition{
+  name: appendStrings,
+  parameters: [xs : (List String), ys : (List String)],
+  result: (List String),
+  body: (match xs | List.nil => ys | List.cons head tail => (cons head (appendStrings tail ys))),
+  axioms: [],
+  recursive_argument: xs
+}
+
+definition{
+  name: sameMembers,
+  parameters: [xs : (List String), ys : (List String)],
+  result: Bool,
+  body: (if (allMembers xs ys) then (allMembers ys xs) else false),
+  axioms: []
+}
+
+definition{
+  name: artifactIds,
+  parameters: [xs : (List Artifact)],
+  result: (List String),
+  body: (match xs
+    | List.nil => (nil String)
+    | List.cons head tail => (cons (project head id) (artifactIds tail))),
+  axioms: [],
+  recursive_argument: xs
+}
+
+definition{
+  name: artifactPaths,
+  parameters: [xs : (List Artifact)],
+  result: (List String),
+  body: (match xs
+    | List.nil => (nil String)
+    | List.cons head tail => (cons (project head path) (artifactPaths tail))),
+  axioms: [],
+  recursive_argument: xs
+}
+
+definition{
+  name: portalPageIds,
+  parameters: [xs : (List PortalPage)],
+  result: (List String),
+  body: (match xs
+    | List.nil => (nil String)
+    | List.cons head tail => (cons (project head id) (portalPageIds tail))),
+  axioms: [],
+  recursive_argument: xs
+}
+
+definition{
+  name: portalPagePaths,
+  parameters: [xs : (List PortalPage)],
+  result: (List String),
+  body: (match xs
+    | List.nil => (nil String)
+    | List.cons head tail => (cons (project head path) (portalPagePaths tail))),
+  axioms: [],
+  recursive_argument: xs
+}
+
+definition{
+  name: portalPageArtifacts,
+  parameters: [xs : (List PortalPage)],
+  result: (List String),
+  body: (match xs
+    | List.nil => (nil String)
+    | List.cons head tail => (cons (project head artifactId) (portalPageArtifacts tail))),
+  axioms: [],
+  recursive_argument: xs
+}
+
+definition{
+  name: portalPageTitles,
+  parameters: [xs : (List PortalPage)],
+  result: (List String),
+  body: (match xs
+    | List.nil => (nil String)
+    | List.cons head tail => (cons (project head title) (portalPageTitles tail))),
+  axioms: [],
+  recursive_argument: xs
+}
+
+definition{
+  name: panelIds,
+  parameters: [xs : (List Panel)],
+  result: (List String),
+  body: (match xs
+    | List.nil => (nil String)
+    | List.cons head tail => (cons (project head id) (panelIds tail))),
+  axioms: [],
+  recursive_argument: xs
+}
+
+definition{
+  name: panelHeadings,
+  parameters: [xs : (List Panel)],
+  result: (List String),
+  body: (match xs
+    | List.nil => (nil String)
+    | List.cons head tail => (cons (project head heading) (panelHeadings tail))),
+  axioms: [],
+  recursive_argument: xs
+}
+
+definition{
+  name: panelViewpoints,
+  parameters: [xs : (List Panel)],
+  result: (List String),
+  body: (match xs
+    | List.nil => (nil String)
+    | List.cons head tail => (cons (project head viewpointId) (panelViewpoints tail))),
+  axioms: [],
+  recursive_argument: xs
+}
+
+definition{
+  name: journeyIds,
+  parameters: [xs : (List Journey)],
+  result: (List String),
+  body: (match xs
+    | List.nil => (nil String)
+    | List.cons head tail => (cons (project head id) (journeyIds tail))),
+  axioms: [],
+  recursive_argument: xs
+}
+
+definition{
+  name: journeyStakeholders,
+  parameters: [xs : (List Journey)],
+  result: (List String),
+  body: (match xs
+    | List.nil => (nil String)
+    | List.cons head tail => (cons (project head stakeholderId) (journeyStakeholders tail))),
+  axioms: [],
+  recursive_argument: xs
+}
+
+definition{
+  name: stepPoles,
+  parameters: [xs : (List JourneyStep)],
+  result: (List String),
+  body: (match xs
+    | List.nil => (nil String)
+    | List.cons head tail => (cons (project head pole) (stepPoles tail))),
+  axioms: [],
+  recursive_argument: xs
+}
+
+definition{
+  name: stepPanels,
+  parameters: [xs : (List JourneyStep)],
+  result: (List String),
+  body: (match xs
+    | List.nil => (nil String)
+    | List.cons head tail => (cons (project head panelId) (stepPanels tail))),
+  axioms: [],
+  recursive_argument: xs
+}
+
+definition{
+  name: stepArtifacts,
+  parameters: [xs : (List JourneyStep)],
+  result: (List String),
+  body: (match xs
+    | List.nil => (nil String)
+    | List.cons head tail => (cons (project head artifactId) (stepArtifacts tail))),
+  axioms: [],
+  recursive_argument: xs
+}
+
+definition{
+  name: patternIds,
+  parameters: [xs : (List Pattern)],
+  result: (List String),
+  body: (match xs
+    | List.nil => (nil String)
+    | List.cons head tail => (cons (project head id) (patternIds tail))),
+  axioms: [],
+  recursive_argument: xs
+}
+
+definition{
+  name: navigationIds,
+  parameters: [xs : (List Navigation)],
+  result: (List String),
+  body: (match xs
+    | List.nil => (nil String)
+    | List.cons head tail => (cons (project head id) (navigationIds tail))),
+  axioms: [],
+  recursive_argument: xs
+}
+
+definition{
+  name: navigationPatterns,
+  parameters: [xs : (List Navigation)],
+  result: (List String),
+  body: (match xs
+    | List.nil => (nil String)
+    | List.cons head tail => (cons (project head pattern) (navigationPatterns tail))),
+  axioms: [],
+  recursive_argument: xs
+}
+
+definition{
+  name: navItemIds,
+  parameters: [xs : (List NavItem)],
+  result: (List String),
+  body: (match xs
+    | List.nil => (nil String)
+    | List.cons head tail => (cons (project head id) (navItemIds tail))),
+  axioms: [],
+  recursive_argument: xs
+}
+
+definition{
+  name: navItemNavigations,
+  parameters: [xs : (List NavItem)],
+  result: (List String),
+  body: (match xs
+    | List.nil => (nil String)
+    | List.cons head tail => (cons (project head navigation) (navItemNavigations tail))),
+  axioms: [],
+  recursive_argument: xs
+}
+
+definition{
+  name: navItemPatterns,
+  parameters: [xs : (List NavItem)],
+  result: (List String),
+  body: (match xs
+    | List.nil => (nil String)
+    | List.cons head tail => (cons (project head pattern) (navItemPatterns tail))),
+  axioms: [],
+  recursive_argument: xs
+}
+
+definition{
+  name: navItemTargets,
+  parameters: [xs : (List NavItem)],
+  result: (List String),
+  body: (match xs
+    | List.nil => (nil String)
+    | List.cons head tail => (cons (project head target) (navItemTargets tail))),
+  axioms: [],
+  recursive_argument: xs
+}
+
+definition{
+  name: vizPanelIds,
+  parameters: [xs : (List VizPanel)],
+  result: (List String),
+  body: (match xs
+    | List.nil => (nil String)
+    | List.cons head tail => (cons (project head id) (vizPanelIds tail))),
+  axioms: [],
+  recursive_argument: xs
+}
+
+definition{
+  name: vizHostPanels,
+  parameters: [xs : (List VizPanel)],
+  result: (List String),
+  body: (match xs
+    | List.nil => (nil String)
+    | List.cons head tail => (cons (project head panelId) (vizHostPanels tail))),
+  axioms: [],
+  recursive_argument: xs
+}
+
+definition{
+  name: vizArtifacts,
+  parameters: [xs : (List VizPanel)],
+  result: (List String),
+  body: (match xs
+    | List.nil => (nil String)
+    | List.cons head tail => (cons (project head artifactId) (vizArtifacts tail))),
+  axioms: [],
+  recursive_argument: xs
+}
+
+definition{
+  name: pedagogyIds,
+  parameters: [xs : (List PedagogyGuide)],
+  result: (List String),
+  body: (match xs
+    | List.nil => (nil String)
+    | List.cons head tail => (cons (project head id) (pedagogyIds tail))),
+  axioms: [],
+  recursive_argument: xs
+}
+
+definition{
+  name: pedagogyPoles,
+  parameters: [xs : (List PedagogyGuide)],
+  result: (List String),
+  body: (match xs
+    | List.nil => (nil String)
+    | List.cons head tail => (cons (project head pole) (pedagogyPoles tail))),
+  axioms: [],
+  recursive_argument: xs
+}
+
+definition{
+  name: pedagogyPanels,
+  parameters: [xs : (List PedagogyGuide)],
+  result: (List String),
+  body: (match xs
+    | List.nil => (nil String)
+    | List.cons head tail => (cons (project head panelId) (pedagogyPanels tail))),
+  axioms: [],
+  recursive_argument: xs
+}
+
+definition{
+  name: pedagogyHeadings,
+  parameters: [xs : (List PedagogyGuide)],
+  result: (List String),
+  body: (match xs
+    | List.nil => (nil String)
+    | List.cons head tail => (cons (project head heading) (pedagogyHeadings tail))),
+  axioms: [],
+  recursive_argument: xs
+}
+
+definition{
+  name: panelsReadArtifacts,
+  parameters: [ps : (List Panel), aIds : (List String)],
+  result: Bool,
+  body: (match ps
+    | List.nil => true
+    | List.cons head tail => (if (allMembers (project head artifactIds) aIds) then (panelsReadArtifacts tail aIds) else false)),
+  axioms: [],
+  recursive_argument: ps
+}
+
+definition{
+  name: equalStringLists,
+  parameters: [xs : (List String), ys : (List String)],
+  result: Bool,
+  body: (match xs
+    | List.nil => (match ys | List.nil => true | List.cons yh yt => false)
+    | List.cons xh xt => (match ys
+      | List.nil => false
+      | List.cons yh yt => (if (prim equal xh yh : Bool) then (equalStringLists xt yt) else false))),
+  axioms: [],
+  recursive_argument: xs
+}
+
+definition{
+  name: journeysWalkPolesAndResolve,
+  parameters: [js : (List Journey), pIds : (List String), aIds : (List String)],
+  result: Bool,
+  body: (match js
+    | List.nil => true
+    | List.cons head tail => (if (equalStringLists (stepPoles (project head steps)) (poles)) then (if (allMembers (stepPanels (project head steps)) pIds) then (if (allMembers (stepArtifacts (project head steps)) aIds) then (journeysWalkPolesAndResolve tail pIds aIds) else false) else false) else false)),
+  axioms: [],
+  recursive_argument: js
+}
+
+theorem{
+  name: artifactIdsDistinct,
+  parameters: [],
+  statement: ((distinctStrings (artifactIds (artifacts))) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: artifactPathsDistinct,
+  parameters: [],
+  statement: ((distinctStrings (artifactPaths (artifacts))) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: panelsGovernedByViewpoints,
+  parameters: [],
+  statement: ((allMembers (panelViewpoints (panels)) (Architecture::viewpointIds (Architecture::viewpoints))) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: panelArtifactsValid,
+  parameters: [],
+  statement: ((panelsReadArtifacts (panels) (artifactIds (artifacts))) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: journeysServeStakeholders,
+  parameters: [],
+  statement: ((allMembers (journeyStakeholders (journeys)) (Architecture::stakeholderIds (Architecture::stakeholders))) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: everyStakeholderHasJourney,
+  parameters: [],
+  statement: ((allMembers (Architecture::stakeholderIds (Architecture::stakeholders)) (journeyStakeholders (journeys))) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: journeysValid,
+  parameters: [],
+  statement: ((journeysWalkPolesAndResolve (journeys) (panelIds (panels)) (artifactIds (artifacts))) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: navIdsDistinct,
+  parameters: [],
+  statement: ((distinctStrings (appendStrings (navigationIds (navigations)) (navItemIds (navItems)))) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: everyPanelInPrimaryNavigation,
+  parameters: [],
+  statement: ((allMembers (panelIds (panels)) (navItemTargets (navItems))) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: everyJourneyInVantageNavigation,
+  parameters: [],
+  statement: ((allMembers (journeyIds (journeys)) (navItemTargets (navItems))) = true),
+  proof: decide{},
+  axioms: []
+}
+
+definition{
+  name: checkPagesCognitiveBudget,
+  parameters: [pgs : (List PortalPage)],
+  result: Bool,
+  body: (match pgs
+    | List.nil => true
+    | List.cons head tail => (if (1 <=? (project head sectionCount)) then (if ((project head sectionCount) <=? (project head maxSectionsBudget)) then (if ((project head maxSectionsBudget) <=? 5) then (checkPagesCognitiveBudget tail) else false) else false) else false)),
+  axioms: [],
+  recursive_argument: pgs
+}
+
+definition{
+  name: noneMembers,
+  parameters: [values : (List String), forbidden : (List String)],
+  result: Bool,
+  body: (match values
+    | List.nil => true
+    | List.cons head tail => (if (memberString head forbidden) then false else (noneMembers tail forbidden))),
+  axioms: [],
+  recursive_argument: values
+}
+
+theorem{
+  name: portalPageIdsDistinct,
+  parameters: [],
+  statement: ((distinctStrings (portalPageIds (portalPages))) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: everyPageWithinCognitiveLoadBudget,
+  parameters: [],
+  statement: ((checkPagesCognitiveBudget (portalPages)) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: domainLabelsFreeOfMetaTaxonomy,
+  parameters: [],
+  statement: ((noneMembers (appendStrings (portalPageTitles (portalPages)) (panelHeadings (panels))) (forbiddenMetaTerms)) = true),
+  proof: decide{},
+  axioms: []
+}
+
+structure{
+  name: Token,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: id, type: String},
+    {name: theme, type: String},
+    {name: hex, type: String},
+    {name: r, type: Nat},
+    {name: g, type: Nat},
+    {name: b, type: Nat},
+    {name: luminance, type: Nat},
+    {name: purpose, type: String}
+  ]
+}
+
+structure{
+  name: ContrastPair,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: foreground, type: String},
+    {name: background, type: String},
+    {name: kind, type: String},
+    {name: minimumTenths, type: Nat},
+    {name: purpose, type: String}
+  ]
+}
+
+structure{
+  name: TypeStep,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: id, type: String},
+    {name: milliRem, type: Nat},
+    {name: lineHeightCenti, type: Nat},
+    {name: role, type: String}
+  ]
+}
+
+structure{
+  name: SpaceStep,
+  type_parameters: [],
+  parameters: [],
+  fields: [{name: id, type: String}, {name: px, type: Nat}]
+}
+
+structure{
+  name: Motion,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: durationMs, type: Nat},
+    {name: reducedDurationMs, type: Nat},
+    {name: focusRingPx, type: Nat},
+    {name: minTargetPx, type: Nat}
+  ]
+}
+
+definition{
+  name: designTokens,
+  parameters: [],
+  result: (List Token),
+  body: (cons (record Token {id := "bg", theme := "light", hex := "#f8fafc", r := 248, g := 250, b := 252, luminance := 9535592622, purpose := "Tactical briefing light canvas"}) (cons (record Token {id := "bg", theme := "dark", hex := "#0b1120", r := 11, g := 17, b := 32, luminance := 57631250, purpose := "Subterranean Karst slate canvas"}) (cons (record Token {id := "surface", theme := "light", hex := "#ffffff", r := 255, g := 255, b := 255, luminance := 10000000000, purpose := "Card and HUD surface"}) (cons (record Token {id := "surface", theme := "dark", hex := "#111827", r := 17, g := 24, b := 39, luminance := 91891256, purpose := "Card and HUD surface"}) (cons (record Token {id := "surface-alt", theme := "light", hex := "#f1f5f9", r := 241, g := 245, b := 249, luminance := 9084516074, purpose := "Secondary telemetry surface"}) (cons (record Token {id := "surface-alt", theme := "dark", hex := "#1e293b", r := 30, g := 41, b := 59, luminance := 217766976, purpose := "Secondary telemetry surface"}) (cons (record Token {id := "ink", theme := "light", hex := "#0f172a", r := 15, g := 23, b := 42, luminance := 88150704, purpose := "Primary tactical HUD text"}) (cons (record Token {id := "ink", theme := "dark", hex := "#f1f5f9", r := 241, g := 245, b := 249, luminance := 9084516074, purpose := "Primary tactical HUD text"}) (cons (record Token {id := "muted", theme := "light", hex := "#334155", r := 51, g := 65, b := 85, luminance := 514031026, purpose := "Secondary telemetry labels"}) (cons (record Token {id := "muted", theme := "dark", hex := "#cbd5e1", r := 203, g := 213, b := 225, luminance := 6572123400, purpose := "Secondary telemetry labels"}) (cons (record Token {id := "accent", theme := "light", hex := "#1e3a8a", r := 30, g := 58, b := 138, luminance := 513707874, purpose := "Command Chit & active control accent"}) (cons (record Token {id := "accent", theme := "dark", hex := "#93c5fd", r := 147, g := 197, b := 253, luminance := 5322738048, purpose := "Command Chit & active control accent"}) (cons (record Token {id := "stipulated", theme := "light", hex := "#14532d", r := 20, g := 83, b := 45, luminance := 652465372, purpose := "Strike Roster & verified proof badge"}) (cons (record Token {id := "stipulated", theme := "dark", hex := "#86efac", r := 134, g := 239, b := 172, luminance := 6977989058, purpose := "Strike Roster & verified proof badge"}) (cons (record Token {id := "warning", theme := "light", hex := "#7c2112", r := 124, g := 33, b := 18, luminance := 541650202, purpose := "Alloy cache & Surge cell highlight"}) (cons (record Token {id := "warning", theme := "dark", hex := "#fdba74", r := 253, g := 186, b := 116, luminance := 5726142952, purpose := "Alloy cache & Surge cell highlight"}) (cons (record Token {id := "danger", theme := "light", hex := "#7f1d1d", r := 127, g := 29, b := 29, luminance := 547943070, purpose := "Warden Directive & trauma alert"}) (cons (record Token {id := "danger", theme := "dark", hex := "#fca5a5", r := 252, g := 165, b := 165, luminance := 5032231058, purpose := "Warden Directive & trauma alert"}) (cons (record Token {id := "border", theme := "light", hex := "#475569", r := 71, g := 85, b := 105, luminance := 885653130, purpose := "Sector grid & focus boundary"}) (cons (record Token {id := "border", theme := "dark", hex := "#64748b", r := 100, g := 116, b := 139, luminance := 1706416658, purpose := "Sector grid & focus boundary"}) (nil Token))))))))))))))))))))),
+  axioms: []
+}
+
+definition{
+  name: contrastPairs,
+  parameters: [],
+  result: (List ContrastPair),
+  body: (cons (record ContrastPair {foreground := "ink", background := "bg", kind := "text", minimumTenths := 45, purpose := "Primary text on page canvas"}) (cons (record ContrastPair {foreground := "ink", background := "surface", kind := "text", minimumTenths := 45, purpose := "Primary text on card surface"}) (cons (record ContrastPair {foreground := "ink", background := "surface-alt", kind := "text", minimumTenths := 45, purpose := "Primary text on secondary surface"}) (cons (record ContrastPair {foreground := "muted", background := "bg", kind := "text", minimumTenths := 45, purpose := "Secondary text on page canvas"}) (cons (record ContrastPair {foreground := "muted", background := "surface", kind := "text", minimumTenths := 45, purpose := "Secondary text on card surface"}) (cons (record ContrastPair {foreground := "accent", background := "bg", kind := "text", minimumTenths := 45, purpose := "Vantage link on page canvas"}) (cons (record ContrastPair {foreground := "accent", background := "surface", kind := "text", minimumTenths := 45, purpose := "Vantage link on card surface"}) (cons (record ContrastPair {foreground := "stipulated", background := "bg", kind := "text", minimumTenths := 45, purpose := "Verified proof badge ink on page canvas"}) (cons (record ContrastPair {foreground := "stipulated", background := "surface", kind := "text", minimumTenths := 45, purpose := "Verified proof badge ink on card surface"}) (cons (record ContrastPair {foreground := "warning", background := "bg", kind := "text", minimumTenths := 45, purpose := "Warning ink on page canvas"}) (cons (record ContrastPair {foreground := "warning", background := "surface", kind := "text", minimumTenths := 45, purpose := "Warning ink on card surface"}) (cons (record ContrastPair {foreground := "danger", background := "bg", kind := "text", minimumTenths := 45, purpose := "Warden threat ink on page canvas"}) (cons (record ContrastPair {foreground := "danger", background := "surface", kind := "text", minimumTenths := 45, purpose := "Warden threat ink on card surface"}) (cons (record ContrastPair {foreground := "border", background := "bg", kind := "ui", minimumTenths := 30, purpose := "Control border on page canvas"}) (cons (record ContrastPair {foreground := "border", background := "surface", kind := "ui", minimumTenths := 30, purpose := "Control border on card surface"}) (nil ContrastPair)))))))))))))))),
+  axioms: []
+}
+
+definition{
+  name: typeScale,
+  parameters: [],
+  result: (List TypeStep),
+  body: (cons (record TypeStep {id := "xs", milliRem := 780, lineHeightCenti := 140, role := "Badges and telemetry pill codes"}) (cons (record TypeStep {id := "sm", milliRem := 880, lineHeightCenti := 145, role := "Table metadata and secondary captions"}) (cons (record TypeStep {id := "base", milliRem := 1000, lineHeightCenti := 155, role := "Body copy and progressive walkthrough steps"}) (cons (record TypeStep {id := "lg", milliRem := 1140, lineHeightCenti := 145, role := "Card headings and formal theorem statements"}) (cons (record TypeStep {id := "xl", milliRem := 1350, lineHeightCenti := 130, role := "Panel titles and KPI values"}) (cons (record TypeStep {id := "2xl", milliRem := 1650, lineHeightCenti := 120, role := "Stakeholder vantage banner heading"}) (nil TypeStep))))))),
+  axioms: []
+}
+
+definition{
+  name: spacingScale,
+  parameters: [],
+  result: (List SpaceStep),
+  body: (cons (record SpaceStep {id := "1", px := 4}) (cons (record SpaceStep {id := "2", px := 8}) (cons (record SpaceStep {id := "3", px := 12}) (cons (record SpaceStep {id := "4", px := 16}) (cons (record SpaceStep {id := "5", px := 24}) (cons (record SpaceStep {id := "6", px := 32}) (cons (record SpaceStep {id := "7", px := 48}) (nil SpaceStep)))))))),
+  axioms: []
+}
+
+definition{
+  name: motion,
+  parameters: [],
+  result: Motion,
+  body: (record Motion {durationMs := 150, reducedDurationMs := 0, focusRingPx := 3, minTargetPx := 24}),
+  axioms: []
+}
+
+definition{
+  name: srgbLinear,
+  parameters: [c : Nat],
+  result: Nat,
+  body: (if (c =? 11) then 3347 else (if (c =? 15) then 4777 else (if (c =? 17) then 5605 else (if (c =? 18) then 6049 else (if (c =? 20) then 6995 else (if (c =? 23) then 8568 else (if (c =? 24) then 9134 else (if (c =? 29) then 12286 else (if (c =? 30) then 12983 else (if (c =? 32) then 14444 else (if (c =? 33) then 15209 else (if (c =? 39) then 20289 else (if (c =? 41) then 22174 else (if (c =? 42) then 23153 else (if (c =? 45) then 26241 else (if (c =? 51) then 33105 else (if (c =? 58) then 42311 else (if (c =? 59) then 43735 else (if (c =? 65) then 52861 else (if (c =? 71) then 63010 else (if (c =? 83) then 86500 else (if (c =? 85) then 90842 else (if (c =? 100) then 127438 else (if (c =? 105) then 141263 else (if (c =? 116) then 174647 else (if (c =? 124) then 201556 else (if (c =? 127) then 212231 else (if (c =? 134) then 238398 else (if (c =? 138) then 254152 else (if (c =? 139) then 258183 else (if (c =? 147) then 291771 else (if (c =? 165) then 376262 else (if (c =? 172) then 412543 else (if (c =? 186) then 491021 else (if (c =? 197) then 558340 else (if (c =? 203) then 597202 else (if (c =? 213) then 665387 else (if (c =? 225) then 752942 else (if (c =? 239) then 863157 else (if (c =? 241) then 879622 else (if (c =? 245) then 913099 else (if (c =? 248) then 938686 else (if (c =? 249) then 947307 else (if (c =? 250) then 955973 else (if (c =? 252) then 973445 else (if (c =? 253) then 982251 else (if (c =? 255) then 1000000 else 0))))))))))))))))))))))))))))))))))))))))))))))),
+  axioms: []
+}
+
+definition{
+  name: relativeLuminance,
+  parameters: [r : Nat, g : Nat, b : Nat],
+  result: Nat,
+  body: (((prim multiply 2126 (srgbLinear r) : Nat) + (prim multiply 7152 (srgbLinear g) : Nat)) + (prim multiply 722 (srgbLinear b) : Nat)),
+  axioms: []
+}
+
+definition{
+  name: luminancesMatch,
+  parameters: [xs : (List Token)],
+  result: Bool,
+  body: (match xs
+    | List.nil => true
+    | List.cons head tail => (if ((project head luminance) =? (relativeLuminance (project head r) (project head g) (project head b))) then (luminancesMatch tail) else false)),
+  axioms: [],
+  recursive_argument: xs
+}
+
+definition{
+  name: tokensOfTheme,
+  parameters: [theme : String, xs : (List Token)],
+  result: (List Token),
+  body: (match xs
+    | List.nil => (nil Token)
+    | List.cons head tail => (if (prim equal theme (project head theme) : Bool) then (cons head (tokensOfTheme theme tail)) else (tokensOfTheme theme tail))),
+  axioms: [],
+  recursive_argument: xs
+}
+
+definition{
+  name: tokenIds,
+  parameters: [xs : (List Token)],
+  result: (List String),
+  body: (match xs
+    | List.nil => (nil String)
+    | List.cons head tail => (cons (project head id) (tokenIds tail))),
+  axioms: [],
+  recursive_argument: xs
+}
+
+definition{
+  name: tokenLuminance,
+  parameters: [tokenId : String, theme : String, xs : (List Token)],
+  result: Nat,
+  body: (match xs
+    | List.nil => 0
+    | List.cons head tail => (if (prim equal tokenId (project head id) : Bool) then (if (prim equal theme (project head theme) : Bool) then (project head luminance) else (tokenLuminance tokenId theme tail)) else (tokenLuminance tokenId theme tail))),
+  axioms: [],
+  recursive_argument: xs
+}
+
+definition{
+  name: meetsContrast,
+  parameters: [la : Nat, lc : Nat, minimumTenths : Nat],
+  result: Bool,
+  body: (if (lc <=? la) then ((prim multiply minimumTenths (lc + 500000000) : Nat) <=? (prim multiply 10 (la + 500000000) : Nat)) else ((prim multiply minimumTenths (la + 500000000) : Nat) <=? (prim multiply 10 (lc + 500000000) : Nat))),
+  axioms: [],
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core, rust-std]}
+}
+
+definition{
+  name: pairsMeetContrast,
+  parameters: [ps : (List ContrastPair), theme : String, ts : (List Token)],
+  result: Bool,
+  body: (match ps
+    | List.nil => true
+    | List.cons head tail => (if (meetsContrast (tokenLuminance (project head foreground) theme ts) (tokenLuminance (project head background) theme ts) (project head minimumTenths)) then (pairsMeetContrast tail theme ts) else false)),
+  axioms: [],
+  recursive_argument: ps
+}
+
+theorem{
+  name: tokenLuminancesComputed,
+  parameters: [],
+  statement: ((luminancesMatch (designTokens)) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: everyPairMeetsContrastLight,
+  parameters: [],
+  statement: ((pairsMeetContrast (contrastPairs) "light" (designTokens)) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: everyPairMeetsContrastDark,
+  parameters: [],
+  statement: ((pairsMeetContrast (contrastPairs) "dark" (designTokens)) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: focusRingAtLeast2px,
+  parameters: [],
+  statement: ((2 <=? (project (motion) focusRingPx)) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: targetSizeAtLeast24px,
+  parameters: [],
+  statement: ((24 <=? (project (motion) minTargetPx)) = true),
+  proof: decide{},
+  axioms: []
+}
+\end{semanticmodule}
+\end{lexlean}

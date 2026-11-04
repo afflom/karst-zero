@@ -17,6 +17,7 @@ import {
   RESONANCE_BACKLASH_TABLE,
   generateWardenForce,
 } from '../game/catalog';
+import { resolveNemesisSubsystemRupture } from '../game/nemesisEngine';
 import type {
   CampaignState,
   CompiledUnit,
@@ -378,22 +379,23 @@ export const BattlefieldView: React.FC<BattlefieldViewProps> = ({
         let critNote = '';
         if ((finalDamage >= 3 || forceCritOrTrauma) && copy.accumulatedDamage < copy.maxIntegrityPerModel) {
           const critRoll = Math.floor(Math.random() * 6) + 1;
-          if (critRoll <= 2) {
+          const rupture = resolveNemesisSubsystemRupture(critRoll);
+          if (rupture.code === 'ACTUATOR_LOCK') {
             copy.mov = Math.max(2, copy.mov - 2);
             copy.subsystemRuptures.push('Servo Lock (-2" MOV)');
-            critNote = ` · Subsystem Rupture: Servo Actuator Lock (-2" Move)!`;
-          } else if (critRoll <= 4) {
+            critNote = ` · Subsystem Rupture: ${rupture.label}!`;
+          } else if (rupture.code === 'OPTICS_SCOUR') {
             copy.fpr = Math.max(1, copy.fpr - 1);
             copy.subsystemRuptures.push('Optics Scour (-1 FPR)');
-            critNote = ` · Subsystem Rupture: Targeting Optics Scoured (-1 Firepower)!`;
-          } else if (critRoll === 5) {
+            critNote = ` · Subsystem Rupture: ${rupture.label}!`;
+          } else if (rupture.code === 'HULL_VENT') {
             copy.currentSurge = 0;
             copy.plating = Math.max(0, copy.plating - 1);
             copy.subsystemRuptures.push('Capacitor Vent (0 SRG, -1 ARM)');
-            critNote = ` · Subsystem Rupture: Capacitor Hull Vent (0 Surge, -1 Armor)!`;
+            critNote = ` · Subsystem Rupture: ${rupture.label}!`;
           } else {
             copy.accumulatedDamage += 2;
-            critNote = ` · Subsystem Rupture: Core Overload (+2 Hull Damage)!`;
+            critNote = ` · Subsystem Rupture: ${rupture.label}!`;
           }
         }
 

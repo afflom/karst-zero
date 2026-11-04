@@ -1,4 +1,4 @@
-name: Deploy KarstZero to GitHub Pages
+name: Deploy Karst: Zero Horizon to GitHub Pages
 
 on:
   push:
@@ -16,38 +16,45 @@ concurrency:
 
 jobs:
   view:
-    name: Build & Verify Portal View Artifacts
+    name: Render & Verify Portal View Artifacts
     runs-on: ubuntu-24.04
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Set up Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: 22
+          cache: 'npm'
 
-      - name: Install dependencies
-        run: npm install --no-package-lock --legacy-peer-deps
+      - name: Install Node dependencies
+        run: npm ci
 
-      - name: Run TypeScript typecheck & lint gate
-        run: npm run lint
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
 
-      - name: Build production portal bundle (`dist/`)
+      - name: Render interactive game & PrismPM/LexLean portal (`view/`)
         env:
           GITHUB_SHA: ${{ github.sha }}
+        run: cargo run -p xtask -- render-view
+
+      - name: Run full repository validation & conformance gate
         run: |
-          npm run build
-          printf '{\n  "application": "karst-zero",\n  "commit": "%s"\n}\n' "$GITHUB_SHA" > dist/register.json
+          cargo fmt --all -- --check
+          cargo run -p xtask -- validate
+          cargo test --workspace --all-targets
 
       - name: Upload view artifact
         uses: actions/upload-artifact@v4
         with:
           name: karst-zero-current-view
-          path: dist
+          path: view
           include-hidden-files: true
 
       - name: Configure GitHub Pages
@@ -58,7 +65,7 @@ jobs:
         if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@v3
         with:
-          path: dist
+          path: view
 
   deploy:
     name: Deploy to GitHub Pages
@@ -94,10 +101,10 @@ jobs:
           set -euo pipefail
           for attempt in 1 2 3 4 5 6 7 8; do
             if curl -fsSL "${PAGE_URL%/}/register.json" -o /tmp/register.json && grep -qF "\"commit\": \"$GITHUB_SHA\"" /tmp/register.json; then
-              for page in index.html fixtures/Calculator.holo; do
+              for page in index.html model.prism.json logo.svg banner.svg topology.svg; do
                 curl -fsSL "${PAGE_URL%/}/$page" -o /dev/null
               done
-              echo "$PAGE_URL serves commit $GITHUB_SHA across index.html and Core-Wasm fixtures"
+              echo "$PAGE_URL serves commit $GITHUB_SHA across interactive game and PrismPM artifacts"
               exit 0
             fi
             sleep 10

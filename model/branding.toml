@@ -1,0 +1,10 @@
+# Branding, sRGB Token, and WCAG 2.2 AA Contrast Register
+# Synchronized with `src/Presentation.lex.tex`.
+
+spec = "prismpm/branding/1"
+module = "Presentation"
+product_name = "Karst: Zero Horizon"
+engine_name = "Nemesis Core 4.0"
+wcag_level = "AA"
+normal_text_min_contrast = "4.5:1"
+ui_component_min_contrast = "3.0:1"

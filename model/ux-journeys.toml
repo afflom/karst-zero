@@ -1,0 +1,8 @@
+# Progressive 5-Pole User Journey Register
+# Synchronized with `src/Presentation.lex.tex` and `src/Architecture.lex.tex`.
+
+spec = "prismpm/ux-journeys/1"
+module = "Presentation"
+poles = ["sensual-object", "sensual-quality", "real-quality", "withdrawn", "verification"]
+journey_count = 4
+steps_per_journey = 5

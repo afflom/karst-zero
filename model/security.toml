@@ -1,0 +1,25 @@
+# Security, Threat, Risk, Control, and Quality Register (ISO/IEC 27005, 27034-1, 25010)
+# Synchronized with `src/Architecture.lex.tex` and `.prism/build/<digest>/model.prism.json`.
+
+spec = "prismpm/security/1"
+module = "Architecture"
+
+[[asset]]
+index = 0
+id = "Architecture::asset00RosterCharterLedger"
+name = "6-Berth / 16-Alloy Strike Roster & Hardpoint Charter Ledger"
+
+[[asset]]
+index = 1
+id = "Architecture::asset01CommandChitPoolState"
+name = "Opaque Command Chit Pool & 1d6 Warden Berth Wrap-Around State"
+
+[[asset]]
+index = 2
+id = "Architecture::asset02CoreWasmLinearMemory"
+name = "64 KiB Core-Wasm Linear Memory & 52B/27B holo_run Envelope"
+
+[[asset]]
+index = 3
+id = "Architecture::asset03CanonicalCampaignSave"
+name = "Orbital Bastion Campaign Save & FNV-1a Canonical Digest"

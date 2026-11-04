@@ -1,0 +1,40 @@
+# OPM (ISO/PAS 19450) and UML 2.5.1 Design View Register
+# Synchronized with `src/Design.lex.tex` and `.prism/build/<digest>/design/`.
+
+spec = "prismpm/design/1"
+module = "Design"
+
+[[view]]
+index = 0
+id = "Design::viewUnitSynthesisOpm"
+kind = "opm"
+artifact = "Design.viewUnitSynthesisOpm.opl"
+title = "Roster Architect OPM View: 3D Unit Synthesis [Doctrine x Chassis x Echelon], Resonance Weave & 3-XP Hardpoint Socket Unlock"
+
+[[view]]
+index = 1
+id = "Design::viewCombatChitOpm"
+kind = "opm"
+artifact = "Design.viewCombatChitOpm.opl"
+title = "Tactical Commander OPM View: Opaque Command Chit Draw, 1d6 Warden Berth Wrap-Around & Opposed d6 Strike Pool"
+
+[[view]]
+index = 2
+id = "Design::viewNemesisComponentUml"
+kind = "uml-component"
+artifact = "Design.viewNemesisComponentUml.puml"
+title = "Nemesis Core 4.0 UML 2.5.1 Component Topology: 6 Engine Subsystems & 8 Data/Control Edges"
+
+[[view]]
+index = 3
+id = "Design::viewStrikeDispatchSequenceUml"
+kind = "uml-sequence"
+artifact = "Design.viewStrikeDispatchSequenceUml.puml"
+title = "Runtime Auditor UML 2.5.1 Sequence View: Command Chit Draw, Opposed Strike Pool, Core-Wasm holo_run & Bastion Ledger Settlement"
+
+[[view]]
+index = 4
+id = "Design::viewCampaignTurnStateUml"
+kind = "uml-state-machine"
+artifact = "Design.viewCampaignTurnStateUml.puml"
+title = "Campaign Quartermaster UML 2.5.1 State Machine: Orbital Bastion -> Pre-Drop Recon -> 5-Round Vault Drop -> Extraction Settlement"

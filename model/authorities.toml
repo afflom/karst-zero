@@ -1,0 +1,75 @@
+# model/authorities.toml --- what this repository cites rather than establishes (R2, CM-03).
+
+spec = "template/1"
+
+[[authority]]
+id = "TEMPLATE-CONTRACT"
+name = "UOR Template Repository Contract"
+citation = "UOR Foundation, TEMPLATE-CONTRACT.md (universal repository contract)"
+checksum = "none"
+checksum_reason = "Checked per-file via template-contract.json SHA-256 pins."
+statement = "The universal rules R1-R6, the pinned policy and toolchain files, and the boundary between template infrastructure and domain model."
+realized_by = ["TC-01"]
+
+[[authority]]
+id = "NEMESIS-CORE-4.0"
+name = "Nemesis Core 4.0 Open Skirmish & Solo/Co-Op Wargame Engine"
+citation = "Nemesis Core 4.0 SRD — Open-Source Tactical Skirmish & Campaign Engine Specification"
+checksum = "none"
+checksum_reason = "Formalized directly in UnitSynthesis.lex.tex, CombatEngine.lex.tex, ResonanceWeave.lex.tex, NemesisChit.lex.tex, CampaignBastion.lex.tex, and NemesisEngine.lex.tex."
+statement = "3D Unit Synthesis [Doctrine x Chassis x Echelon], 6-Berth / 16-Alloy Charter, Zero-Stat-Inflation, Unified d6 Strike Pool, 6-Frequency Resonance Weave, 5-Round Opaque Command Chit AI, and Orbital Bastion Campaign Ledger."
+realized_by = ["KZ-01", "KZ-02", "KZ-03", "KZ-04", "KZ-05", "KZ-06", "KZ-07"]
+
+[[authority]]
+id = "LEXLEAN-0.4"
+name = "LexLean v0.4.0 Closed-Lexicon Compiler"
+citation = "UOR Foundation, LexLean v0.4.0 Closed-Lexicon Compiler & Lean 4.32.1 Kernel Specification"
+checksum = "none"
+checksum_reason = "Pinned in lexlean.toml and lexlean.lock."
+statement = "Closed-lexicon LaTeX authoring (.lex.tex), total lexical closure, zero-sorry Lean 4.32.1 verification, and certified Rust substrate export."
+realized_by = ["KZ-07", "KZ-15"]
+
+[[authority]]
+id = "PRISMPM-0.4"
+name = "PrismPM v0.4 Holistic Facet & Holo Container Specification"
+citation = "UOR Foundation, PrismPM v0.4 Holistic Package, Facet & Holo Container Specification"
+checksum = "none"
+checksum_reason = "Pinned in prismpm.toml and prismpm.lock."
+statement = "Deterministic compilation of Architecture, Security, Quality, Feature/Journey, and OPM/UML design views from .lex.tex into model.prism.json."
+realized_by = ["KZ-09", "KZ-15"]
+
+[[authority]]
+id = "ISO-42010"
+name = "ISO/IEC/IEEE 42010:2022 Architecture Description"
+citation = "ISO/IEC/IEEE 42010:2022 Systems and software engineering — Architecture description"
+checksum = "none"
+checksum_reason = "International standard cited in Architecture::standardIso42010."
+statement = "Stakeholders, concerns, architecture viewpoints, architecture views, and correspondence rules across multi-vantage system models."
+realized_by = ["KZ-08"]
+
+[[authority]]
+id = "ISO-27034"
+name = "ISO/IEC 27034-1:2011, ISO/IEC 27005:2022 & ISO/IEC 25010:2023"
+citation = "ISO/IEC 27034-1:2011 Application security, ISO/IEC 27005:2022 Risk management & ISO/IEC 25010:2023 Product quality"
+checksum = "none"
+checksum_reason = "International standards cited in Architecture::standardIso25010, standardIso27005, and standardIso27034Part1."
+statement = "Assets, threats, likelihood/impact risks, application security controls, security activities, verification measurements, and quality measures."
+realized_by = ["KZ-10", "KZ-14"]
+
+[[authority]]
+id = "ISO-19450-OPM"
+name = "ISO/PAS 19450:2015 OPM & OMG UML 2.5.1"
+citation = "ISO/PAS 19450:2015 Object-Process Methodology (OPM) & OMG Unified Modeling Language (UML) 2.5.1"
+checksum = "none"
+checksum_reason = "International design notation standards compiled by PrismPM."
+statement = "Bimodal object-process diagrams (.opl) with procedural/invocation links and UML 2.5.1 component, sequence, and state-machine views (.puml)."
+realized_by = ["KZ-11"]
+
+[[authority]]
+id = "W3C-WCAG-22"
+name = "W3C WCAG 2.2 Level AA & WAI-ARIA 1.2"
+citation = "W3C Web Content Accessibility Guidelines (WCAG) 2.2 Level AA & Accessible Rich Internet Applications (WAI-ARIA) 1.2"
+checksum = "none"
+checksum_reason = "Open web accessibility standards verified in Presentation.lex.tex."
+statement = "Relative luminance contrast ratios (>= 4.5:1 normal text, >= 3.0:1 UI), accessible navigation landmarks, and progressive 5-pole user journeys."
+realized_by = ["KZ-12", "KZ-13"]

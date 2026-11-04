@@ -1,0 +1,60 @@
+\begin{lexlean}{Application}
+\useglossary{lexlean.std.bool@1.2.0}
+\useglossary{lexlean.std.nat@1.2.0}
+\title{Boolean}
+\begin{semanticmodule}
+structure{
+  name: ApplicationModel,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: profile, type: String},
+    {name: name, type: String},
+    {name: cargoName, type: String},
+    {name: cargoVersion, type: String},
+    {name: cargoDescription, type: String},
+    {name: cargoRepository, type: String},
+    {name: cargoHomepage, type: String},
+    {name: entryRoot, type: String},
+    {name: coreContract, type: String},
+    {name: requestMaximum, type: Nat},
+    {name: responseMaximum, type: Nat},
+    {name: guestAllocationMaximum, type: Nat},
+    {name: capabilitiesEmpty, type: Bool},
+    {name: fatArchive, type: Bool}
+  ]
+}
+
+definition{
+  name: application,
+  parameters: [],
+  result: ApplicationModel,
+  body: (record ApplicationModel {profile := "prismpm/text-application/1", name := "karst-zero", cargoName := "karst_zero_app", cargoVersion := "0.4.0", cargoDescription := "Karst: Zero Horizon — Nemesis Core 4.0 Tactical Wargame, 3D Unit Synthesis & Core-Wasm Workbench", cargoRepository := "https://github.com/afflom/karst-zero", cargoHomepage := "https://afflom.github.io/karst-zero/", entryRoot := "CombatEngine::resolveOpposedNetHits", coreContract := "hologram:guest/core-wasm@1", requestMaximum := 52, responseMaximum := 27, guestAllocationMaximum := 65536, capabilitiesEmpty := true, fatArchive := true}),
+  axioms: []
+}
+
+theorem{
+  name: applicationProfileIsTextApplication,
+  parameters: [],
+  statement: ((prim equal (project (application) profile) "prismpm/text-application/1" : Bool) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: applicationCapabilitiesAreEmpty,
+  parameters: [],
+  statement: ((project (application) capabilitiesEmpty) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: applicationIsFatArchive,
+  parameters: [],
+  statement: ((project (application) fatArchive) = true),
+  proof: decide{},
+  axioms: []
+}
+\end{semanticmodule}
+\end{lexlean}

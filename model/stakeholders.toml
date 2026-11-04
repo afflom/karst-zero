@@ -1,0 +1,67 @@
+# Stakeholder, Concern, Viewpoint, and View Register (ISO/IEC/IEEE 42010:2022)
+# Synchronized with `src/Architecture.lex.tex` and `.prism/build/<digest>/model.prism.json`.
+
+spec = "prismpm/stakeholders/1"
+module = "Architecture"
+
+[[stakeholder]]
+index = 0
+id = "Architecture::stakeholder00TacticalCommander"
+code = "STK-COMMANDER"
+observer_quadruple = "OBS-COMMANDER"
+name = "Tactical Strike Commander & Solo/Co-Op Wargamer"
+text = "Deploys up to 6 Roster Berths onto the 8x8 Karst grid, resolves Unified d6 Strike Pool rolls, draws Opaque Command Chits, and navigates 5-round Vault Drops."
+
+[[stakeholder]]
+index = 1
+id = "Architecture::stakeholder01RosterArchitect"
+code = "STK-QUARTERMASTER"
+observer_quadruple = "OBS-QUARTERMASTER"
+name = "Roster Synthesis Architect & Orbital Bastion Quartermaster"
+text = "Synthesizes units across the 150-archetype [Doctrine x Chassis x Echelon] matrix within the 6-Berth / 16-Alloy Charter, sockets Hardpoint Modules, and executes Pre-Drop Crew Assignments."
+
+[[stakeholder]]
+index = 2
+id = "Architecture::stakeholder02NemesisEngineDesigner"
+code = "STK-NEMESIS-ENGINE"
+observer_quadruple = "OBS-NEMESIS-ENGINE"
+name = "Nemesis Core 4.0 Game Engine Designer & Ruleset Steward"
+text = "Defines and verifies the 5 subsystems of the Nemesis Core 4.0 game engine (UnitSynthesis, CombatEngine, ResonanceWeave, NemesisChit, CampaignBastion) and their complete binding into Karst: Zero Horizon."
+
+[[stakeholder]]
+index = 3
+id = "Architecture::stakeholder03RuntimeAuditor"
+code = "STK-AUDITOR"
+observer_quadruple = "OBS-AUDITOR"
+name = "PrismPM / LexLean Runtime Conformance & Security Auditor"
+text = "Audits the compiled model.prism.json, OPM/UML design diagrams, zero-sorry LexLean v0.4 theorems, WCAG 2.2 AA contrast tokens, and hologram:guest/core-wasm@1 boundary invariants."
+
+[[concern]]
+index = 0
+id = "Architecture::concern00UnitSynthesisBalance"
+name = "3D [Doctrine x Chassis x Echelon] 150-Archetype Synthesis & 6-Berth / 16-Alloy Charter"
+
+[[concern]]
+index = 1
+id = "Architecture::concern01ZeroStatInflationProgression"
+name = "Zero-Stat-Inflation Horizontal Progression, 3-XP Hardpoint Sockets & Zero-Stat Permadeath"
+
+[[concern]]
+index = 2
+id = "Architecture::concern02DeterministicStrikeCombat"
+name = "Unified d6 Strike Pool, Cover LoS, Automaton Subsystem Rupture & Fireteam Spillover"
+
+[[concern]]
+index = 3
+id = "Architecture::concern03OpaqueCommandChitAi"
+name = "5-Round Opaque Command Chit Pool, 1d6 Warden Berth Wrap-Around & 6 Doctrine AI Routines"
+
+[[concern]]
+index = 4
+id = "Architecture::concern04CoreWasmDeterminism"
+name = "hologram:guest/core-wasm@1 52B/27B Boundary, 64 KiB Arena & Canonical FNV-1a Save Digest"
+
+[[concern]]
+index = 5
+id = "Architecture::concern05FullNemesisEngineBinding"
+name = "Complete Consumption of All 5 Nemesis Core 4.0 Subsystems by Karst: Zero Horizon"

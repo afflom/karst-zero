@@ -1,0 +1,162 @@
+\begin{lexlean}{ResonanceWeave}
+\useglossary{lexlean.std.bool@1.2.0}
+\useglossary{lexlean.std.nat@1.2.0}
+\title{Boolean}
+\begin{semanticmodule}
+structure{
+  name: ResonanceFrequencySpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: id, type: String},
+    {name: index, type: Nat},
+    {name: domain, type: String},
+    {name: minorDirectiveId, type: String},
+    {name: majorHarmonicSummary, type: String}
+  ]
+}
+
+structure{
+  name: HardpointModuleSpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: id, type: String},
+    {name: name, type: String},
+    {name: category, type: String},
+    {name: socketsRequired, type: Nat},
+    {name: alloyCost, type: Nat},
+    {name: isMasterwork, type: Bool}
+  ]
+}
+
+structure{
+  name: ResonanceBacklashEntry,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: id, type: String},
+    {name: rollLabel, type: String},
+    {name: name, type: String},
+    {name: effect, type: String}
+  ]
+}
+
+definition{name: weavesResonanceHarmonic, parameters: [r : Nat], result: Prop, body: (0 < r)}
+
+definition{
+  name: frequencies,
+  parameters: [],
+  result: (List ResonanceFrequencySpec),
+  body: (cons (record ResonanceFrequencySpec {id := "FerroKinetics", index := 0, domain := "Matter", minorDirectiveId := "res-ferro-skin", majorHarmonicSummary := "Sunder Hull & Ferro-Kinetic Shove"}) (cons (record ResonanceFrequencySpec {id := "PlasmaArc", index := 1, domain := "Energy", minorDirectiveId := "res-arc-jolt", majorHarmonicSummary := "Reactor Overload & Arc Lance"}) (cons (record ResonanceFrequencySpec {id := "BioSynth", index := 2, domain := "Life", minorDirectiveId := "res-bio-mend", majorHarmonicSummary := "Nanite Suture & Cellular Regeneration"}) (cons (record ResonanceFrequencySpec {id := "NeuroHacking", index := 3, domain := "Mind", minorDirectiveId := "res-psychic-lash", majorHarmonicSummary := "Synaptic Spike & Actuator Disruption"}) (cons (record ResonanceFrequencySpec {id := "FoldSpace", index := 4, domain := "Space", minorDirectiveId := "res-blink-step", majorHarmonicSummary := "Fold-Space Blink & Phase Displacement"}) (cons (record ResonanceFrequencySpec {id := "ChronoDrift", index := 5, domain := "Time", minorDirectiveId := "res-chrono-haste", majorHarmonicSummary := "Chrono-Slip Overdrive & Temporal Reroll"}) (nil ResonanceFrequencySpec))))))),
+  axioms: []
+}
+
+definition{
+  name: moduleCatalog,
+  parameters: [],
+  result: (List HardpointModuleSpec),
+  body: (cons (record HardpointModuleSpec {id := "hp-exploit", name := "Weakpoint Exploit", category := "Combat", socketsRequired := 1, alloyCost := 3, isMasterwork := false}) (cons (record HardpointModuleSpec {id := "hp-crit-threshold", name := "Overcharge Crit (2)", category := "Combat", socketsRequired := 1, alloyCost := 3, isMasterwork := false}) (cons (record HardpointModuleSpec {id := "hp-precision", name := "Optics Precision", category := "Combat", socketsRequired := 1, alloyCost := 3, isMasterwork := false}) (cons (record HardpointModuleSpec {id := "hp-armor-piercing", name := "Breach Munitions (AP 1)", category := "Combat", socketsRequired := 1, alloyCost := 3, isMasterwork := false}) (cons (record HardpointModuleSpec {id := "hp-heavy-carapace", name := "Reinforced Carapace", category := "Combat", socketsRequired := 1, alloyCost := 3, isMasterwork := false}) (cons (record HardpointModuleSpec {id := "hp-pulse-carbine", name := "Pulse Carbine", category := "Combat", socketsRequired := 1, alloyCost := 3, isMasterwork := false}) (cons (record HardpointModuleSpec {id := "hp-tactical-rally", name := "Command Uplink (Rally)", category := "Combat", socketsRequired := 1, alloyCost := 3, isMasterwork := false}) (cons (record HardpointModuleSpec {id := "hp-siphon", name := "Surge Siphon (1)", category := "Surge & Economy", socketsRequired := 1, alloyCost := 3, isMasterwork := false}) (cons (record HardpointModuleSpec {id := "hp-dynamo-core", name := "Dynamo Capacitor (+1 Surge)", category := "Surge & Economy", socketsRequired := 1, alloyCost := 3, isMasterwork := false}) (cons (record HardpointModuleSpec {id := "hp-bounty-tracker", name := "Bounty Telemetry", category := "Surge & Economy", socketsRequired := 1, alloyCost := 3, isMasterwork := false}) (cons (record HardpointModuleSpec {id := "hp-remote-telemetry", name := "Remote Telemetry Link", category := "Field Utility", socketsRequired := 1, alloyCost := 3, isMasterwork := false}) (cons (record HardpointModuleSpec {id := "hp-minor-resonance", name := "Minor Resonance Initiate", category := "Resonance", socketsRequired := 1, alloyCost := 3, isMasterwork := false}) (cons (record HardpointModuleSpec {id := "hp-deterministic-strike", name := "Masterwork Targeting Core", category := "Masterwork", socketsRequired := 2, alloyCost := 6, isMasterwork := true}) (cons (record HardpointModuleSpec {id := "hp-aegis-wall", name := "Masterwork Aegis Barrier", category := "Masterwork", socketsRequired := 2, alloyCost := 6, isMasterwork := true}) (cons (record HardpointModuleSpec {id := "hp-thruster-skiff", name := "Grav-Skiff Mount", category := "Masterwork", socketsRequired := 2, alloyCost := 6, isMasterwork := true}) (cons (record HardpointModuleSpec {id := "hp-lethal-execution", name := "Executioner Rail-Core", category := "Masterwork", socketsRequired := 2, alloyCost := 6, isMasterwork := true}) (nil HardpointModuleSpec))))))))))))))))),
+  axioms: []
+}
+
+definition{
+  name: backlashTable,
+  parameters: [],
+  result: (List ResonanceBacklashEntry),
+  body: (cons (record ResonanceBacklashEntry {id := "BACKLASH-1", rollLabel := "1", name := "Surge Cell Drain", effect := "Lose 1d3 Surge Cells immediately."}) (cons (record ResonanceBacklashEntry {id := "BACKLASH-2", rollLabel := "2", name := "Synaptic Strain", effect := "Suffer -1 die on all Cognition and Evasion tests this round."}) (cons (record ResonanceBacklashEntry {id := "BACKLASH-3", rollLabel := "3", name := "Somatic Feedback", effect := "Suffer 1 unmitigated Integrity/Hull damage."}) (cons (record ResonanceBacklashEntry {id := "BACKLASH-4", rollLabel := "4", name := "Phase Displacement", effect := "Caster becomes Staggered and is pushed 2 inches in a random direction."}) (cons (record ResonanceBacklashEntry {id := "BACKLASH-5", rollLabel := "5", name := "Harmonic Shockwave", effect := "Every unit within 3 inches of the caster suffers 1 automatic Hit."}) (cons (record ResonanceBacklashEntry {id := "BACKLASH-6", rollLabel := "6+", name := "Catastrophic Paradox", effect := "Caster suffers 2 unmitigated damage, loses all Surge, and suffers Critical Trauma."}) (nil ResonanceBacklashEntry))))))),
+  axioms: []
+}
+
+definition{
+  name: harmonicRankForEchelon,
+  parameters: [echelonTier : Nat],
+  result: Nat,
+  body: (prim subtract echelonTier 1 : Nat),
+  axioms: []
+}
+
+definition{
+  name: harmonicTierForCount,
+  parameters: [matchingModules : Nat],
+  result: Nat,
+  body: (if (3 <=? matchingModules) then 2 else (if (2 <=? matchingModules) then 1 else 0)),
+  axioms: []
+}
+
+definition{
+  name: triggersOverheatBacklash,
+  parameters: [matchingModules : Nat, overheatDieRoll : Nat],
+  result: Bool,
+  body: ((2 <=? matchingModules) && (overheatDieRoll =? 1)),
+  axioms: []
+}
+
+definition{
+  name: checkModuleSpecPricing,
+  parameters: [m : HardpointModuleSpec],
+  result: Bool,
+  body: (if (project m isMasterwork) then (((project m socketsRequired) =? 2) && ((project m alloyCost) =? 6)) else (((project m socketsRequired) =? 1) && ((project m alloyCost) =? 3))),
+  axioms: []
+}
+
+definition{
+  name: allModulesCorrectlyPriced,
+  parameters: [xs : (List HardpointModuleSpec)],
+  result: Bool,
+  body: (match xs
+    | List.nil => true
+    | List.cons head tail => (if (checkModuleSpecPricing head) then (allModulesCorrectlyPriced tail) else false)),
+  axioms: [],
+  recursive_argument: xs
+}
+
+theorem{
+  name: resonanceFrequencyCountIsSix,
+  parameters: [],
+  statement: (((prim length (frequencies) : Nat) =? 6) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: moduleCatalogCountIsSixteen,
+  parameters: [],
+  statement: (((prim length (moduleCatalog) : Nat) =? 16) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: masterworkRequiresTwoSocketsAndSixAlloy,
+  parameters: [],
+  statement: ((allModulesCorrectlyPriced (moduleCatalog)) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: harmonicRankEqualsEchelonMinusOne,
+  parameters: [],
+  statement: (((((harmonicRankForEchelon 2) =? 1) && ((harmonicRankForEchelon 3) =? 2)) && ((harmonicRankForEchelon 4) =? 3)) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: minorAndMajorHarmonicThresholdsHold,
+  parameters: [],
+  statement: (((((harmonicTierForCount 1) =? 0) && ((harmonicTierForCount 2) =? 1)) && ((harmonicTierForCount 3) =? 2)) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: overheatRollOneTriggersBacklash,
+  parameters: [],
+  statement: (((triggersOverheatBacklash 2 1) && (if (triggersOverheatBacklash 2 4) then false else true)) = true),
+  proof: decide{},
+  axioms: []
+}
+\end{semanticmodule}
+\end{lexlean}

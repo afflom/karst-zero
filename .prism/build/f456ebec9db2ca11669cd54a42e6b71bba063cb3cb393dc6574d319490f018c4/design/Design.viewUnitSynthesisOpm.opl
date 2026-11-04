@@ -1,0 +1,17 @@
+View: Design::viewUnitSynthesisOpm
+Title: Roster Architect OPM View: 3D Unit Synthesis [Doctrine x Chassis x Echelon], Resonance Weave & 3-XP Hardpoint Socket Unlock
+Viewpoint: Architecture::viewpoint01RosterSynthesisViewpoint
+Notation: ISO/PAS 19450:2015 OPM, Prism OPL profile
+
+component00UnitSynthesisCompiler is an object.
+component00UnitSynthesisCompiler can be stateArchetypeCompiled.
+component03ResonanceWeaveEngine is an object.
+component04OrbitalBastionLedger is an object.
+component05CoreWasmArithmeticGuest is an object.
+processSynthesizeUnit3D is a process.
+processUnlockHardpointSocket is a process.
+processWeaveResonanceHarmonic is a process.
+processSynthesizeUnit3D requires component03ResonanceWeaveEngine.
+processSynthesizeUnit3D yields component00UnitSynthesisCompiler.
+processUnlockHardpointSocket affects component04OrbitalBastionLedger.
+processSynthesizeUnit3D zooms into processUnlockHardpointSocket, in that sequence.

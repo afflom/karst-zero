@@ -1,0 +1,193 @@
+\begin{lexlean}{CombatEngine}
+\useglossary{lexlean.std.bool@1.2.0}
+\useglossary{lexlean.std.nat@1.2.0}
+\title{Boolean}
+\begin{semanticmodule}
+structure{
+  name: StrikeFixture,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: id, type: String},
+    {name: rawAtkHits, type: Nat},
+    {name: momentumSectors, type: Nat},
+    {name: rawDefHits, type: Nat},
+    {name: coverLevel, type: Nat},
+    {name: targetPlating, type: Nat},
+    {name: targetResilience, type: Nat},
+    {name: expectedNetHits, type: Nat},
+    {name: expectedFinalTrauma, type: Nat}
+  ]
+}
+
+structure{
+  name: FireteamSpilloverFixture,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: id, type: String},
+    {name: initialMembers, type: Nat},
+    {name: woundsPerMember, type: Nat},
+    {name: incomingDamage, type: Nat},
+    {name: expectedRemainingMembers, type: Nat},
+    {name: expectedCarryoverWounds, type: Nat}
+  ]
+}
+
+structure{
+  name: SubsystemRuptureEntry,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: id, type: String},
+    {name: rollRange, type: String},
+    {name: name, type: String},
+    {name: effect, type: String}
+  ]
+}
+
+definition{name: resolvesOpposedStrike, parameters: [k : Nat], result: Prop, body: (0 < k)}
+
+definition{
+  name: momentumBonusHit,
+  parameters: [movedSectors : Nat],
+  result: Nat,
+  body: (if (4 <=? movedSectors) then 1 else 0),
+  axioms: []
+}
+
+definition{
+  name: coverAutoEvade,
+  parameters: [coverLevel : Nat],
+  result: Nat,
+  body: (if (coverLevel =? 1) then 1 else 0),
+  axioms: []
+}
+
+definition{
+  name: resolveOpposedNetHits,
+  parameters: [rawAtkHits : Nat, momentumSectors : Nat, rawDefHits : Nat, coverLevel : Nat],
+  result: Nat,
+  body: (if (2 <=? coverLevel) then 0 else (prim subtract (rawAtkHits + (momentumBonusHit momentumSectors)) (rawDefHits + (coverAutoEvade coverLevel)) : Nat)),
+  axioms: []
+}
+
+definition{
+  name: resolveMitigatedTrauma,
+  parameters: [netHits : Nat, plating : Nat, resilience : Nat],
+  result: Nat,
+  body: (prim subtract (prim subtract netHits plating : Nat) resilience : Nat),
+  axioms: []
+}
+
+definition{
+  name: subsystemRuptureTable,
+  parameters: [],
+  result: (List SubsystemRuptureEntry),
+  body: (cons (record SubsystemRuptureEntry {id := "RUPTURE-SERVO", rollRange := "1-2", name := "Servo Actuator Lock", effect := "Unit permanently loses -2 Stride for the rest of the sector drop."}) (cons (record SubsystemRuptureEntry {id := "RUPTURE-OPTICS", rollRange := "3-4", name := "Targeting Optics Scour", effect := "Unit permanently suffers -1 Firepower die for the rest of the drop."}) (cons (record SubsystemRuptureEntry {id := "RUPTURE-CAPACITOR", rollRange := "5", name := "Capacitor Hull Vent", effect := "Unit loses all current Surge Cells and suffers -1 Plating (min 0)."}) (cons (record SubsystemRuptureEntry {id := "RUPTURE-CORE", rollRange := "6", name := "Catastrophic Core Overload", effect := "Unit immediately suffers +2 additional Hull Plating damage."}) (nil SubsystemRuptureEntry))))),
+  axioms: []
+}
+
+definition{
+  name: strikeFixtures,
+  parameters: [],
+  result: (List StrikeFixture),
+  body: (cons (record StrikeFixture {id := "STRIKE-OPEN-CHARGE", rawAtkHits := 4, momentumSectors := 4, rawDefHits := 1, coverLevel := 0, targetPlating := 1, targetResilience := 1, expectedNetHits := 4, expectedFinalTrauma := 2}) (cons (record StrikeFixture {id := "STRIKE-BARRICADE-COVER", rawAtkHits := 3, momentumSectors := 2, rawDefHits := 1, coverLevel := 1, targetPlating := 1, targetResilience := 0, expectedNetHits := 1, expectedFinalTrauma := 0}) (cons (record StrikeFixture {id := "STRIKE-BULKHEAD-BLOCKED", rawAtkHits := 5, momentumSectors := 4, rawDefHits := 0, coverLevel := 2, targetPlating := 0, targetResilience := 0, expectedNetHits := 0, expectedFinalTrauma := 0}) (cons (record StrikeFixture {id := "STRIKE-SIEGE-BREACH", rawAtkHits := 6, momentumSectors := 4, rawDefHits := 1, coverLevel := 1, targetPlating := 2, targetResilience := 1, expectedNetHits := 5, expectedFinalTrauma := 2}) (nil StrikeFixture))))),
+  axioms: []
+}
+
+definition{
+  name: checkStrikeFixture,
+  parameters: [f : StrikeFixture],
+  result: Bool,
+  body: (((resolveOpposedNetHits (project f rawAtkHits) (project f momentumSectors) (project f rawDefHits) (project f coverLevel)) =? (project f expectedNetHits)) && ((resolveMitigatedTrauma (project f expectedNetHits) (project f targetPlating) (project f targetResilience)) =? (project f expectedFinalTrauma))),
+  axioms: []
+}
+
+definition{
+  name: allStrikeFixturesPass,
+  parameters: [xs : (List StrikeFixture)],
+  result: Bool,
+  body: (match xs
+    | List.nil => true
+    | List.cons head tail => (if (checkStrikeFixture head) then (allStrikeFixturesPass tail) else false)),
+  axioms: [],
+  recursive_argument: xs
+}
+
+definition{
+  name: fireteamSpilloverFixtures,
+  parameters: [],
+  result: (List FireteamSpilloverFixture),
+  body: (cons (record FireteamSpilloverFixture {id := "FT-SWARM-1W-SPILL", initialMembers := 3, woundsPerMember := 1, incomingDamage := 2, expectedRemainingMembers := 1, expectedCarryoverWounds := 0}) (cons (record FireteamSpilloverFixture {id := "FT-SQUAD-2W-SPILL", initialMembers := 2, woundsPerMember := 2, incomingDamage := 3, expectedRemainingMembers := 1, expectedCarryoverWounds := 1}) (cons (record FireteamSpilloverFixture {id := "FT-SQUAD-WIPE", initialMembers := 2, woundsPerMember := 2, incomingDamage := 4, expectedRemainingMembers := 0, expectedCarryoverWounds := 0}) (nil FireteamSpilloverFixture)))),
+  axioms: []
+}
+
+definition{
+  name: checkFireteamSpillover,
+  parameters: [f : FireteamSpilloverFixture],
+  result: Bool,
+  body: ((((prim multiply (project f expectedRemainingMembers) (project f woundsPerMember) : Nat) + (project f incomingDamage)) + (project f expectedCarryoverWounds)) =? ((prim multiply (project f initialMembers) (project f woundsPerMember) : Nat) + (prim multiply 2 (project f expectedCarryoverWounds) : Nat))),
+  axioms: []
+}
+
+definition{
+  name: allFireteamFixturesHold,
+  parameters: [xs : (List FireteamSpilloverFixture)],
+  result: Bool,
+  body: (match xs
+    | List.nil => true
+    | List.cons head tail => (if (checkFireteamSpillover head) then (allFireteamFixturesHold tail) else false)),
+  axioms: [],
+  recursive_argument: xs
+}
+
+theorem{
+  name: momentumChargeRequiresFourSectors,
+  parameters: [],
+  statement: ((((momentumBonusHit 3) =? 0) && ((momentumBonusHit 4) =? 1)) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: partialCoverGrantsOneAutoEvade,
+  parameters: [],
+  statement: ((((coverAutoEvade 0) =? 0) && ((coverAutoEvade 1) =? 1)) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: bulkheadFullCoverBlocksLineOfSight,
+  parameters: [],
+  statement: (((resolveOpposedNetHits 6 4 0 2) =? 0) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: armorAndToughnessMitigateNetHits,
+  parameters: [],
+  statement: ((allStrikeFixturesPass (strikeFixtures)) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: fireteamSpilloverDividesCasualtiesExact,
+  parameters: [],
+  statement: ((allFireteamFixturesHold (fireteamSpilloverFixtures)) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: subsystemRuptureTableHasFourOutcomes,
+  parameters: [],
+  statement: (((prim length (subsystemRuptureTable) : Nat) =? 4) = true),
+  proof: decide{},
+  axioms: []
+}
+\end{semanticmodule}
+\end{lexlean}

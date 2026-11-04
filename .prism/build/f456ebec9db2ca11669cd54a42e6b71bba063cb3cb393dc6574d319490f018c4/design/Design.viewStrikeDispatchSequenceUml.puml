@@ -1,0 +1,17 @@
+@startuml
+' UML 2.5.1 sequence diagram
+' view: Design::viewStrikeDispatchSequenceUml
+' viewpoint: Architecture::viewpoint04CoreWasmAuditViewpoint
+title Runtime Auditor UML 2.5.1 Sequence View: Command Chit Draw, Opposed Strike Pool, Core-Wasm holo_run & Bastion Ledger Settlement
+participant "component04OrbitalBastionLedger" as p0
+participant "component00UnitSynthesisCompiler" as p1
+participant "component02CommandChitDirector" as p2
+participant "component01StrikePoolResolver" as p3
+participant "component05CoreWasmArithmeticGuest" as p4
+p1 -> p0 : processExecuteBastionPreDrop
+p0 -> p2 : processDrawCommandChit
+p2 -> p3 : processResolveOpposedStrike
+p3 -> p4 : processDispatchCoreWasmRun
+p4 --> p3 : processDispatchCoreWasmRun
+p3 ->> p0 : processSettleCampaignExtraction
+@enduml

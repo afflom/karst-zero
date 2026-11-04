@@ -1,0 +1,99 @@
+# model/ids.toml --- the conformance ID register (R1, R2, R3, CM-02).
+
+spec = "template/1"
+
+[[id]]
+id = "TC-01"
+level = "build"
+suite = "contract"
+statement = "The Contract.lex.tex checker decides whether every universal policy and lock pin matches its expected SHA-256 digest"
+
+[[id]]
+id = "KZ-01"
+level = "build"
+suite = "conceptual"
+statement = "The Nemesis Core 4.0 3D Unit Synthesis matrix in UnitSynthesis.lex.tex compiles all 6 x 5 x 5 = 150 [Doctrine x Chassis x Echelon] archetypes and enforces the 6-Berth / 16-Alloy starting roster charter"
+
+[[id]]
+id = "KZ-02"
+level = "build"
+suite = "conceptual"
+statement = "The Horizontal Progression and Permadeath rules in UnitSynthesis.lex.tex enforce Zero-Stat-Inflation (XP never inflates base stats), 3-XP Hardpoint Socket unlocks (xp / 3, max +2), and Zero-Stat Permadeath"
+
+[[id]]
+id = "KZ-03"
+level = "build"
+suite = "conceptual"
+statement = "The Unified d6 Strike Pool in CombatEngine.lex.tex resolves opposed 4+ successes, Critical 6s, 4-sector Momentum Charges (+1 hit), Barricade Partial Cover (+1 auto-EVA), Bulkhead LoS blocking, Plating/Bio-Resilience mitigation, Automaton 1d6 Subsystem Rupture, and Fireteam casualty spillover"
+
+[[id]]
+id = "KZ-04"
+level = "build"
+suite = "conceptual"
+statement = "The Resonance Weave and Hardpoint Ordnance engine in ResonanceWeave.lex.tex models 6 Resonance Frequencies, 16 Hardpoint Modules (12 standard + 4 Masterwork), Harmonic Ranks (Echelon - 1), Minor/Major Harmonics, and the 6-entry Psionic Backlash table"
+
+[[id]]
+id = "KZ-05"
+level = "build"
+suite = "system"
+statement = "The 5-Round Opaque Command Chit Director in NemesisChit.lex.tex enforces Warden Chit pool return, 1d6 Warden Berth wrap-around selection (((d6 - 1) mod N) + 1), Multi-Berth Boss activations (ECH-3 = 2, ECH-4 = 3), and 6 deterministic Doctrine AI routines"
+
+[[id]]
+id = "KZ-06"
+level = "build"
+suite = "system"
+statement = "The Orbital Bastion Campaign Ledger in CampaignBastion.lex.tex models 4 Pre-Drop Crew Assignments, 3 Bastion Facilities, 6 Core Sector Contracts, 6-Alloy salvage cap, and canonical FNV-1a save digests"
+
+[[id]]
+id = "KZ-07"
+level = "build"
+suite = "contract"
+statement = "The Nemesis Core 4.0 Engine Completeness specification in NemesisEngine.lex.tex proves that Karst: Zero Horizon binds and consumes all 5 Nemesis Core 4.0 subsystems across hologram:guest/core-wasm@1 (52-byte request, 27-byte response, 65,536-byte arena)"
+
+[[id]]
+id = "KZ-08"
+level = "build"
+suite = "stakeholders"
+statement = "The ISO/IEC/IEEE 42010 architecture facet in Architecture.lex.tex models 4 stakeholders, 6 concerns, 6 viewpoints, 6 views, and 5 ISO standards with observer quadruple alignment"
+
+[[id]]
+id = "KZ-09"
+level = "build"
+suite = "system"
+statement = "The system topology in Architecture.lex.tex models 6 typed Nemesis Core 4.0 components (component00..05), 8 directed control/data edges (edge00..07), 6 executable features (feature00..05), and 4 stakeholder journeys (journey00..03)"
+
+[[id]]
+id = "KZ-10"
+level = "build"
+suite = "security"
+statement = "The security, threat, and quality facets in Architecture.lex.tex model 4 assets, 4 threats, 4 risks, 4 controls, 4 activities, 4 passed measurements, and 4 ISO/IEC 25010 quality measures"
+
+[[id]]
+id = "KZ-11"
+level = "build"
+suite = "design"
+statement = "The design facet in Design.lex.tex models 9 system processes, 6 system states, 2 ISO/PAS 19450 OPM views (.opl), and 3 OMG UML 2.5.1 views (.puml) compiled by PrismPM"
+
+[[id]]
+id = "KZ-12"
+level = "build"
+suite = "branding-ux"
+statement = "The branding and UI/UX facet in Presentation.lex.tex models 12 light/dark sRGB tokens, 10 WCAG 2.2 AA contrast pairs (>= 4.5:1 text, >= 3.0:1 UI), 6 type steps, 6 spacing steps, and 4 portal pages"
+
+[[id]]
+id = "KZ-13"
+level = "build"
+suite = "user-journeys"
+statement = "The user-journey facet in Presentation.lex.tex models 4 progressive 5-pole journeys (20 steps across sensual-object, sensual-quality, real-quality, withdrawn, and verification), WAI-ARIA navigation patterns, and pedagogy guides"
+
+[[id]]
+id = "KZ-14"
+level = "build"
+suite = "security"
+statement = "The normative standards profile in Standards.lex.tex binds 6 standards (nemesis-core-4-0, iso-42010-2022, iso-25010-2023, iso-27005-27034, prismpm-holo-v4, wcag-2-2-aa) with full coverage across panels, artifacts, journeys, navigations, visualizations, modules, and pages"
+
+[[id]]
+id = "KZ-15"
+level = "build"
+suite = "contract"
+statement = "The unified release profile in Main.lex.tex and .prism/build/<digest>/model.prism.json binds 76 compiled facet entities, 17 verified LexLean v0.4 modules, and the interactive Karst: Zero Horizon tactical application"

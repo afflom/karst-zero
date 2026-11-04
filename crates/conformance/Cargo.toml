@@ -1,0 +1,16 @@
+[package]
+name = "repo-conformance"
+description = "The BDD runner and the honesty meta-gate. Dev and CI only; never a dependency of a shipped crate."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish = false
+
+[dependencies]
+karst-kernel = { workspace = true }
+repo-model = { workspace = true }
+serde_json = "1.0.151"
+
+[lints]
+workspace = true

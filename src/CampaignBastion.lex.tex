@@ -1,0 +1,126 @@
+\begin{lexlean}{CampaignBastion}
+\useglossary{lexlean.std.bool@1.2.0}
+\useglossary{lexlean.std.nat@1.2.0}
+\title{Boolean}
+\begin{semanticmodule}
+structure{
+  name: CrewAssignmentSpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: id, type: String},
+    {name: name, type: String},
+    {name: testedStat, type: String},
+    {name: yieldSummary, type: String},
+    {name: pushBacklashSummary, type: String}
+  ]
+}
+
+structure{
+  name: BastionFacilitySpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: id, type: String},
+    {name: name, type: String},
+    {name: alloyCost, type: Nat},
+    {name: effectSummary, type: String}
+  ]
+}
+
+structure{
+  name: SectorContractSpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: id, type: String},
+    {name: number, type: Nat},
+    {name: code, type: String},
+    {name: title, type: String},
+    {name: baseAlloyReward, type: Nat}
+  ]
+}
+
+definition{name: settlesOrbitalBastionCharter, parameters: [b : Nat], result: Prop, body: (0 < b)}
+
+definition{
+  name: crewAssignments,
+  parameters: [],
+  result: (List CrewAssignmentSpec),
+  body: (cons (record CrewAssignmentSpec {id := "SectorRecon", name := "Sector Recon", testedStat := "COG", yieldSummary := "+1 Recon Progress per success (3 Recon = +1 Prep Token)", pushBacklashSummary := "Operative starts next drop Shaken on Push failure"}) (cons (record CrewAssignmentSpec {id := "ScrapSalvaging", name := "Scrap Salvaging", testedStat := "FPR", yieldSummary := "+1 Raw Alloy per success (max +3 Alloy)", pushBacklashSummary := "Operative starts next drop Staggered on Push failure"}) (cons (record CrewAssignmentSpec {id := "MedBayOverhaul", name := "Med-Bay Overhaul", testedStat := "COG", yieldSummary := "Clear 1 permanent stat penalty or Subsystem Rupture", pushBacklashSummary := "Costs +2 emergency Alloy on Push failure"}) (cons (record CrewAssignmentSpec {id := "CombatSimDrill", name := "Combat Sim-Drill", testedStat := "EVA", yieldSummary := "+1 XP on 2+ successes (3 XP = +1 Hardpoint Socket)", pushBacklashSummary := "Operative loses 1 starting Surge Cell on Push failure"}) (nil CrewAssignmentSpec))))),
+  axioms: []
+}
+
+definition{
+  name: bastionFacilities,
+  parameters: [],
+  result: (List BastionFacilitySpec),
+  body: (cons (record BastionFacilitySpec {id := "autoDocInfirmary", name := "Auto-Doc Infirmary", alloyCost := 8, effectSummary := "First Med-Bay Overhaul each Campaign Turn is free"}) (cons (record BastionFacilitySpec {id := "deepScanArray", name := "Deep-Scan Array", alloyCost := 8, effectSummary := "Automatically grants +1 free Recon Progress every Pre-Drop Phase"}) (cons (record BastionFacilitySpec {id := "ordnanceFoundry", name := "Ordnance Foundry", alloyCost := 10, effectSummary := "Automatically supplies +1 free Single-Use Field Stim every drop"}) (nil BastionFacilitySpec)))),
+  axioms: []
+}
+
+definition{
+  name: sectorContracts,
+  parameters: [],
+  result: (List SectorContractSpec),
+  body: (cons (record SectorContractSpec {id := "scen-1-alloy-sweep", number := 1, code := "SCN-01", title := "Alloy Cache Sweep", baseAlloyReward := 6}) (cons (record SectorContractSpec {id := "scen-2-reactor-hold", number := 2, code := "SCN-02", title := "Central Reactor Hold", baseAlloyReward := 7}) (cons (record SectorContractSpec {id := "scen-3-data-heist", number := 3, code := "SCN-03", title := "Core Data Sabotage", baseAlloyReward := 8}) (cons (record SectorContractSpec {id := "scen-4-gauntlet-run", number := 4, code := "SCN-04", title := "Bulkhead Breakthrough", baseAlloyReward := 8}) (cons (record SectorContractSpec {id := "scen-5-vip-rescue", number := 5, code := "SCN-05", title := "VIP Courier Extraction", baseAlloyReward := 9}) (cons (record SectorContractSpec {id := "scen-6-boss-elimination", number := 6, code := "SCN-06", title := "Warden Decapitation Strike", baseAlloyReward := 12}) (nil SectorContractSpec))))))),
+  axioms: []
+}
+
+definition{
+  name: computeSalvageYield,
+  parameters: [rawSuccesses : Nat],
+  result: Nat,
+  body: (if (3 <=? rawSuccesses) then 3 else rawSuccesses),
+  axioms: []
+}
+
+definition{
+  name: computeCanonicalSaveDigestWord,
+  parameters: [treasury : Nat, recon : Nat, contracts : Nat, rosterCount : Nat],
+  result: Nat,
+  body: ((((prim multiply treasury 1000 : Nat) + (prim multiply recon 100 : Nat)) + (prim multiply contracts 10 : Nat)) + rosterCount),
+  axioms: []
+}
+
+theorem{
+  name: crewAssignmentCountIsFour,
+  parameters: [],
+  statement: (((prim length (crewAssignments) : Nat) =? 4) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: bastionFacilityCountIsThree,
+  parameters: [],
+  statement: (((prim length (bastionFacilities) : Nat) =? 3) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: sectorContractCountIsSix,
+  parameters: [],
+  statement: (((prim length (sectorContracts) : Nat) =? 6) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: salvageYieldCappedAtThree,
+  parameters: [],
+  statement: ((((computeSalvageYield 2) =? 2) && ((computeSalvageYield 5) =? 3)) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: canonicalSaveReceiptDeterministic,
+  parameters: [],
+  statement: (((computeCanonicalSaveDigestWord 16 2 1 5) =? 16215) = true),
+  proof: decide{},
+  axioms: []
+}
+\end{semanticmodule}
+\end{lexlean}

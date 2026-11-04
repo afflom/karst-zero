@@ -1,0 +1,21 @@
+spec = "lexlean/entry/1"
+id = "settles-orbital-bastion-charter"
+category = "function"
+signature = "(pi ((explicit b (const lexlean.std.nat::nat))) (sort prop))"
+surface_arity = 1
+frame = "call"
+
+[denotation]
+kind = "lean"
+module = "KarstZero.CampaignBastion"
+name = "KarstZero.CampaignBastion.settlesOrbitalBastionCharter"
+
+[[form]]
+id = "settles-orbital-bastion-charter"
+channel = "math"
+surface = "settlesOrbitalBastionCharter"
+canonical_source = true
+features = []
+
+[render]
+math = "(seq (operator-name settlesOrbitalBastionCharter) (paren (seq (slot 0))))"
