@@ -18,20 +18,20 @@
 
 @keyframes karst-idle-bob {
   0%, 100% {
-    transform: translateY(0px);
+    transform: translateY(0px) scaleY(1);
   }
   50% {
-    transform: translateY(-3.5px);
+    transform: translateY(-1.2px) scaleY(1.02);
   }
 }
 
 @keyframes karst-phase-glide {
   0%, 100% {
-    transform: translateY(-1px);
+    transform: translateY(-0.5px);
     opacity: 0.96;
   }
   50% {
-    transform: translateY(-5.5px);
+    transform: translateY(-3.5px);
     opacity: 1;
   }
 }
@@ -72,22 +72,27 @@
 }
 
 .karst-anim-idle-spliced {
+  transform-origin: 50px 90px;
   animation: karst-idle-bob 2.4s ease-in-out infinite;
 }
 
 .karst-anim-idle-automaton {
+  transform-origin: 50px 90px;
   animation: karst-idle-bob 2.0s steps(4, end) infinite;
 }
 
 .karst-anim-idle-xenomorph {
+  transform-origin: 50px 90px;
   animation: karst-idle-bob 1.8s cubic-bezier(0.22, 1, 0.36, 1) infinite;
 }
 
 .karst-anim-idle-phaseborn {
+  transform-origin: 50px 90px;
   animation: karst-phase-glide 2.8s ease-in-out infinite;
 }
 
 .karst-anim-idle-rigwalker {
+  transform-origin: 50px 90px;
   animation: karst-idle-bob 2.6s ease-in-out infinite;
 }
 

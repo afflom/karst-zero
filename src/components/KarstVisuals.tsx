@@ -352,33 +352,50 @@ const CharacterChassisBodySvg: React.FC<{
   if (chassis === 'Spliced') {
     return (
       <g>
+        {/* Articulated Armored Thigh & Shin Greaves + Planted Magnetic Combat Boots */}
+        <path
+          d="M35 68 L45 68 L44 86 L33 86 Z"
+          fill="#1E293B"
+          stroke={strokeColor}
+          strokeWidth="1.8"
+        />
+        <path
+          d="M55 68 L65 68 L67 86 L56 86 Z"
+          fill="#1E293B"
+          stroke={strokeColor}
+          strokeWidth="1.8"
+        />
+        <rect x="30" y="85" width="15" height="6" rx="2" fill="#0F172A" stroke={strokeColor} strokeWidth="1.8" />
+        <rect x="55" y="85" width="15" height="6" rx="2" fill="#0F172A" stroke={strokeColor} strokeWidth="1.8" />
         {/* Bio-Engineered Human Commando Torso & Tactical Rig */}
         <path
-          d="M26 86 L31 52 L42 46 L58 46 L69 52 L74 86 Z"
+          d="M31 70 L32 48 L42 43 L58 43 L68 48 L69 70 Z"
           fill="#1E293B"
           stroke={strokeColor}
           strokeWidth="2.2"
         />
+        {/* Tactical Utility Belt */}
+        <rect x="31" y="66" width="38" height="5" rx="1.5" fill="#0F172A" stroke={strokeColor} strokeWidth="1.4" />
         {/* Chest Armor Plate */}
         <polygon
-          points="38,52 62,52 58,72 42,72"
+          points="38,49 62,49 58,65 42,65"
           fill={fillPrimary}
-          fillOpacity="0.35"
+          fillOpacity="0.4"
           stroke={strokeColor}
           strokeWidth="1.4"
         />
         {/* Armored Shoulder Pauldrons */}
-        <path d="M21 60 L33 49 L36 63 L21 66 Z" fill={fillPrimary} stroke={strokeColor} strokeWidth="1.4" />
-        <path d="M79 60 L67 49 L64 63 L79 66 Z" fill={fillPrimary} stroke={strokeColor} strokeWidth="1.4" />
+        <path d="M21 57 L33 46 L36 60 L21 63 Z" fill={fillPrimary} stroke={strokeColor} strokeWidth="1.4" />
+        <path d="M79 57 L67 46 L64 60 L79 63 Z" fill={fillPrimary} stroke={strokeColor} strokeWidth="1.4" />
         {/* Combat Helmet & Glowing Visor */}
         <path
-          d="M36 31 C36 19, 64 19, 64 31 L61 45 L39 45 Z"
+          d="M36 29 C36 17, 64 17, 64 29 L61 43 L39 43 Z"
           fill="#0F172A"
           stroke={strokeColor}
           strokeWidth="2.2"
         />
-        <rect x="40" y="30" width="20" height="6" rx="2.5" fill={strokeColor} />
-        <line x1="44" y1="33" x2="56" y2="33" stroke="#FFFFFF" strokeWidth="1.2" />
+        <rect x="40" y="28" width="20" height="6" rx="2.5" fill={strokeColor} />
+        <line x1="44" y1="31" x2="56" y2="31" stroke="#FFFFFF" strokeWidth="1.2" />
       </g>
     );
   }
@@ -386,19 +403,24 @@ const CharacterChassisBodySvg: React.FC<{
   if (chassis === 'Automaton') {
     return (
       <g>
+        {/* Dual Hydraulic Piston Legs & Stabilized Foot Treads */}
+        <rect x="33" y="68" width="11" height="18" rx="1.5" fill="#1E293B" stroke={strokeColor} strokeWidth="1.8" />
+        <rect x="56" y="68" width="11" height="18" rx="1.5" fill="#1E293B" stroke={strokeColor} strokeWidth="1.8" />
+        <polygon points="28,91 32,85 46,85 48,91" fill="#0F172A" stroke={strokeColor} strokeWidth="1.8" />
+        <polygon points="52,91 54,85 68,85 72,91" fill="#0F172A" stroke={strokeColor} strokeWidth="1.8" />
         {/* Heavy Angular War-Droid Chassis */}
         <polygon
-          points="24,86 27,48 38,42 62,42 73,48 76,86"
+          points="28,70 27,45 38,40 62,40 73,45 72,70"
           fill="#0F172A"
           stroke={strokeColor}
           strokeWidth="2.4"
         />
         {/* Shoulder Hydraulic Pistons */}
-        <rect x="19" y="48" width="9" height="18" rx="1.5" fill="#334155" stroke={strokeColor} strokeWidth="1.5" />
-        <rect x="72" y="48" width="9" height="18" rx="1.5" fill="#334155" stroke={strokeColor} strokeWidth="1.5" />
+        <rect x="19" y="46" width="9" height="18" rx="1.5" fill="#334155" stroke={strokeColor} strokeWidth="1.5" />
+        <rect x="72" y="46" width="9" height="18" rx="1.5" fill="#334155" stroke={strokeColor} strokeWidth="1.5" />
         {/* Glowing Chest Reactor Core */}
         <polygon
-          points="50,51 59,60 50,69 41,60"
+          points="50,48 59,57 50,66 41,57"
           fill={fillPrimary}
           stroke="#FFFFFF"
           strokeWidth="1.5"
@@ -406,7 +428,7 @@ const CharacterChassisBodySvg: React.FC<{
         {/* Armored Droid Turret Head & Cyclops Optic */}
         <rect
           x="37"
-          y="22"
+          y="20"
           width="26"
           height="19"
           rx="2.5"
@@ -414,9 +436,9 @@ const CharacterChassisBodySvg: React.FC<{
           stroke={strokeColor}
           strokeWidth="2.2"
         />
-        <rect x="41" y="29" width="18" height="6" rx="2" fill="#020617" />
-        <circle cx="50" cy="32" r="4" fill={isWarden ? '#EF4444' : strokeColor} />
-        <circle cx="50" cy="32" r="1.8" fill="#FFFFFF" />
+        <rect x="41" y="27" width="18" height="6" rx="2" fill="#020617" />
+        <circle cx="50" cy="30" r="4" fill={isWarden ? '#EF4444' : strokeColor} />
+        <circle cx="50" cy="30" r="1.8" fill="#FFFFFF" />
       </g>
     );
   }
@@ -424,30 +446,41 @@ const CharacterChassisBodySvg: React.FC<{
   if (chassis === 'Xenomorph') {
     return (
       <g>
+        {/* Digitigrade Raptor Chitin Legs & Planted Talons */}
+        <path
+          d="M38 66 L31 78 L37 88 M62 66 L69 78 L63 88"
+          fill="none"
+          stroke={strokeColor}
+          strokeWidth="4.2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <polygon points="28,91 37,85 45,91" fill={fillPrimary} stroke={strokeColor} strokeWidth="1.5" />
+        <polygon points="55,91 63,85 72,91" fill={fillPrimary} stroke={strokeColor} strokeWidth="1.5" />
         {/* Chitinous Predatory Carapace & Dorsal Spines */}
         <path
-          d="M16 40 L28 52 M84 40 L72 52"
+          d="M16 38 L28 50 M84 38 L72 50"
           stroke={strokeColor}
           strokeWidth="2.5"
           strokeLinecap="round"
         />
         <path
-          d="M22 84 Q32 48 50 42 Q68 48 78 84 L65 86 L50 64 L35 86 Z"
+          d="M27 70 Q32 45 50 40 Q68 45 73 70 L62 72 L50 62 L38 72 Z"
           fill="#0F172A"
           stroke={strokeColor}
           strokeWidth="2.2"
         />
         {/* Elongated Bio-Chitin Crest Skull & Glowing Compound Eyes */}
         <path
-          d="M50 13 C66 20, 67 38, 50 46 C33 38, 34 20, 50 13 Z"
+          d="M50 12 C66 19, 67 37, 50 44 C33 37, 34 19, 50 12 Z"
           fill={fillPrimary}
           stroke={strokeColor}
           strokeWidth="2"
         />
-        <circle cx="44" cy="32" r="2.5" fill="#FFFFFF" />
-        <circle cx="56" cy="32" r="2.5" fill="#FFFFFF" />
-        <circle cx="46" cy="26" r="1.8" fill={strokeColor} />
-        <circle cx="54" cy="26" r="1.8" fill={strokeColor} />
+        <circle cx="44" cy="30" r="2.5" fill="#FFFFFF" />
+        <circle cx="56" cy="30" r="2.5" fill="#FFFFFF" />
+        <circle cx="46" cy="24" r="1.8" fill={strokeColor} />
+        <circle cx="54" cy="24" r="1.8" fill={strokeColor} />
       </g>
     );
   }
@@ -463,23 +496,36 @@ const CharacterChassisBodySvg: React.FC<{
           strokeWidth="1.6"
           strokeDasharray="4 2"
         />
+        {/* Lower Phase-Anchor Greaves & Ground Stabilizer Node */}
+        <polygon
+          points="38,72 46,72 43,89 36,89"
+          fill="#0F172A"
+          stroke={strokeColor}
+          strokeWidth="1.6"
+        />
+        <polygon
+          points="54,72 62,72 64,89 57,89"
+          fill="#0F172A"
+          stroke={strokeColor}
+          strokeWidth="1.6"
+        />
         {/* Ethereal Phase Shroud & Harmonic Singularity Core */}
         <path
-          d="M28 84 Q37 48 50 40 Q63 48 72 84 Z"
+          d="M29 76 Q37 46 50 38 Q63 46 71 76 Z"
           fill={fillPrimary}
-          fillOpacity="0.45"
+          fillOpacity="0.48"
           stroke={strokeColor}
           strokeWidth="2.2"
         />
         <circle
           cx="50"
-          cy="29"
+          cy="28"
           r="10"
           fill="#0F172A"
           stroke={strokeColor}
           strokeWidth="2.2"
         />
-        <circle cx="50" cy="29" r="4.5" fill="#FFFFFF" />
+        <circle cx="50" cy="28" r="4.5" fill="#FFFFFF" />
       </g>
     );
   }
@@ -490,7 +536,7 @@ const CharacterChassisBodySvg: React.FC<{
       {/* Twin Shoulder Missile / Autocannon Pods */}
       <rect
         x="14"
-        y="22"
+        y="20"
         width="15"
         height="26"
         rx="2"
@@ -498,11 +544,11 @@ const CharacterChassisBodySvg: React.FC<{
         stroke={strokeColor}
         strokeWidth="2"
       />
-      <circle cx="21.5" cy="29" r="2.5" fill={fillPrimary} />
-      <circle cx="21.5" cy="38" r="2.5" fill={fillPrimary} />
+      <circle cx="21.5" cy="27" r="2.5" fill={fillPrimary} />
+      <circle cx="21.5" cy="36" r="2.5" fill={fillPrimary} />
       <rect
         x="71"
-        y="22"
+        y="20"
         width="15"
         height="26"
         rx="2"
@@ -510,20 +556,22 @@ const CharacterChassisBodySvg: React.FC<{
         stroke={strokeColor}
         strokeWidth="2"
       />
-      <circle cx="78.5" cy="29" r="2.5" fill={fillPrimary} />
-      <circle cx="78.5" cy="38" r="2.5" fill={fillPrimary} />
-      {/* Heavy Bipedal Walker Legs & Cockpit Hull */}
-      <rect x="33" y="70" width="10" height="18" rx="1.5" fill="#334155" stroke={strokeColor} strokeWidth="1.6" />
-      <rect x="57" y="70" width="10" height="18" rx="1.5" fill="#334155" stroke={strokeColor} strokeWidth="1.6" />
+      <circle cx="78.5" cy="27" r="2.5" fill={fillPrimary} />
+      <circle cx="78.5" cy="36" r="2.5" fill={fillPrimary} />
+      {/* Heavy Bipedal Walker Legs, Footpads & Cockpit Hull */}
+      <rect x="33" y="66" width="10" height="20" rx="1.5" fill="#334155" stroke={strokeColor} strokeWidth="1.8" />
+      <rect x="57" y="66" width="10" height="20" rx="1.5" fill="#334155" stroke={strokeColor} strokeWidth="1.8" />
+      <polygon points="26,91 30,85 46,85 48,91" fill="#0F172A" stroke={strokeColor} strokeWidth="2" />
+      <polygon points="52,91 54,85 70,85 74,91" fill="#0F172A" stroke={strokeColor} strokeWidth="2" />
       <polygon
-        points="28,74 31,32 69,32 72,74"
+        points="28,68 31,30 69,30 72,68"
         fill="#0F172A"
         stroke={strokeColor}
         strokeWidth="2.5"
       />
       {/* Armored Walker Canopy Glass */}
       <polygon
-        points="37,40 63,40 59,56 41,56"
+        points="37,38 63,38 59,54 41,54"
         fill={fillPrimary}
         stroke="#FFFFFF"
         strokeWidth="1.4"
@@ -1344,8 +1392,8 @@ export const SpatialBattlefieldViewportSvg: React.FC<{
       onMouseLeave={() => onHoverCell(null)}
     >
       <svg
-        viewBox="0 0 1000 680"
-        className="w-full h-full max-h-[calc(100vh-92px)]"
+        viewBox={cameraMode === 'ISOMETRIC_25D' ? '0 16 1000 600' : '0 8 1000 656'}
+        className="w-full h-full"
         xmlns="http://www.w3.org/2000/svg"
       >
         <defs>
@@ -1953,9 +2001,9 @@ export const SpatialBattlefieldViewportSvg: React.FC<{
                   <g
                     key={`ghost-${u.id}-${gIdx}`}
                     opacity={ghost.opacity}
-                    transform={`translate(${ghost.sx - 50 * spriteScale}, ${
-                      ghost.sy - 82 * spriteScale
-                    }) scale(${spriteScale})`}
+                    transform={`translate(${ghost.sx.toFixed(1)}, ${(ghost.sy + 2).toFixed(
+                      1
+                    )}) scale(${spriteScale.toFixed(3)}) translate(-50, -90)`}
                   >
                     <CharacterChassisBodySvg
                       chassis={u.chassis}
@@ -1994,48 +2042,53 @@ export const SpatialBattlefieldViewportSvg: React.FC<{
                   </g>
                 )}
 
-                {/* Upright Character Figure with Chassis Gait Animation, Torso Pitch & Held Doctrine Weapon */}
+                {/* Upright Character Figure Anchored by Boots (50,90) onto Tile Pedestal Center (renderCenterX, renderCenterY+2) */}
                 <g
-                  className={
-                    activeUnitAnim ? undefined : `karst-anim-idle-${u.chassis.toLowerCase()}`
-                  }
-                  transform={`translate(${renderCenterX - 50 * spriteScale}, ${
-                    renderCenterY - 82 * spriteScale
-                  }) scale(${spriteScale}) rotate(${torsoLeanDeg.toFixed(1)} 50 75)`}
+                  transform={`translate(${renderCenterX.toFixed(1)}, ${(renderCenterY + 2).toFixed(
+                    1
+                  )}) scale(${spriteScale.toFixed(3)}) rotate(${torsoLeanDeg.toFixed(
+                    1
+                  )}) translate(-50, -90)`}
                 >
-                  {/* Multi-Model Squad Wingmen */}
-                  {u.modelsCurrent >= 2 && (
-                    <g opacity="0.7" transform="translate(22, -10) scale(0.76)">
-                      <CharacterChassisBodySvg
-                        chassis={u.chassis}
-                        strokeColor={strokeColor}
-                        fillPrimary={fillPrimary}
-                        isWarden={!isPlayer}
-                      />
-                    </g>
-                  )}
-                  {u.modelsCurrent >= 3 && (
-                    <g opacity="0.65" transform="translate(-22, -10) scale(0.76)">
-                      <CharacterChassisBodySvg
-                        chassis={u.chassis}
-                        strokeColor={strokeColor}
-                        fillPrimary={fillPrimary}
-                        isWarden={!isPlayer}
-                      />
-                    </g>
-                  )}
+                  <g
+                    className={
+                      activeUnitAnim ? undefined : `karst-anim-idle-${u.chassis.toLowerCase()}`
+                    }
+                  >
+                    {/* Multi-Model Squad Wingmen */}
+                    {u.modelsCurrent >= 2 && (
+                      <g opacity="0.7" transform="translate(22, -10) scale(0.76)">
+                        <CharacterChassisBodySvg
+                          chassis={u.chassis}
+                          strokeColor={strokeColor}
+                          fillPrimary={fillPrimary}
+                          isWarden={!isPlayer}
+                        />
+                      </g>
+                    )}
+                    {u.modelsCurrent >= 3 && (
+                      <g opacity="0.65" transform="translate(-22, -10) scale(0.76)">
+                        <CharacterChassisBodySvg
+                          chassis={u.chassis}
+                          strokeColor={strokeColor}
+                          fillPrimary={fillPrimary}
+                          isWarden={!isPlayer}
+                        />
+                      </g>
+                    )}
 
-                  <CharacterChassisBodySvg
-                    chassis={u.chassis}
-                    strokeColor={activeTargetHitAnim ? '#FEF08A' : strokeColor}
-                    fillPrimary={activeTargetHitAnim ? '#F59E0B' : fillPrimary}
-                    isWarden={!isPlayer}
-                  />
-                  <CharacterDoctrineWeaponSvg
-                    doctrine={u.doctrine}
-                    accentColor={strokeColor}
-                    primaryColor={fillPrimary}
-                  />
+                    <CharacterChassisBodySvg
+                      chassis={u.chassis}
+                      strokeColor={activeTargetHitAnim ? '#FEF08A' : strokeColor}
+                      fillPrimary={activeTargetHitAnim ? '#F59E0B' : fillPrimary}
+                      isWarden={!isPlayer}
+                    />
+                    <CharacterDoctrineWeaponSvg
+                      doctrine={u.doctrine}
+                      accentColor={strokeColor}
+                      primaryColor={fillPrimary}
+                    />
+                  </g>
                 </g>
 
                 {/* Active Deflector / Armor Impact Ripple on Hit Target */}
@@ -2055,9 +2108,10 @@ export const SpatialBattlefieldViewportSvg: React.FC<{
 
                 {/* Floating Overhead Character Nameplate & Health Bar */}
                 <g
-                  transform={`translate(${renderCenterX}, ${
-                    renderCenterY - 38 * projected.scale
-                  })`}
+                  transform={`translate(${renderCenterX.toFixed(1)}, ${(
+                    renderCenterY -
+                    82 * spriteScale
+                  ).toFixed(1)})`}
                 >
                   <rect
                     x="-24"
@@ -2942,21 +2996,20 @@ export const InteractiveOrbitalBastionSpatialSvg: React.FC<{
                 {/* Standing Character Figure Inside Drop Pod */}
                 {unitInBerth ? (
                   <>
-                    <g
-                      className={`karst-anim-idle-${unitInBerth.chassis.toLowerCase()}`}
-                      transform="translate(19, 13) scale(0.5)"
-                    >
-                      <CharacterChassisBodySvg
-                        chassis={unitInBerth.chassis}
-                        strokeColor={isSelected ? '#FBBF24' : '#34D399'}
-                        fillPrimary="#10B981"
-                        isWarden={false}
-                      />
-                      <CharacterDoctrineWeaponSvg
-                        doctrine={unitInBerth.doctrine}
-                        accentColor={isSelected ? '#FBBF24' : '#34D399'}
-                        primaryColor="#10B981"
-                      />
+                    <g transform="translate(19, 13) scale(0.5)">
+                      <g className={`karst-anim-idle-${unitInBerth.chassis.toLowerCase()}`}>
+                        <CharacterChassisBodySvg
+                          chassis={unitInBerth.chassis}
+                          strokeColor={isSelected ? '#FBBF24' : '#34D399'}
+                          fillPrimary="#10B981"
+                          isWarden={false}
+                        />
+                        <CharacterDoctrineWeaponSvg
+                          doctrine={unitInBerth.doctrine}
+                          accentColor={isSelected ? '#FBBF24' : '#34D399'}
+                          primaryColor="#10B981"
+                        />
+                      </g>
                     </g>
                     <text
                       x="44"
@@ -3025,52 +3078,51 @@ export const InteractiveOrbitalBastionSpatialSvg: React.FC<{
               {isTarget && (
                 <>
                   {/* Descending Valkyrie-04 Drop Shuttle (CLIP-08-ORBITAL-DROP) */}
-                  <g
-                    transform={`translate(${(launchOriginX + nodeX) / 2}, 308)`}
-                    className="karst-anim-idle-rigwalker"
-                  >
-                    <polygon
-                      points="-12,-14 12,-14 16,4 0,14 -16,4"
-                      fill="#0F172A"
-                      stroke="#FBBF24"
-                      strokeWidth="1.8"
-                    />
-                    <polygon
-                      points="-8,8 -3,22 3,22 8,8"
-                      fill="#38BDF8"
-                      opacity="0.85"
-                    />
-                    <circle cx="0" cy="-3" r="4" fill="#FDE047" />
-                    <circle
-                      cx="0"
-                      cy="0"
-                      r="16"
-                      fill="none"
-                      stroke="#FBBF24"
-                      strokeWidth="1.2"
-                      className="karst-anim-shockwave"
-                    />
-                    <rect
-                      x="-46"
-                      y="-30"
-                      width="92"
-                      height="13"
-                      rx="3"
-                      fill="#020617"
-                      stroke="#F59E0B"
-                      strokeWidth="1"
-                    />
-                    <text
-                      x="0"
-                      y="-21"
-                      textAnchor="middle"
-                      fill="#FEF08A"
-                      fontSize="7.5"
-                      fontFamily="monospace"
-                      fontWeight="bold"
-                    >
-                      CLIP-08 · VALKYRIE-04
-                    </text>
+                  <g transform={`translate(${(launchOriginX + nodeX) / 2}, 308)`}>
+                    <g className="karst-anim-idle-rigwalker">
+                      <polygon
+                        points="-12,-14 12,-14 16,4 0,14 -16,4"
+                        fill="#0F172A"
+                        stroke="#FBBF24"
+                        strokeWidth="1.8"
+                      />
+                      <polygon
+                        points="-8,8 -3,22 3,22 8,8"
+                        fill="#38BDF8"
+                        opacity="0.85"
+                      />
+                      <circle cx="0" cy="-3" r="4" fill="#FDE047" />
+                      <circle
+                        cx="0"
+                        cy="0"
+                        r="16"
+                        fill="none"
+                        stroke="#FBBF24"
+                        strokeWidth="1.2"
+                        className="karst-anim-shockwave"
+                      />
+                      <rect
+                        x="-46"
+                        y="-30"
+                        width="92"
+                        height="13"
+                        rx="3"
+                        fill="#020617"
+                        stroke="#F59E0B"
+                        strokeWidth="1"
+                      />
+                      <text
+                        x="0"
+                        y="-21"
+                        textAnchor="middle"
+                        fill="#FEF08A"
+                        fontSize="7.5"
+                        fontFamily="monospace"
+                        fontWeight="bold"
+                      >
+                        CLIP-08 · VALKYRIE-04
+                      </text>
+                    </g>
                   </g>
                 </>
               )}

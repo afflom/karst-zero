@@ -1912,7 +1912,7 @@ export const BattlefieldView: React.FC<BattlefieldViewProps> = ({
   return (
     <div className="relative w-full h-screen bg-slate-950 text-slate-100 select-none overflow-hidden flex flex-col justify-between">
       {/* FULL-STAGE 2.5D OBJECT-SPATIAL WORLD VIEWPORT */}
-      <div className="absolute inset-0 z-0">
+      <div className="absolute inset-x-0 top-12 bottom-28 z-0">
         <SpatialBattlefieldViewportSvg
           scenario={scenario}
           units={units}
