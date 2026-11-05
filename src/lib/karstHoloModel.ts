@@ -645,6 +645,15 @@ export const KARST_BOUNDARY_CONTRACTS: BoundaryContractItem[] = [
     evidenceTheorem: 'SpatialWorld::isometricDepthOrderingMonotonic & trajectoryClearanceVerified',
     refusalCode: 'spatial.trajectory_blocked_or_exceeds_stride',
   },
+  {
+    id: 'ctr-animation-choreography',
+    name: 'AnimationEngine::evaluateQuadOutPermille & evaluateParabolicArcScaled (KZ-17)',
+    precondition: 'tDecile ∈ 0..10 ∧ peakHeight ≥ 0 ∧ clip ∈ animationClips(0..7)',
+    postcondition: 'quadOut ∈ 0..1000 ∧ parabolicArc(0) = 0 ∧ parabolicArc(10) = 0 ∧ (reducedMotion → progressPermille = 1000)',
+    realization: 'AnimationEngine::evaluateQuadOutPermille + evaluateParabolicArcScaled + evaluateAnimationProgressPermille across 8 Clips, 5 Chassis Gaits & 6 Doctrine VFX',
+    evidenceTheorem: 'AnimationEngine::quadOutCurveMonotonicAndExact & parabolicArcPeaksAtMidpointAndLandsExact & reducedMotionCollapsesToTerminalFrame',
+    refusalCode: 'animation.invalid_decile_or_clip_bounds',
+  },
 ];
 
 /**
@@ -1141,8 +1150,8 @@ export function verifyModelInvariants(): ModelInvariantReport {
     {
       id: 'inv-mnist-contracts',
       name: 'boundaryContractsComplete (LexLean v0.4 Domain Contracts)',
-      passed: boundaryContractsSound && KARST_BOUNDARY_CONTRACTS.length === 6,
-      detail: `${KARST_BOUNDARY_CONTRACTS.length}/6 Boundary Contracts with Precondition, integer Realization, Postcondition & Evidence Theorem`,
+      passed: boundaryContractsSound && KARST_BOUNDARY_CONTRACTS.length === 7,
+      detail: `${KARST_BOUNDARY_CONTRACTS.length}/7 Boundary Contracts with Precondition, integer Realization, Postcondition & Evidence Theorem`,
     },
     {
       id: 'inv-standards-realized',
@@ -1161,11 +1170,11 @@ export function verifyModelInvariants(): ModelInvariantReport {
       name: 'karstConsumesFullNemesisCore4Engine (NemesisEngine.lex.tex · KZ-07)',
       passed:
         KARST_NEMESIS_COMPLETENESS.allSubsystemsActive &&
-        KARST_NEMESIS_COMPLETENESS.subsystemCount === 6 &&
+        KARST_NEMESIS_COMPLETENESS.subsystemCount === 7 &&
         KARST_COMPILED_DESIGN_VIEWS.length === 5 &&
-        KARST_LEXLEAN_MODULES.length === 18 &&
-        KARST_CONFORMANCE_REGISTER.length === 17,
-      detail: `6/6 Nemesis Core 4.0 Subsystems active · 150 Archetypes · 5 OPM/UML Diagrams · 18 LexLean v0.4 Modules · 17/17 Conformance IDs`,
+        KARST_LEXLEAN_MODULES.length === 19 &&
+        KARST_CONFORMANCE_REGISTER.length === 18,
+      detail: `7/7 Nemesis Core 4.0 Subsystems active · 150 Archetypes · 8 Animation Clips · 5 OPM/UML Diagrams · 19 LexLean v0.4 Modules · 18/18 Conformance IDs`,
     },
   ];
 
@@ -1562,6 +1571,13 @@ export const KARST_LEXLEAN_MODULES: LexLeanModuleSpec[] = [
     summary: '2.5D Isometric & 2D Top-Down Object-Spatial Projection, 7 object kinds, 7 Karst-9 world locations, 4 starting presets, 9 minor directives, and 3 Warden threat forces.',
   },
   {
+    moduleName: 'AnimationEngine',
+    sourcePath: 'src/AnimationEngine.lex.tex',
+    conformanceId: 'KZ-17',
+    keyTheorem: 'AnimationEngine::quadOutCurveMonotonicAndExact & parabolicArcPeaksAtMidpointAndLandsExact',
+    summary: '8 canonical animation clips, 5 Chassis kinetic gaits, 6 Doctrine weapon VFX profiles, fixed-point quadratic ease-out & parabolic hop curves, and WCAG reduced-motion transitions.',
+  },
+  {
     moduleName: 'NemesisEngine',
     sourcePath: 'src/NemesisEngine.lex.tex',
     conformanceId: 'KZ-07',
@@ -1748,8 +1764,16 @@ export const KARST_CONFORMANCE_REGISTER: ConformanceRegisterItem[] = [
     facet: 'spatial',
     specModule: 'SpatialWorld.lex.tex',
     rustSymbol: 'karst_kernel::spatial::evaluate_spatial_trajectory',
-    testRef: 'crates/conformance/tests/facets.rs::spatial_world_kz_16',
+    testRef: 'crates/conformance/tests/facets.rs::system_kz_16',
     summary: '2.5D isometric depth sorting, Manhattan trajectory clearance, 7 Karst-9 locations & 4 company presets.',
+  },
+  {
+    id: 'KZ-17',
+    facet: 'animation',
+    specModule: 'AnimationEngine.lex.tex',
+    rustSymbol: 'karst_kernel::animation::sample_spatial_keyframe',
+    testRef: 'crates/conformance/tests/facets.rs::system_kz_17',
+    summary: '8 canonical animation clips, 5 Chassis gaits, 6 Doctrine VFX profiles, parabolic arcs & reduced-motion transitions.',
   },
 ];
 

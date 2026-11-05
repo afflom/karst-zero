@@ -130,6 +130,10 @@ statement = "Enforce that Karst: Zero Horizon consumes all 6 Nemesis Core 4.0 en
 id = "Architecture::feature06SpatialWorldAndPresets"
 statement = "Project the 2.5D isometric and 2D top-down object-spatial viewport across 7 Karst-9 locations, 9 Minor Resonance Directives, and 4 Starting Company Presets."
 
+[[feature]]
+id = "Architecture::feature07AnimationChoreographyAndVfx"
+statement = "Choreograph 8 deterministic fixed-point animation clips, parabolic hop arcs, 5 Chassis gaits, 6 Doctrine VFX profiles, and WCAG reduced-motion transitions."
+
 [[journey]]
 id = "Architecture::journey00TacticalCommander"
 actor = "Architecture::stakeholder00TacticalCommander"

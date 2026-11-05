@@ -15,3 +15,106 @@
     font-variant-numeric: tabular-nums;
   }
 }
+
+@keyframes karst-idle-bob {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-3.5px);
+  }
+}
+
+@keyframes karst-phase-glide {
+  0%, 100% {
+    transform: translateY(-1px);
+    opacity: 0.96;
+  }
+  50% {
+    transform: translateY(-5.5px);
+    opacity: 1;
+  }
+}
+
+@keyframes karst-aura-pulse {
+  0%, 100% {
+    opacity: 0.85;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    opacity: 0.4;
+    stroke-dashoffset: 14;
+  }
+}
+
+@keyframes karst-tracer-flow {
+  0% {
+    stroke-dashoffset: 36;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes karst-shockwave-ring {
+  0% {
+    opacity: 0.95;
+    transform: scale(0.55);
+  }
+  70% {
+    opacity: 0.65;
+    transform: scale(1.12);
+  }
+  100% {
+    opacity: 0.2;
+    transform: scale(1.28);
+  }
+}
+
+.karst-anim-idle-spliced {
+  animation: karst-idle-bob 2.4s ease-in-out infinite;
+}
+
+.karst-anim-idle-automaton {
+  animation: karst-idle-bob 2.0s steps(4, end) infinite;
+}
+
+.karst-anim-idle-xenomorph {
+  animation: karst-idle-bob 1.8s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+.karst-anim-idle-phaseborn {
+  animation: karst-phase-glide 2.8s ease-in-out infinite;
+}
+
+.karst-anim-idle-rigwalker {
+  animation: karst-idle-bob 2.6s ease-in-out infinite;
+}
+
+.karst-anim-aura {
+  animation: karst-aura-pulse 2.2s linear infinite;
+}
+
+.karst-anim-tracer {
+  animation: karst-tracer-flow 0.65s linear infinite;
+}
+
+.karst-anim-shockwave {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: karst-shockwave-ring 1.1s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .karst-anim-idle-spliced,
+  .karst-anim-idle-automaton,
+  .karst-anim-idle-xenomorph,
+  .karst-anim-idle-phaseborn,
+  .karst-anim-idle-rigwalker,
+  .karst-anim-aura,
+  .karst-anim-tracer,
+  .karst-anim-shockwave {
+    animation: none !important;
+    transition: none !important;
+  }
+}

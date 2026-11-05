@@ -12,6 +12,7 @@
 #![forbid(unsafe_code)]
 #![deny(missing_docs)]
 
+pub mod animation;
 pub mod combat;
 pub mod nemesis;
 pub mod spatial;

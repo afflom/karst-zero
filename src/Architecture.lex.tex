@@ -13,6 +13,7 @@
 \importmodule{NemesisChit}
 \importmodule{CampaignBastion}
 \importmodule{SpatialWorld}
+\importmodule{AnimationEngine}
 \importmodule{NemesisEngine}
 \title{Architecture description model}
 \begin{semanticmodule}
@@ -630,6 +631,13 @@ definition{
   parameters: [],
   result: Foundation.Arch::Feature,
   body: (record Foundation.Arch::Feature {statement := "Project the 2.5D isometric and 2D top-down object-spatial viewport across 7 Karst-9 locations, 9 Minor Resonance Directives, and 4 Starting Company Presets.", calls := (cons "SpatialWorld::computeIsometricDepthKey" (cons "SpatialWorld::evaluateSpatialTrajectory" (nil String))), acceptance := (cons "SpatialWorld::worldLocations" (cons "SpatialWorld::startingCompanyPresets" (nil String)))})
+}
+
+definition{
+  name: feature07AnimationChoreographyAndVfx,
+  parameters: [],
+  result: Foundation.Arch::Feature,
+  body: (record Foundation.Arch::Feature {statement := "Choreograph 8 deterministic fixed-point animation clips, parabolic hop arcs, 5 Chassis gaits, 6 Doctrine VFX profiles, and WCAG reduced-motion transitions.", calls := (cons "AnimationEngine::evaluateQuadOutPermille" (cons "AnimationEngine::evaluateParabolicArcScaled" (nil String))), acceptance := (cons "AnimationEngine::animationClips" (cons "AnimationEngine::doctrineVfxProfiles" (nil String)))})
 }
 
 definition{

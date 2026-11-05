@@ -22,6 +22,8 @@ Every subsystem of the **Nemesis Core 4.0** game engine is specified in closed-l
    - 4 Pre-Drop Crew Assignments (`SectorRecon`, `ScrapSalvaging`, `MedBayOverhaul`, `CombatSimDrill`), 3 Orbital Bastion Facilities, 6 Core Sector Contracts, 6-Alloy salvage cap, canonical FNV-1a / BLAKE3 save digests, and full engine binding theorem `NemesisEngine::karstConsumesFullNemesisCore4Engine`.
 6. **Subsystem 6 — 2.5D Object-Spatial Projection & Karst-9 World Catalog (`src/SpatialWorld.lex.tex`, `KZ-16`)**:
    - 2 Camera Modes (`isometric_2_5d` and `top_down_2d`), 7 Spatial Object Categories (`CarrierRoomNode`, `DropBerthNode`, `PlanetarySectorNode`, `CavernFloorTile`, `TerrainStructure`, `ObjectiveArtifact`, `CharacterUnit`), 7 Karst-9 World Locations (`1` Orbital Bastion + `6` Vault Sectors), 4 Starting Company Presets, 9 Minor Resonance Directives, 3 Threat-Tier Warden Force Profiles, and monotonic painter's depth sorting (`(x + y) * 100 + y + z * 10`).
+7. **Subsystem 7 — Animation & Kinetic Choreography Engine (`src/AnimationEngine.lex.tex`, `KZ-17`)**:
+   - 8 canonical animation clips (`CLIP-01-IDLE-BREATH` through `CLIP-08-ORBITAL-DROP`), 5 Chassis kinetic gaits, 6 Doctrine weapon VFX profiles, division-free decile easing (`evaluateQuadOutPermille` and `evaluateParabolicArcScaled`), and `WCAG 2.2 §2.3.3` reduced-motion collapse (`evaluateAnimationProgressPermille`).
 
 ## Verification & Build Commands
 

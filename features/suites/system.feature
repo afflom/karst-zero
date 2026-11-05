@@ -23,3 +23,9 @@ Feature: Nemesis Core 4.0 Opaque Command Chit Director, Orbital Bastion Ledger, 
     Given the SpatialWorld.lex.tex specification and karst_kernel::spatial functions
     When compute_isometric_depth_key, evaluate_spatial_trajectory, and warden_force_for_threat execute
     Then painter depth keys order monotonically, unobstructed sector trajectories clear within MOV, and threat-tier Warden forces scale across Low, Medium, and High sectors
+
+  @KZ-17 @build
+  Scenario: The Deterministic Animation and Kinetic Choreography engine in AnimationEngine.lex.tex models 8 animation clips, 5 Chassis gaits, 6 Doctrine VFX profiles, parabolic arcs, and reduced-motion transitions
+    Given the AnimationEngine.lex.tex specification and karst_kernel::animation functions
+    When evaluate_quad_out_permille, evaluate_parabolic_arc_scaled, and sample_spatial_keyframe execute
+    Then quadratic ease-out and parabolic hop curves evaluate deterministically and reduced-motion mode collapses immediately to the terminal frame

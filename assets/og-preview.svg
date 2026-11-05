@@ -108,5 +108,6 @@
   <!-- Bottom Formal Verification Status Bar -->
   <rect x="60" y="526" width="1080" height="48" rx="10" fill="#0B0F17" stroke="#2AD4C5" stroke-width="1.5"/>
   <circle cx="90" cy="550" r="8" fill="#10B981"/>
-  <text x="112" y="556" fill="#F4F7FA" font-family="monospace" font-size="15" font-weight="bold">18/18 LEXLEAN v0.4 MODULES · 76 PRISMPM v0.4 FACET ENTITIES · 17/17 CONFORMANCE (TC-01, KZ-01..KZ-16)</text>
+  <text x="112" y="556" fill="#F4F7FA" font-family="monospace" font-size="15" font-weight="bold">19/19 LEXLEAN v0.4 MODULES · 7/7 SUBSYSTEMS · 18/18 CONFORMANCE (TC-01, KZ-01..KZ-17)</text>
 </svg>
+

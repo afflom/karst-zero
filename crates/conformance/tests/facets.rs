@@ -1,20 +1,26 @@
-//! Conformance tests for `KZ-08`..`KZ-16`.
+//! Conformance tests for `KZ-08`..`KZ-17`.
 //!
 //! Verifies the ISO/IEC/IEEE 42010 stakeholder/viewpoint architecture (`KZ-08`),
 //! 6-component / 8-edge Nemesis Core 4.0 system topology (`KZ-09`), ISO/IEC 27034
 //! security & ISO/IEC 25010 quality facets (`KZ-10`), ISO/PAS 19450 OPM & OMG UML
 //! 2.5.1 design views (`KZ-11`), WCAG 2.2 AA branding & UI/UX presentation (`KZ-12`),
 //! progressive 5-pole user journeys (`KZ-13`), normative standards profile (`KZ-14`),
-//! the unified Karst: Zero Horizon release profile (`KZ-15`), and the 2.5D Object-Spatial
-//! Projection & Karst-9 World Catalog (`KZ-16`).
+//! the unified Karst: Zero Horizon release profile (`KZ-15`), the 2.5D Object-Spatial
+//! Projection & Karst-9 World Catalog (`KZ-16`), and the Animation & Kinetic
+//! Choreography Model (`KZ-17`).
 
 use std::path::{Path, PathBuf};
 
+use karst_kernel::animation::{
+    animation_clip_metadata, chassis_gait_profile, clamp_decile, doctrine_vfx_profile,
+    evaluate_animation_progress_permille, evaluate_parabolic_arc_scaled,
+    evaluate_quad_out_permille, sample_spatial_keyframe, AnimationClipKind, EasingCurve,
+};
 use karst_kernel::nemesis::meets_wcag_contrast_tenths;
 use karst_kernel::spatial::{
     compute_isometric_depth_key, evaluate_spatial_trajectory, warden_force_for_threat,
 };
-use karst_kernel::synthesis::EchelonTier;
+use karst_kernel::synthesis::{ChassisType, CombatDoctrine, EchelonTier};
 
 fn repo_root() -> PathBuf {
     PathBuf::from(env!("CARGO_MANIFEST_DIR"))
@@ -280,4 +286,58 @@ fn system_kz_16() {
     let high = warden_force_for_threat(3);
     assert_eq!(high.total_berth_weight, 6);
     assert_eq!(high.commander_echelon, EchelonTier::Ech4Sovereign);
+}
+
+#[test]
+fn system_kz_17() {
+    let root = repo_root();
+    let spec = std::fs::read_to_string(root.join("src/AnimationEngine.lex.tex"))
+        .expect("src/AnimationEngine.lex.tex must be readable");
+    assert!(spec.contains("name: animationClipCountIsEight"));
+    assert!(spec.contains("name: chassisGaitCountIsFive"));
+    assert!(spec.contains("name: doctrineVfxCountIsSix"));
+    assert!(spec.contains("name: allAnimationClipsBoundedAndPositive"));
+    assert!(spec.contains("name: quadOutCurveMonotonicAndExact"));
+    assert!(spec.contains("name: parabolicArcPeaksAtMidpointAndLandsExact"));
+    assert!(spec.contains("name: reducedMotionCollapsesToTerminalFrame"));
+
+    assert_eq!(clamp_decile(14), 10);
+    assert_eq!(evaluate_quad_out_permille(0), 0);
+    assert_eq!(evaluate_quad_out_permille(5), 750);
+    assert_eq!(evaluate_quad_out_permille(10), 1000);
+
+    assert_eq!(evaluate_parabolic_arc_scaled(18, 0), 0);
+    assert_eq!(evaluate_parabolic_arc_scaled(18, 5), 450);
+    assert_eq!(evaluate_parabolic_arc_scaled(18, 10), 0);
+
+    assert_eq!(evaluate_animation_progress_permille(5, false), 500);
+    assert_eq!(evaluate_animation_progress_permille(0, true), 1000);
+    assert_eq!(evaluate_animation_progress_permille(5, true), 1000);
+
+    let stride_meta = animation_clip_metadata(AnimationClipKind::SectorStrideTranslation);
+    assert_eq!(stride_meta.duration_ms, 420);
+    assert_eq!(stride_meta.frame_count, 24);
+    assert_eq!(stride_meta.easing, EasingCurve::QuadOut);
+    assert!(!stride_meta.looping);
+
+    let gait = chassis_gait_profile(ChassisType::PhaseBorn);
+    assert_eq!(gait.idle_cycle_ms, 2800);
+    assert_eq!(gait.stride_bob_permille, 60);
+    assert!(gait.thruster_trail_active);
+
+    let vfx = doctrine_vfx_profile(CombatDoctrine::Psion);
+    assert_eq!(vfx.projectile_speed_permille, 900);
+    assert_eq!(vfx.shockwave_radius_sectors, 3);
+
+    let mid_frame = sample_spatial_keyframe(18, 5, false);
+    assert_eq!(mid_frame.progress_permille, 500);
+    assert_eq!(mid_frame.eased_permille, 750);
+    assert_eq!(mid_frame.parabolic_arc_scaled, 450);
+    assert!(!mid_frame.completed);
+
+    let reduced_frame = sample_spatial_keyframe(18, 5, true);
+    assert_eq!(reduced_frame.progress_permille, 1000);
+    assert_eq!(reduced_frame.eased_permille, 1000);
+    assert_eq!(reduced_frame.parabolic_arc_scaled, 0);
+    assert!(reduced_frame.completed);
 }

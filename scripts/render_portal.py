@@ -94,6 +94,7 @@ def main() -> None:
             "KZ-14",
             "KZ-15",
             "KZ-16",
+            "KZ-17",
         ],
     }
     (view_dir / "register.json").write_text(

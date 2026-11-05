@@ -14,6 +14,21 @@ import type {
   EchelonTier,
   ResonanceFrequency,
 } from './types';
+import {
+  KARST_ANIMATION_CLIPS,
+  evaluateAnimationProgressPermille,
+  evaluateParabolicArcScaled,
+  evaluateQuadOutPermille,
+  sampleSpatialKeyframe,
+} from './animationModel';
+
+export {
+  KARST_ANIMATION_CLIPS,
+  evaluateAnimationProgressPermille,
+  evaluateParabolicArcScaled,
+  evaluateQuadOutPermille,
+  sampleSpatialKeyframe,
+};
 
 export interface NemesisSubsystemVerification {
   id: string;
@@ -31,13 +46,14 @@ export interface NemesisEngineCompletenessReport {
   engineVersion: '4.0.0';
   productBinding: 'KARST: ZERO HORIZON';
   lexleanTheorem: 'NemesisEngine::karstConsumesFullNemesisCore4Engine';
-  subsystemCount: 6;
+  subsystemCount: 7;
   archetypeMatrixCardinality: 150;
   hardpointModuleCount: 16;
   minorDirectiveCount: 9;
   resonanceFrequencyCount: 6;
   sectorContractCount: 6;
   worldLocationCount: 7;
+  animationClipCount: 8;
   maxRoundsPerDrop: 5;
   subsystems: NemesisSubsystemVerification[];
   allSubsystemsActive: boolean;
@@ -369,6 +385,21 @@ export function verifyNemesisCore4EngineCompleteness(): NemesisEngineCompletenes
         computeNemesisIsometricDepthKey(2, 3, 0) < computeNemesisIsometricDepthKey(3, 3, 0) &&
         evaluateNemesisSpatialTrajectory(2, 2, 5, 4, 6, 0).trajectoryClear,
     },
+    {
+      id: 'NEMESIS-SUB-07-ANIMATION',
+      lexleanModule: 'AnimationEngine',
+      rustKernelModule: 'karst_kernel::animation',
+      componentId: 'Architecture::component05CoreWasmArithmeticGuest',
+      conformanceId: 'KZ-17',
+      title: 'Deterministic Fixed-Point Animation Clips, Parabolic Arcs, Chassis Gaits & Doctrine VFX',
+      invariantStatement:
+        'Choreographs 8 canonical animation clips, 5 Chassis kinetic gaits, 6 Doctrine weapon VFX profiles, quadratic ease-out & parabolic hop curves, and WCAG reduced-motion transitions.',
+      verified:
+        KARST_ANIMATION_CLIPS.length === 8 &&
+        evaluateQuadOutPermille(5) === 750 &&
+        evaluateParabolicArcScaled(4, 5) === 100 &&
+        evaluateAnimationProgressPermille(3, true) === 1000,
+    },
   ];
 
   return {
@@ -376,13 +407,14 @@ export function verifyNemesisCore4EngineCompleteness(): NemesisEngineCompletenes
     engineVersion: '4.0.0',
     productBinding: 'KARST: ZERO HORIZON',
     lexleanTheorem: 'NemesisEngine::karstConsumesFullNemesisCore4Engine',
-    subsystemCount: 6,
+    subsystemCount: 7,
     archetypeMatrixCardinality: 150,
     hardpointModuleCount: 16,
     minorDirectiveCount: 9,
     resonanceFrequencyCount: 6,
     sectorContractCount: 6,
     worldLocationCount: 7,
+    animationClipCount: 8,
     maxRoundsPerDrop: 5,
     subsystems,
     allSubsystemsActive: subsystems.every((s) => s.verified),

@@ -7,6 +7,12 @@ import {
   projectSpatialCoord,
   type SpatialCameraMode,
 } from '../game/spatialModel';
+import {
+  KARST_CHASSIS_GAITS,
+  KARST_DOCTRINE_VFX_PROFILES,
+  evaluateParabolicArcScaled,
+  evaluateQuadOutPermille,
+} from '../game/animationModel';
 import type {
   ChassisType,
   CompiledUnit,
@@ -1717,7 +1723,7 @@ export const SpatialBattlefieldViewportSvg: React.FC<{
                   strokeWidth={isSelected || isEngageable ? '2.4' : '1.5'}
                 />
 
-                {/* Selected Operative Ground Aura Ring */}
+                {/* Selected Operative Ground Aura Ring (CLIP-01-IDLE-BREATH) */}
                 {isSelected && (
                   <ellipse
                     cx={projected.centerX}
@@ -1728,6 +1734,7 @@ export const SpatialBattlefieldViewportSvg: React.FC<{
                     stroke="#FBBF24"
                     strokeWidth="1.5"
                     strokeDasharray="4 3"
+                    className="karst-anim-aura"
                   />
                 )}
 
@@ -1742,11 +1749,29 @@ export const SpatialBattlefieldViewportSvg: React.FC<{
                     stroke="#EF4444"
                     strokeWidth="1.8"
                     strokeDasharray="5 3"
+                    className="karst-anim-aura"
                   />
                 )}
 
-                {/* Upright Character Figure with Chassis Anatomy & Held Doctrine Weapon */}
+                {/* Chassis Thruster / Void Levitation Wake Ring (AnimationEngine::chassisGaits) */}
+                {KARST_CHASSIS_GAITS[u.chassis].thrusterTrailActive && (
+                  <ellipse
+                    cx={projected.centerX}
+                    cy={projected.centerY + 4}
+                    rx={12 * projected.scale}
+                    ry={5.5 * projected.scale}
+                    fill="none"
+                    stroke={isPlayer ? '#2AD4C5' : '#F43F5E'}
+                    strokeWidth="1.1"
+                    strokeDasharray="2 3"
+                    opacity="0.7"
+                    className="karst-anim-aura"
+                  />
+                )}
+
+                {/* Upright Character Figure with Chassis Gait Animation & Held Doctrine Weapon */}
                 <g
+                  className={`karst-anim-idle-${u.chassis.toLowerCase()}`}
                   transform={`translate(${projected.centerX - 50 * spriteScale}, ${
                     projected.centerY - 82 * spriteScale
                   }) scale(${spriteScale})`}
@@ -1868,6 +1893,7 @@ export const SpatialBattlefieldViewportSvg: React.FC<{
                     strokeWidth="2"
                     strokeDasharray="6 4"
                     opacity="0.9"
+                    className="karst-anim-tracer"
                   />
                   {/* Floating Mid-Air Fire Target Callout */}
                   <g transform={`translate(${midX}, ${midY + 6})`}>
@@ -1897,7 +1923,7 @@ export const SpatialBattlefieldViewportSvg: React.FC<{
               );
             })}
 
-        {/* Layer 5: Last Combat Fire Beam or Movement Trace */}
+        {/* Layer 5: LexLean / PrismPM Kinetic Choreography Layer (AnimationEngine.lex.tex · KZ-17) */}
         {lastVector &&
           (() => {
             const p1 = projectSpatialCoord(
@@ -1912,24 +1938,126 @@ export const SpatialBattlefieldViewportSvg: React.FC<{
               lastVector.kind === 'ATTACK' ? 1.0 : 0.15,
               cameraMode
             );
+
+            // Sample deciles 0..10 using AnimationEngine::evaluateParabolicArcScaled & evaluateQuadOutPermille
+            const arcPoints: string[] = [];
+            const wakePoints: { sx: number; sy: number; decile: number }[] = [];
+            const sectorDist =
+              Math.abs(lastVector.toX - lastVector.fromX) +
+              Math.abs(lastVector.toY - lastVector.fromY);
+            const peakUnitZ = lastVector.kind === 'MOVE' ? (sectorDist >= 4 ? 1.6 : 1.0) : 0.85;
+
+            for (let d = 0; d <= 10; d++) {
+              const easedW = evaluateQuadOutPermille(d) / 1000;
+              const arcZ = (evaluateParabolicArcScaled(4, d) / 100) * peakUnitZ;
+              const wx = lastVector.fromX + (lastVector.toX - lastVector.fromX) * easedW;
+              const wy = lastVector.fromY + (lastVector.toY - lastVector.fromY) * easedW;
+              const pt = projectSpatialCoord(
+                wx,
+                wy,
+                (lastVector.kind === 'ATTACK' ? 1.0 : 0.15) + arcZ,
+                cameraMode
+              );
+              arcPoints.push(`${pt.sx.toFixed(1)},${pt.sy.toFixed(1)}`);
+              if (d === 3 || d === 6 || d === 8) {
+                wakePoints.push({ sx: pt.sx, sy: pt.sy, decile: d });
+              }
+            }
+
+            const activeDoctrine = selectedUnit?.doctrine ?? 'Breacher';
+            const vfxProfile = KARST_DOCTRINE_VFX_PROFILES[activeDoctrine];
+            const primaryColor =
+              lastVector.kind === 'ATTACK' ? vfxProfile.accentHex : '#34D399';
+            const secondaryColor =
+              lastVector.kind === 'ATTACK' ? vfxProfile.secondaryHex : '#A7F3D0';
+            const clipBadge =
+              lastVector.kind === 'MOVE'
+                ? sectorDist >= 4
+                  ? 'CLIP-03 · CHARGE'
+                  : 'CLIP-02 · STRIDE'
+                : sectorDist <= 2
+                ? 'CLIP-05 · CLEAVE'
+                : 'CLIP-04 · TRACER';
+
             return (
               <g className="pointer-events-none">
+                {/* Ground Shadow Line */}
                 <line
                   x1={p1.sx}
                   y1={p1.sy}
                   x2={p2.sx}
                   y2={p2.sy}
-                  stroke={lastVector.kind === 'ATTACK' ? '#EF4444' : '#34D399'}
-                  strokeWidth={lastVector.kind === 'ATTACK' ? '3' : '2'}
-                  strokeDasharray={lastVector.kind === 'MOVE' ? '5 3' : undefined}
-                  opacity="0.85"
+                  stroke={primaryColor}
+                  strokeWidth="1.4"
+                  strokeDasharray="4 4"
+                  opacity="0.45"
                 />
+                {/* Parabolic 2.5D Trajectory Curve (evaluateParabolicArcScaled) */}
+                <polyline
+                  points={arcPoints.join(' ')}
+                  fill="none"
+                  stroke={primaryColor}
+                  strokeWidth={lastVector.kind === 'ATTACK' ? '3.2' : '2.4'}
+                  strokeDasharray={lastVector.kind === 'MOVE' ? '6 3' : '10 4'}
+                  className="karst-anim-tracer"
+                />
+                {/* Origin Muzzle / Launch Burst */}
                 <circle
+                  cx={p1.sx}
+                  cy={p1.sy}
+                  r="4.5"
+                  fill={secondaryColor}
+                  stroke={primaryColor}
+                  strokeWidth="1.5"
+                />
+                {/* Mid-Flight Parabolic Keyframe Nodes (Deciles 3, 6, 8) */}
+                {wakePoints.map((wp) => (
+                  <circle
+                    key={`wake-${wp.decile}`}
+                    cx={wp.sx}
+                    cy={wp.sy}
+                    r="2.6"
+                    fill={secondaryColor}
+                    opacity="0.85"
+                  />
+                ))}
+                {/* Expanding Impact / Landing Shockwave Rings */}
+                <ellipse
                   cx={p2.sx}
                   cy={p2.sy}
-                  r="5"
-                  fill={lastVector.kind === 'ATTACK' ? '#FBBF24' : '#34D399'}
+                  rx={12 * (lastVector.kind === 'ATTACK' ? vfxProfile.shockwaveRadiusSectors : 1)}
+                  ry={6.5 * (lastVector.kind === 'ATTACK' ? vfxProfile.shockwaveRadiusSectors : 1)}
+                  fill="none"
+                  stroke={primaryColor}
+                  strokeWidth="2"
+                  className="karst-anim-shockwave"
                 />
+                <circle cx={p2.sx} cy={p2.sy} r="5" fill={secondaryColor} stroke={primaryColor} strokeWidth="1.5" />
+                {/* Clip Telemetry Badge */}
+                <g transform={`translate(${p2.sx}, ${p2.sy - 18})`}>
+                  <rect
+                    x="-42"
+                    y="-9"
+                    width="84"
+                    height="14"
+                    rx="3"
+                    fill="#020617"
+                    fillOpacity="0.92"
+                    stroke={primaryColor}
+                    strokeWidth="1"
+                  />
+                  <text
+                    x="0"
+                    y="0.5"
+                    textAnchor="middle"
+                    fill={secondaryColor}
+                    fontSize="7.5"
+                    fontFamily="monospace"
+                    fontWeight="bold"
+                  >
+                    {clipBadge}
+                  </text>
+                </g>
               </g>
             );
           })()}
@@ -2170,7 +2298,10 @@ export const InteractiveOrbitalBastionSpatialSvg: React.FC<{
                 {/* Standing Character Figure Inside Drop Pod */}
                 {unitInBerth ? (
                   <>
-                    <g transform="translate(19, 13) scale(0.5)">
+                    <g
+                      className={`karst-anim-idle-${unitInBerth.chassis.toLowerCase()}`}
+                      transform="translate(19, 13) scale(0.5)"
+                    >
                       <CharacterChassisBodySvg
                         chassis={unitInBerth.chassis}
                         strokeColor={isSelected ? '#FBBF24' : '#34D399'}
@@ -2237,7 +2368,7 @@ export const InteractiveOrbitalBastionSpatialSvg: React.FC<{
 
           return (
             <g key={scen.id}>
-              {/* Orbital Drop Trajectory Line from Carrier Ventral Bay to Sector Node */}
+              {/* Orbital Drop Trajectory Line from Carrier Ventral Bay to Sector Node (CLIP-08-ORBITAL-DROP) */}
               <path
                 d={`M ${launchOriginX} ${launchOriginY} Q ${(launchOriginX + nodeX) / 2} 310 ${nodeX} ${nodeY}`}
                 fill="none"
@@ -2245,14 +2376,26 @@ export const InteractiveOrbitalBastionSpatialSvg: React.FC<{
                 strokeWidth={isTarget ? '2.5' : '1.1'}
                 strokeDasharray={isTarget ? '6 4' : '3 4'}
                 opacity={isTarget ? '0.95' : '0.45'}
+                className={isTarget ? 'karst-anim-tracer' : undefined}
               />
               {isTarget && (
-                <circle
-                  cx={(launchOriginX + nodeX) / 2}
-                  cy={312}
-                  r="4.5"
-                  fill="#FBBF24"
-                />
+                <>
+                  <circle
+                    cx={(launchOriginX + nodeX) / 2}
+                    cy={312}
+                    r="4.5"
+                    fill="#FBBF24"
+                  />
+                  <circle
+                    cx={(launchOriginX + nodeX) / 2}
+                    cy={312}
+                    r="9"
+                    fill="none"
+                    stroke="#FBBF24"
+                    strokeWidth="1.2"
+                    className="karst-anim-shockwave"
+                  />
+                </>
               )}
             </g>
           );
@@ -2298,6 +2441,7 @@ export const InteractiveOrbitalBastionSpatialSvg: React.FC<{
                   stroke="#FBBF24"
                   strokeWidth="2"
                   strokeDasharray="5 3"
+                  className="karst-anim-aura"
                 />
               )}
 

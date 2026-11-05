@@ -70,6 +70,13 @@ definition{
 }
 
 definition{
+  name: processEvaluateAnimationFrame,
+  parameters: [],
+  result: Foundation.Arch::SystemProcess,
+  body: (record Foundation.Arch::SystemProcess {owner := "Architecture::component05CoreWasmArithmeticGuest"})
+}
+
+definition{
   name: stateBastionDocked,
   parameters: [],
   result: Foundation.Arch::SystemState,
@@ -109,6 +116,13 @@ definition{
   parameters: [],
   result: Foundation.Arch::SystemState,
   body: (record Foundation.Arch::SystemState {owner := "Architecture::component01StrikePoolResolver"})
+}
+
+definition{
+  name: stateAnimationChoreographyActive,
+  parameters: [],
+  result: Foundation.Arch::SystemState,
+  body: (record Foundation.Arch::SystemState {owner := "Architecture::component05CoreWasmArithmeticGuest"})
 }
 
 definition{

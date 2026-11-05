@@ -279,12 +279,13 @@ fn contract_kz_07() {
     assert!(app_spec.contains("responseMaximum := 27"));
 
     let witness = verify_karst_nemesis_binding();
-    assert_eq!(witness.subsystem_count, 6);
+    assert_eq!(witness.subsystem_count, 7);
     assert_eq!(witness.archetype_matrix_cardinality, 150);
     assert_eq!(witness.hardpoint_module_count, 16);
     assert_eq!(witness.minor_directive_count, 9);
     assert_eq!(witness.sector_contract_count, 6);
     assert_eq!(witness.world_location_count, 7);
+    assert_eq!(witness.animation_clip_count, 8);
     assert_eq!(witness.max_rounds_per_drop, 5);
     assert!(witness.full_engine_consumed);
 

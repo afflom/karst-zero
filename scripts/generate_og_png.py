@@ -282,7 +282,7 @@ def generate_og_png(output_path: Path) -> None:
         buf,
         114,
         543,
-        "18/18 LEXLEAN V0.4 MODULES - 76 PRISMPM V0.4 ENTITIES - 17/17 CONFORMANCE",
+        "19/19 LEXLEAN V0.4 MODULES - 7/7 SUBSYSTEMS - 18/18 CONFORMANCE",
         2,
         (244, 247, 250),
     )
@@ -296,3 +296,4 @@ if __name__ == "__main__":
     out = root / "assets" / "og-preview.png"
     generate_og_png(out)
     print(f"Generated {out} ({out.stat().st_size} bytes)")
+

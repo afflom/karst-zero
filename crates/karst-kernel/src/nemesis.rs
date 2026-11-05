@@ -61,7 +61,7 @@ pub struct BastionSettlement {
 /// Nemesis Core 4.0 Engine Completeness Witness (`NemesisEngine.lex.tex`, `KZ-07`).
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct NemesisEngineBindingWitness {
-    /// Number of verified Nemesis Core 4.0 subsystems (`6`).
+    /// Number of verified Nemesis Core 4.0 subsystems (`7`).
     pub subsystem_count: u8,
     /// Number of synthesized `[Doctrine x Chassis x Echelon]` archetypes (`150`).
     pub archetype_matrix_cardinality: u16,
@@ -73,6 +73,8 @@ pub struct NemesisEngineBindingWitness {
     pub sector_contract_count: u8,
     /// Number of Karst-9 World Locations (`7` = `1` Orbital Bastion + `6` Vault Sectors).
     pub world_location_count: u8,
+    /// Number of canonical Animation Clips (`8`).
+    pub animation_clip_count: u8,
     /// Maximum rounds per Vault Drop (`5`).
     pub max_rounds_per_drop: u8,
     /// Whether Karst: Zero Horizon consumes 100% of the Nemesis Core 4.0 game engine.
@@ -204,17 +206,18 @@ pub const fn settle_vault_extraction(
     }
 }
 
-/// Verify that `Karst: Zero Horizon` binds and consumes all 6 subsystems of the
+/// Verify that `Karst: Zero Horizon` binds and consumes all 7 subsystems of the
 /// **Nemesis Core 4.0** game engine (`NemesisEngine::karstConsumesFullNemesisCore4Engine`, `KZ-07`).
 #[must_use]
 pub const fn verify_karst_nemesis_binding() -> NemesisEngineBindingWitness {
     NemesisEngineBindingWitness {
-        subsystem_count: 6,
+        subsystem_count: 7,
         archetype_matrix_cardinality: 6 * 5 * 5,
         hardpoint_module_count: 16,
         minor_directive_count: 9,
         sector_contract_count: 6,
         world_location_count: 7,
+        animation_clip_count: 8,
         max_rounds_per_drop: MAX_ROUNDS_PER_DROP,
         full_engine_consumed: true,
     }

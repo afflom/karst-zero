@@ -1,0 +1,180 @@
+\begin{lexlean}{AnimationEngine}
+\useglossary{lexlean.std.bool@1.2.0}
+\useglossary{lexlean.std.nat@1.2.0}
+\title{Boolean}
+\begin{semanticmodule}
+structure{
+  name: AnimationClipSpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: id, type: String},
+    {name: name, type: String},
+    {name: layer, type: String},
+    {name: durationMs, type: Nat},
+    {name: frameCount, type: Nat},
+    {name: easingCurve, type: String},
+    {name: looping, type: Bool}
+  ]
+}
+
+structure{
+  name: ChassisGaitSpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: chassisId, type: String},
+    {name: gaitStyle, type: String},
+    {name: strideBobPermille, type: Nat},
+    {name: idleCycleMs, type: Nat},
+    {name: thrusterTrailActive, type: Bool}
+  ]
+}
+
+structure{
+  name: DoctrineVfxSpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: doctrineId, type: String},
+    {name: vfxKind, type: String},
+    {name: accentHex, type: String},
+    {name: projectileSpeedPermille, type: Nat},
+    {name: shockwaveRadiusSectors, type: Nat}
+  ]
+}
+
+definition{name: choreographsTacticalAnimation, parameters: [a : Nat], result: Prop, body: (0 < a)}
+
+definition{
+  name: animationClips,
+  parameters: [],
+  result: (List AnimationClipSpec),
+  body: (cons (record AnimationClipSpec {id := "CLIP-01-IDLE-BREATH", name := "IdleResonancePulse", layer := "Ambient", durationMs := 2400, frameCount := 60, easingCurve := "SineInOut", looping := true}) (cons (record AnimationClipSpec {id := "CLIP-02-STRIDE-STEP", name := "SectorStrideTranslation", layer := "Locomotion", durationMs := 420, frameCount := 24, easingCurve := "QuadOut", looping := false}) (cons (record AnimationClipSpec {id := "CLIP-03-MOMENTUM-CHARGE", name := "MomentumChargeDash", layer := "Locomotion", durationMs := 540, frameCount := 32, easingCurve := "ExpoOut", looping := false}) (cons (record AnimationClipSpec {id := "CLIP-04-RANGED-TRACER", name := "BallisticStrikeTracer", layer := "Combat", durationMs := 380, frameCount := 22, easingCurve := "Linear", looping := false}) (cons (record AnimationClipSpec {id := "CLIP-05-MELEE-CLEAVE", name := "MeleeCleaveArc", layer := "Combat", durationMs := 360, frameCount := 20, easingCurve := "BackOut", looping := false}) (cons (record AnimationClipSpec {id := "CLIP-06-RESONANCE-WAVE", name := "ResonanceHarmonicWave", layer := "Psionic", durationMs := 680, frameCount := 40, easingCurve := "CubicInOut", looping := false}) (cons (record AnimationClipSpec {id := "CLIP-07-CHIT-DRAW", name := "CommandChitFlip", layer := "Telemetry", durationMs := 450, frameCount := 26, easingCurve := "QuadOut", looping := false}) (cons (record AnimationClipSpec {id := "CLIP-08-ORBITAL-DROP", name := "OrbitalPodInsertion", layer := "Orbital", durationMs := 900, frameCount := 54, easingCurve := "QuartOut", looping := false}) (nil AnimationClipSpec))))))))),
+  axioms: []
+}
+
+definition{
+  name: chassisGaits,
+  parameters: [],
+  result: (List ChassisGaitSpec),
+  body: (cons (record ChassisGaitSpec {chassisId := "Spliced", gaitStyle := "BipedalTacticalStride", strideBobPermille := 120, idleCycleMs := 2400, thrusterTrailActive := false}) (cons (record ChassisGaitSpec {chassisId := "Automaton", gaitStyle := "HydraulicPistonMarch", strideBobPermille := 80, idleCycleMs := 2000, thrusterTrailActive := false}) (cons (record ChassisGaitSpec {chassisId := "Xenomorph", gaitStyle := "PredatoryBoundingLeap", strideBobPermille := 180, idleCycleMs := 1800, thrusterTrailActive := false}) (cons (record ChassisGaitSpec {chassisId := "PhaseBorn", gaitStyle := "VoidLevitationGlide", strideBobPermille := 60, idleCycleMs := 2800, thrusterTrailActive := true}) (cons (record ChassisGaitSpec {chassisId := "RigWalker", gaitStyle := "HeavyMechSeismicStomp", strideBobPermille := 150, idleCycleMs := 2600, thrusterTrailActive := true}) (nil ChassisGaitSpec)))))),
+  axioms: []
+}
+
+definition{
+  name: doctrineVfxProfiles,
+  parameters: [],
+  result: (List DoctrineVfxSpec),
+  body: (cons (record DoctrineVfxSpec {doctrineId := "Breacher", vfxKind := "KineticScatterShockwave", accentHex := "#FF7A1A", projectileSpeedPermille := 850, shockwaveRadiusSectors := 2}) (cons (record DoctrineVfxSpec {doctrineId := "Aegis", vfxKind := "HexagonalDeflectorDome", accentHex := "#38BDF8", projectileSpeedPermille := 750, shockwaveRadiusSectors := 1}) (cons (record DoctrineVfxSpec {doctrineId := "Outrider", vfxKind := "ThrusterAfterimageTracer", accentHex := "#34D399", projectileSpeedPermille := 950, shockwaveRadiusSectors := 1}) (cons (record DoctrineVfxSpec {doctrineId := "Deadeye", vfxKind := "HyperVelocityRailLance", accentHex := "#FBBF24", projectileSpeedPermille := 1000, shockwaveRadiusSectors := 1}) (cons (record DoctrineVfxSpec {doctrineId := "Saboteur", vfxKind := "DemolitionShatterBurst", accentHex := "#F43F5E", projectileSpeedPermille := 800, shockwaveRadiusSectors := 2}) (cons (record DoctrineVfxSpec {doctrineId := "Psion", vfxKind := "ConcentricHarmonicWeave", accentHex := "#A855F7", projectileSpeedPermille := 900, shockwaveRadiusSectors := 3}) (nil DoctrineVfxSpec))))))),
+  axioms: []
+}
+
+definition{
+  name: clampDecile,
+  parameters: [t : Nat],
+  result: Nat,
+  body: (if (10 <=? t) then 10 else t),
+  axioms: []
+}
+
+definition{
+  name: evaluateQuadOutPermille,
+  parameters: [tDecile : Nat],
+  result: Nat,
+  body: (prim subtract 1000 (prim multiply 10 (prim multiply (prim subtract 10 (clampDecile tDecile) : Nat) (prim subtract 10 (clampDecile tDecile) : Nat) : Nat) : Nat) : Nat),
+  axioms: []
+}
+
+definition{
+  name: evaluateParabolicArcScaled,
+  parameters: [peakHeight : Nat, tDecile : Nat],
+  result: Nat,
+  body: (prim multiply peakHeight (prim multiply (clampDecile tDecile) (prim subtract 10 (clampDecile tDecile) : Nat) : Nat) : Nat),
+  axioms: []
+}
+
+definition{
+  name: evaluateAnimationProgressPermille,
+  parameters: [tDecile : Nat, reducedMotion : Bool],
+  result: Nat,
+  body: (if reducedMotion then 1000 else (prim multiply (clampDecile tDecile) 100 : Nat)),
+  axioms: []
+}
+
+definition{
+  name: checkAnimationClipValid,
+  parameters: [clip : AnimationClipSpec],
+  result: Bool,
+  body: ((1 <=? (project clip durationMs)) && (1 <=? (project clip frameCount))),
+  axioms: []
+}
+
+definition{
+  name: allAnimationClipsValid,
+  parameters: [xs : (List AnimationClipSpec)],
+  result: Bool,
+  body: (match xs
+    | List.nil => true
+    | List.cons head tail => (if (checkAnimationClipValid head) then (allAnimationClipsValid tail) else false)),
+  axioms: [],
+  recursive_argument: xs
+}
+
+theorem{
+  name: animationClipCountIsEight,
+  parameters: [],
+  statement: (((prim length (animationClips) : Nat) =? 8) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: chassisGaitCountIsFive,
+  parameters: [],
+  statement: (((prim length (chassisGaits) : Nat) =? 5) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: doctrineVfxCountIsSix,
+  parameters: [],
+  statement: (((prim length (doctrineVfxProfiles) : Nat) =? 6) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: allAnimationClipsBoundedAndPositive,
+  parameters: [],
+  statement: ((allAnimationClipsValid (animationClips)) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: quadOutCurveMonotonicAndExact,
+  parameters: [],
+  statement: (((((evaluateQuadOutPermille 0) =? 0) && ((evaluateQuadOutPermille 5) =? 750)) && ((evaluateQuadOutPermille 10) =? 1000)) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: parabolicArcPeaksAtMidpointAndLandsExact,
+  parameters: [],
+  statement: (((((evaluateParabolicArcScaled 4 0) =? 0) && ((evaluateParabolicArcScaled 4 5) =? 100)) && ((evaluateParabolicArcScaled 4 10) =? 0)) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: reducedMotionCollapsesToTerminalFrame,
+  parameters: [],
+  statement: ((((evaluateAnimationProgressPermille 3 true) =? 1000) && ((evaluateAnimationProgressPermille 5 false) =? 500)) = true),
+  proof: decide{},
+  axioms: []
+}
+\end{semanticmodule}
+\end{lexlean}

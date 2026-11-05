@@ -38,6 +38,13 @@ import {
 import {
   ECHELON_SPECS,
 } from '../game/catalog';
+import {
+  KARST_ANIMATION_CLIPS,
+  KARST_CHASSIS_GAITS,
+  KARST_DOCTRINE_VFX_PROFILES,
+  sampleSpatialKeyframe,
+  type KarstAnimationClipId,
+} from '../game/animationModel';
 import type { CampaignState, EchelonTier } from '../game/types';
 
 interface PauseAuditModalProps {
@@ -72,6 +79,14 @@ export const PauseAuditModal: React.FC<PauseAuditModalProps> = ({
   const [vantageStepOrd, setVantageStepOrd] = useState<number>(1);
   const [acceptanceResult, setAcceptanceResult] = useState<AcceptanceResult | null>(null);
   const [acceptanceMs, setAcceptanceMs] = useState<number | null>(null);
+  const [selectedClipId, setSelectedClipId] = useState<KarstAnimationClipId>('CLIP-02-STRIDE-STEP');
+  const [animDecile, setAnimDecile] = useState<number>(5);
+  const [animReducedMotion, setAnimReducedMotion] = useState<boolean>(false);
+
+  const sampledKeyframe = useMemo(
+    () => sampleSpatialKeyframe(18, animDecile, animReducedMotion),
+    [animDecile, animReducedMotion]
+  );
 
   const saveReceipt = useMemo(() => computeCanonicalSaveReceipt(campaign), [campaign]);
   const invariantReport = useMemo(() => verifyModelInvariants(), []);
@@ -598,11 +613,11 @@ export const PauseAuditModal: React.FC<PauseAuditModalProps> = ({
                       LexLean v0.4 &amp; PrismPM v0.4 Nemesis Core 4.0 Completeness Witness (`{KARST_NEMESIS_COMPLETENESS.lexleanTheorem}`)
                     </h3>
                     <p className="text-xs text-slate-400 mt-0.5">
-                      Verifies that KARST: ZERO HORIZON consumes all 6 Nemesis Core 4.0 subsystems across 18 `*.lex.tex` modules, 76 PrismPM facet entities, `crates/karst-kernel`, and `src/game/nemesisEngine.ts`.
+                      Verifies that KARST: ZERO HORIZON consumes all 7 Nemesis Core 4.0 subsystems across 19 `*.lex.tex` modules, 76 PrismPM facet entities, `crates/karst-kernel`, and `src/game/nemesisEngine.ts`.
                     </p>
                   </div>
                   <span className="px-2.5 py-1 rounded bg-emerald-500/20 border border-emerald-500/50 text-xs font-mono text-emerald-300">
-                    {KARST_NEMESIS_COMPLETENESS.subsystemCount}/6 SUBSYSTEMS · {KARST_NEMESIS_COMPLETENESS.archetypeMatrixCardinality} ARCHETYPES · 18 LEXLEAN MODULES
+                    {KARST_NEMESIS_COMPLETENESS.subsystemCount}/7 SUBSYSTEMS · {KARST_NEMESIS_COMPLETENESS.archetypeMatrixCardinality} ARCHETYPES · 19 LEXLEAN MODULES
                   </span>
                 </div>
                 <div className="overflow-x-auto">
@@ -634,6 +649,123 @@ export const PauseAuditModal: React.FC<PauseAuditModalProps> = ({
                       ))}
                     </tbody>
                   </table>
+                </div>
+              </div>
+
+              {/* Nemesis Core 4.0 Animation & Kinetic Choreography Studio (`AnimationEngine.lex.tex` · `KZ-17`) */}
+              <div className="bg-slate-950 border border-sky-500/40 rounded-lg p-5 space-y-4">
+                <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-3">
+                  <div>
+                    <div className="text-[11px] font-mono text-sky-400 uppercase font-bold">
+                      Nemesis Core 4.0 Subsystem #7 (`src/AnimationEngine.lex.tex` · `KZ-17`)
+                    </div>
+                    <h3 className="text-sm font-bold text-white mt-0.5">
+                      Interactive 2.5D Animation &amp; Kinetic Choreography Evaluator (`sampleSpatialKeyframe`)
+                    </h3>
+                    <p className="text-xs text-slate-400 mt-0.5">
+                      Division-free integer decile keyframe evaluator (`tDecile ∈ [0..10]`) with quadratic ease-out (`1000 - 10*(10-t)^2`), parabolic Z-lift (`4*peak*t*(10-t)`), and `WCAG 2.2 §2.3.3` reduced-motion collapse.
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <label className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-xs font-mono text-slate-200 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={animReducedMotion}
+                        onChange={(e) => setAnimReducedMotion(e.target.checked)}
+                        className="accent-amber-500"
+                      />
+                      reducedMotion (`WCAG 2.2 §2.3.3`)
+                    </label>
+                  </div>
+                </div>
+
+                {/* Clip Selector & Decile Scrubber */}
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-center">
+                  <div className="lg:col-span-5 space-y-2">
+                    <div className="text-xs font-mono text-slate-400">
+                      Select Canonical Animation Clip (`8` clips in `AnimationEngine.animationClips`):
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+                      {KARST_ANIMATION_CLIPS.map((clip) => {
+                        const active = clip.id === selectedClipId;
+                        return (
+                          <button
+                            key={clip.id}
+                            type="button"
+                            onClick={() => setSelectedClipId(clip.id)}
+                            className={`px-2.5 py-1.5 rounded border text-left text-xs font-mono transition-colors cursor-pointer ${
+                              active
+                                ? 'bg-sky-500/20 border-sky-400 text-white'
+                                : 'bg-slate-900 border-slate-800 text-slate-400 hover:border-slate-700'
+                            }`}
+                          >
+                            <div className="font-bold text-amber-400 text-[10px]">{clip.id}</div>
+                            <div className="truncate text-white text-[11px]">{clip.name}</div>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  <div className="lg:col-span-7 p-4 bg-slate-900 border border-slate-800 rounded-lg space-y-3 font-mono text-xs">
+                    <div className="flex items-center justify-between">
+                      <span className="text-slate-300 font-bold">
+                        Keyframe Scrubber: `tDecile = {animDecile}` / 10 (`peakHeight = 18px`)
+                      </span>
+                      <span className="text-emerald-400">
+                        Curve: {sampledKeyframe.easedPermille}‰ QuadOut
+                      </span>
+                    </div>
+                    <input
+                      type="range"
+                      min={0}
+                      max={10}
+                      step={1}
+                      value={animDecile}
+                      onChange={(e) => setAnimDecile(Number(e.target.value))}
+                      className="w-full accent-amber-500 cursor-pointer"
+                    />
+                    <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 text-[11px]">
+                      <div className="p-2 bg-slate-950 border border-slate-800 rounded">
+                        <div className="text-slate-500">tDecile</div>
+                        <div className="text-white font-bold">{sampledKeyframe.tDecile} / 10</div>
+                      </div>
+                      <div className="p-2 bg-slate-950 border border-slate-800 rounded">
+                        <div className="text-slate-500">progress</div>
+                        <div className="text-white font-bold">{sampledKeyframe.progressPermille}‰</div>
+                      </div>
+                      <div className="p-2 bg-slate-950 border border-slate-800 rounded">
+                        <div className="text-slate-500">easedQuadOut</div>
+                        <div className="text-amber-400 font-bold">{sampledKeyframe.easedPermille}‰</div>
+                      </div>
+                      <div className="p-2 bg-slate-950 border border-slate-800 rounded">
+                        <div className="text-slate-500">parabolicArc</div>
+                        <div className="text-rose-400 font-bold">{sampledKeyframe.parabolicArcScaled}</div>
+                      </div>
+                      <div className="p-2 bg-slate-950 border border-slate-800 rounded">
+                        <div className="text-slate-500">terminal</div>
+                        <div className="text-sky-400 font-bold">{sampledKeyframe.completed ? 'TRUE' : 'FALSE'}</div>
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+                      <div className="p-2 bg-slate-950 border border-slate-800 rounded text-[11px]">
+                        <div className="text-amber-400 font-bold mb-1">5 Chassis Kinetic Gaits (`chassisGaits`)</div>
+                        <div className="text-slate-400">
+                          {Object.values(KARST_CHASSIS_GAITS)
+                            .map((g) => `${g.chassisId} (${g.idleCycleMs}ms, ${g.strideBobPermille}‰)`)
+                            .join(' · ')}
+                        </div>
+                      </div>
+                      <div className="p-2 bg-slate-950 border border-slate-800 rounded text-[11px]">
+                        <div className="text-sky-400 font-bold mb-1">6 Doctrine VFX Profiles (`doctrineVfxProfiles`)</div>
+                        <div className="text-slate-400">
+                          {Object.values(KARST_DOCTRINE_VFX_PROFILES)
+                            .map((v) => `${v.doctrineId} (${v.projectileSpeedPermille}‰, ${v.shockwaveRadiusSectors}s)`)
+                            .join(' · ')}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -712,7 +844,7 @@ export const PauseAuditModal: React.FC<PauseAuditModalProps> = ({
                     Single-Source Conformance Register (`model/ids.toml` &rarr; `CONFORMANCE.md`)
                   </h3>
                   <span className="text-xs font-mono text-emerald-400">
-                    {KARST_CONFORMANCE_REGISTER.length}/17 IDs Verified
+                    {KARST_CONFORMANCE_REGISTER.length}/18 IDs Verified
                   </span>
                 </div>
                 <div className="overflow-x-auto">
