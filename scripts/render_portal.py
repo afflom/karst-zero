@@ -23,6 +23,24 @@ def main() -> None:
     root = Path(__file__).resolve().parent.parent
     view_dir = root / "view"
     dist_dir = root / "dist"
+    public_dir = root / "public"
+    public_dir.mkdir(parents=True, exist_ok=True)
+
+    prism_build = find_prism_build(root)
+
+    # Ensure social preview PNG is generated and assets + model.prism.json are staged in public/
+    subprocess.run(["python3", "scripts/generate_og_png.py"], cwd=root, check=True)
+    for asset_name in [
+        "logo.svg",
+        "banner.svg",
+        "topology.svg",
+        "og-preview.svg",
+        "og-preview.png",
+    ]:
+        src_asset = root / "assets" / asset_name
+        if src_asset.is_file():
+            shutil.copy2(src_asset, public_dir / asset_name)
+    shutil.copy2(prism_build / "model.prism.json", public_dir / "model.prism.json")
 
     print("render_portal: building interactive Karst: Zero Horizon application via npm run build...")
     subprocess.run(["npm", "run", "build"], cwd=root, check=True)
@@ -33,12 +51,17 @@ def main() -> None:
 
     (view_dir / ".nojekyll").write_text("", encoding="utf-8")
 
-    for svg_name in ["logo.svg", "banner.svg", "topology.svg"]:
-        src_svg = root / "assets" / svg_name
-        if src_svg.is_file():
-            shutil.copy2(src_svg, view_dir / svg_name)
+    for asset_name in [
+        "logo.svg",
+        "banner.svg",
+        "topology.svg",
+        "og-preview.svg",
+        "og-preview.png",
+    ]:
+        src_asset = root / "assets" / asset_name
+        if src_asset.is_file():
+            shutil.copy2(src_asset, view_dir / asset_name)
 
-    prism_build = find_prism_build(root)
     shutil.copy2(prism_build / "model.prism.json", view_dir / "model.prism.json")
 
     design_src = prism_build / "design"

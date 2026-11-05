@@ -1,6 +1,5 @@
 {
-  "name": "Prism SDK Authoring Workbench",
-  "description": "Hologram v4 (.holo) archive authoring studio, Core-Wasm guest dispatcher, HOLOVIEW bundle editor, acceptance vector verifier, and canonical source analyzer powered by prism-code.",
-  "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+  "name": "KARST: ZERO HORIZON — Nemesis Core 4.0 Tactical Skirmish & Campaign Wargame",
+  "description": "2.5D isometric tactical skirmish and orbital campaign wargame powered by the 150-archetype Nemesis Core 4.0 game engine, formally modeled and verified with LexLean v0.4 and PrismPM v0.4.",
+  "requestFramePermissions": []
 }

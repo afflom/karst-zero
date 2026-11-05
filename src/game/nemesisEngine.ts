@@ -152,6 +152,20 @@ export function resolveNemesisFireteamSpillover(
   };
 }
 
+export function resolveNemesisCoverDemolition(
+  currentSp: number,
+  incomingDamage: number
+): {
+  remainingSp: number;
+  demolished: boolean;
+} {
+  const remainingSp = Math.max(0, currentSp - incomingDamage);
+  return {
+    remainingSp,
+    demolished: remainingSp === 0,
+  };
+}
+
 /**
  * Subsystem 3 (`NEMESIS-SUB-03-RESONANCE`, `ResonanceWeave.lex.tex`, `KZ-04`):
  * Evaluates 6 Resonance Frequencies, Harmonic Rank (`Echelon - 1`), Minor/Major Harmonics,
@@ -227,6 +241,20 @@ export function computeNemesisSaveDigestHex(
     hash = Math.imul(hash, 0x01000193) >>> 0;
   }
   return `0x${hash.toString(16).padStart(8, '0')}`;
+}
+
+export function resolveNemesisPushOverclockStrain(
+  pushedShift: boolean,
+  onesRolled: number
+): boolean {
+  return pushedShift && onesRolled >= 1;
+}
+
+export function resolveNemesisMedBayOverhaulCost(
+  autoDocBuilt: boolean,
+  firstOverhaulOfTurn: boolean
+): number {
+  return autoDocBuilt && firstOverhaulOfTurn ? 0 : 2;
 }
 
 /**

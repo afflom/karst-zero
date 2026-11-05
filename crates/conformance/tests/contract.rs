@@ -10,11 +10,13 @@
 use std::path::{Path, PathBuf};
 
 use karst_kernel::combat::{
-    evaluate_resonance_weave, resolve_fireteam_spillover, resolve_opposed_strike,
-    resolve_subsystem_rupture, CoverKind, ResonanceFrequency, SubsystemRuptureOutcome,
+    evaluate_resonance_weave, resolve_cover_demolition, resolve_fireteam_spillover,
+    resolve_opposed_strike, resolve_subsystem_rupture, CoverKind, ResonanceFrequency,
+    SubsystemRuptureOutcome,
 };
 use karst_kernel::nemesis::{
-    boss_activations, resolve_bastion_assignment, select_doctrine_ai_action, select_warden_berth,
+    boss_activations, resolve_bastion_assignment, resolve_med_bay_overhaul_alloy_cost,
+    resolve_push_overclock_strain, select_doctrine_ai_action, select_warden_berth,
     settle_vault_extraction, verify_karst_nemesis_binding, DoctrineAiAction, PreDropAssignment,
 };
 use karst_kernel::synthesis::{
@@ -185,6 +187,15 @@ fn conceptual_kz_03() {
     let spillover = resolve_fireteam_spillover(3, 1, 3, 2);
     assert_eq!(spillover.remaining_bodies, 1);
     assert_eq!(spillover.bodies_lost, 2);
+
+    assert_eq!(
+        resolve_cover_demolition(CoverKind::LowBarricadePartial, 4, 3),
+        (1, CoverKind::LowBarricadePartial)
+    );
+    assert_eq!(
+        resolve_cover_demolition(CoverKind::LowBarricadePartial, 4, 4),
+        (0, CoverKind::Open)
+    );
 }
 
 #[test]
@@ -246,6 +257,11 @@ fn system_kz_06() {
     assert_eq!(settled.updated_alloy_vault, 16);
     assert_eq!(settled.xp_awarded, 6);
     assert_ne!(settled.canonical_save_digest, 0);
+
+    assert!(resolve_push_overclock_strain(true, 1));
+    assert!(!resolve_push_overclock_strain(true, 0));
+    assert_eq!(resolve_med_bay_overhaul_alloy_cost(true, true), 0);
+    assert_eq!(resolve_med_bay_overhaul_alloy_cost(false, true), 2);
 }
 
 #[test]

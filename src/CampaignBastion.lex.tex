@@ -76,6 +76,22 @@ definition{
 }
 
 definition{
+  name: resolvePushOverclockStrain,
+  parameters: [pushedShift : Bool, onesRolled : Nat],
+  result: Bool,
+  body: (pushedShift && (1 <=? onesRolled)),
+  axioms: []
+}
+
+definition{
+  name: resolveMedBayOverhaulAlloyCost,
+  parameters: [autoDocBuilt : Bool, firstOverhaulOfTurn : Bool],
+  result: Nat,
+  body: (if (autoDocBuilt && firstOverhaulOfTurn) then 0 else 2),
+  axioms: []
+}
+
+definition{
   name: computeCanonicalSaveDigestWord,
   parameters: [treasury : Nat, recon : Nat, contracts : Nat, rosterCount : Nat],
   result: Nat,
@@ -119,6 +135,22 @@ theorem{
   name: canonicalSaveReceiptDeterministic,
   parameters: [],
   statement: (((computeCanonicalSaveDigestWord 16 2 1 5) =? 16215) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: pushOverclockStrainTriggersOnNaturalOne,
+  parameters: [],
+  statement: ((resolvePushOverclockStrain true 1) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: autoDocInfirmaryWaivesFirstMedBayCost,
+  parameters: [],
+  statement: ((((resolveMedBayOverhaulAlloyCost true true) =? 0) && ((resolveMedBayOverhaulAlloyCost false true) =? 2)) = true),
   proof: decide{},
   axioms: []
 }

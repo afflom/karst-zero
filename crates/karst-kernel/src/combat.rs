@@ -189,6 +189,28 @@ pub const fn resolve_subsystem_rupture(d6_roll: u8) -> SubsystemRuptureOutcome {
     }
 }
 
+/// Resolve destructible Low Barricade Structure Point (`4 SP`) demolition
+/// (`CombatEngine::resolveCoverAfterDemolition`, `KZ-03`).
+/// Returns `(remaining_sp, resulting_cover)`.
+#[must_use]
+pub const fn resolve_cover_demolition(
+    cover: CoverKind,
+    current_sp: u8,
+    incoming_damage: u8,
+) -> (u8, CoverKind) {
+    match cover {
+        CoverKind::LowBarricadePartial => {
+            let remaining_sp = current_sp.saturating_sub(incoming_damage);
+            if remaining_sp == 0 {
+                (0, CoverKind::Open)
+            } else {
+                (remaining_sp, CoverKind::LowBarricadePartial)
+            }
+        }
+        other => (current_sp, other),
+    }
+}
+
 /// Resolve Fireteam (`ECH-0` & `ECH-1`) casualty spillover across multi-body Berths
 /// (`CombatEngine::resolveFireteamSpillover`, `KZ-03`).
 #[must_use]

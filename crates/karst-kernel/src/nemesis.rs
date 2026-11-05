@@ -129,6 +129,28 @@ pub const fn resolve_bastion_assignment(assignment: PreDropAssignment) -> (u8, u
     }
 }
 
+/// Evaluate whether a Pushed Pre-Drop Crew Shift inflicts Overclock Strain (`1` rolled on shift dice)
+/// (`CampaignBastion::resolvePushOverclockStrain`, `KZ-06`).
+#[must_use]
+pub const fn resolve_push_overclock_strain(pushed_shift: bool, ones_rolled: u8) -> bool {
+    pushed_shift && ones_rolled >= 1
+}
+
+/// Compute the Alloy cost of a Med-Bay Overhaul (`0` Alloy when `autoDocInfirmary` is built and
+/// it is the first overhaul of the turn, otherwise `2` Alloy)
+/// (`CampaignBastion::resolveMedBayOverhaulAlloyCost`, `KZ-06`).
+#[must_use]
+pub const fn resolve_med_bay_overhaul_alloy_cost(
+    auto_doc_built: bool,
+    first_overhaul_of_turn: bool,
+) -> u8 {
+    if auto_doc_built && first_overhaul_of_turn {
+        0
+    } else {
+        2
+    }
+}
+
 /// Compute a deterministic 32-bit FNV-1a save digest over the Orbital Bastion campaign ledger
 /// (`CampaignBastion::computeCanonicalSaveDigest`, `KZ-06`).
 #[must_use]

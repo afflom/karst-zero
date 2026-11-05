@@ -19,6 +19,7 @@ import {
 } from '../game/catalog';
 import {
   computeNemesisSaveDigestHex,
+  resolveNemesisPushOverclockStrain,
   validateNemesisRosterCharter,
 } from '../game/nemesisEngine';
 import type {
@@ -314,7 +315,7 @@ export const CampaignHubView: React.FC<CampaignHubViewProps> = ({
     if (!existing || existing.pushed) return;
 
     const newDice: number[] = [];
-    let sustainedOverclockStrain = false;
+    let onesRolledOnPush = 0;
     let addedSuccesses = 0;
 
     for (const d of existing.dice) {
@@ -323,10 +324,14 @@ export const CampaignHubView: React.FC<CampaignHubViewProps> = ({
       } else {
         const reroll = Math.floor(Math.random() * 6) + 1;
         newDice.push(reroll);
-        if (reroll === 1) sustainedOverclockStrain = true;
+        if (reroll === 1) onesRolledOnPush++;
         if (reroll >= 4) addedSuccesses++;
       }
     }
+    const sustainedOverclockStrain = resolveNemesisPushOverclockStrain(
+      true,
+      onesRolledOnPush
+    );
 
     soundFX.playSurgeSpend();
     let nextCampaign = { ...campaign };

@@ -114,64 +114,99 @@ export const KARST_PRODUCT_MODEL_DATA: KarstModelExtensions = {
   engineIdentity: {
     engineName: 'Nemesis Core 4.0',
     engineVersion: '4.0.0-holo.v4',
-    authoringRuntime: 'prism-code@0.2.0 (Hologram v4 + Core-Wasm@1 + Canonical)',
+    authoringRuntime:
+      'PrismPM v0.4 + LexLean v0.4 (leanprover/lean4:v4.32.1) + hologram:guest/core-wasm@1',
     productTitle: 'KARST: ZERO HORIZON',
     subsystems: [
       {
         sectionNumber: 1,
         rulebookTitle: 'Core Resolution & Dice Mechanics',
-        engineModule: 'NemesisCore.DicePool & Surge Economy',
-        karstTaxonomyMapping: 'Firepower (ATK), Evasion (DEF), Cognition (INF) · 4+ Strike Hits · Recharging Surge Cells (DP)',
-        prismVerificationBinding: 'Core-Wasm@1 dispatchOp(add|subtract) + 34 Acceptance Vectors',
+        engineModule: 'CombatEngine.lex.tex · NemesisCore.DicePool & Surge Economy',
+        karstTaxonomyMapping:
+          'Firepower (ATK), Evasion (DEF), Cognition (INF) · 4+ Strike Hits · Recharging Surge Cells (DP)',
+        prismVerificationBinding:
+          'CombatEngine::resolveOpposedNetHits + Core-Wasm@1 dispatchOp(add|subtract) + 34 Acceptance Vectors',
       },
       {
         sectionNumber: 2,
         rulebookTitle: 'The 3D Unit Synthesis Engine',
-        engineModule: 'NemesisCore.UnitSynthesisMatrix [X, Y, Z]',
-        karstTaxonomyMapping: '5 Echelons (Ranks 0–4) × 5 Chassis (Natures) × 6 Doctrines (Roles) = 150 Archetypes',
-        prismVerificationBinding: 'compileUnitProfile() + 6-Berth Strike Roster & 16-Alloy Starting Cap',
+        engineModule: 'UnitSynthesis.lex.tex · NemesisCore.UnitSynthesisMatrix [X, Y, Z]',
+        karstTaxonomyMapping:
+          '5 Echelons (Ranks 0–4) × 5 Chassis (Natures) × 6 Doctrines (Roles) = 150 Archetypes',
+        prismVerificationBinding:
+          'UnitSynthesis::synthesizedMatrixSizeIs150 + 6-Berth / 16-Alloy Charter (KZ-01)',
       },
       {
         sectionNumber: 3,
         rulebookTitle: 'Combat & Tactical Actions',
-        engineModule: 'NemesisCore.TacticalGrid36x36',
-        karstTaxonomyMapping: '5-Round Sequence · 36"×36" Sector Grid · Momentum Charge (+1d6) · Destructible Cover (4 SP)',
-        prismVerificationBinding: 'Opposed d6 Pool + Plating (Armor X) + Bio-Resilience (Tough X) + Subsystem Rupture d6',
+        engineModule: 'CombatEngine.lex.tex · NemesisCore.TacticalGrid36x36',
+        karstTaxonomyMapping:
+          '5-Round Sequence · 36"×36" Sector Grid · Momentum Charge (+1 Hit) · Destructible Cover (4 SP)',
+        prismVerificationBinding:
+          'CombatEngine::armorAndToughnessMitigateNetHits + lowBarricadeCollapsesAtFourDamage (KZ-03)',
       },
       {
         sectionNumber: 4,
-        rulebookTitle: 'Traits & Progression System',
-        engineModule: 'NemesisCore.ZeroStatInflationSockets',
-        karstTaxonomyMapping: '1-Slot & 2-Slot Hardpoint Modules · 3-Commendation (3 XP) Socket Rule · Zero-Stat Permadeath',
-        prismVerificationBinding: 'Core-Wasm@1 divide(xp, 3) Socket Unlock + Canonical Roster State',
+        rulebookTitle: 'Traits & Zero-Stat-Inflation Progression',
+        engineModule: 'UnitSynthesis.lex.tex · NemesisCore.ZeroStatInflationSockets',
+        karstTaxonomyMapping:
+          '1-Slot & 2-Slot Hardpoint Modules · 3-Commendation (3 XP) Socket Rule · Zero-Stat Permadeath',
+        prismVerificationBinding:
+          'UnitSynthesis::socketUnlockRequiresThreeXp + Core-Wasm@1 divide(xp, 3) (KZ-02)',
       },
       {
         sectionNumber: 5,
-        rulebookTitle: 'Magic & Psionics (Optional Module)',
-        engineModule: 'NemesisCore.ResonanceWeaveEngine',
-        karstTaxonomyMapping: '6 Resonance Frequencies (Matter/Energy/Life/Mind/Space/Time) · Minor & Major Directives · Overheat Backlash',
-        prismVerificationBinding: 'Opposed Cognition / Target Will Tests + d6 Backlash Table',
+        rulebookTitle: 'Resonance Weave & Psionics',
+        engineModule: 'ResonanceWeave.lex.tex · NemesisCore.ResonanceWeaveEngine',
+        karstTaxonomyMapping:
+          '6 Resonance Frequencies · 16 Hardpoint Modules · 9 Minor Directives · Overheat Backlash',
+        prismVerificationBinding:
+          'ResonanceWeave::hardpointCatalogHasSixteenModules + backlashTableHasSixOutcomes (KZ-04)',
       },
       {
         sectionNumber: 6,
-        rulebookTitle: 'The Nemesis Engine (Solo / Co-op Rules)',
-        engineModule: 'NemesisCore.AutonomousChitDirector',
-        karstTaxonomyMapping: 'Opaque Command Chit Pool + Returning Warden Directive Chit + 1d6 Berth Roll + Doctrine AI',
-        prismVerificationBinding: 'Multi-Berth Boss Scaling (Echelon 3 = 2 Berths, Echelon 4 = 3 Berths)',
+        rulebookTitle: 'The Nemesis Engine (Solo / Co-op AI Director)',
+        engineModule: 'NemesisChit.lex.tex · NemesisCore.AutonomousChitDirector',
+        karstTaxonomyMapping:
+          'Opaque Command Chit Pool + Returning Warden Directive Chit + 1d6 Berth Wrap-Around + 6 Doctrine AI Routines',
+        prismVerificationBinding:
+          'NemesisChit::wardenWrapAroundCoversAllBerths + bossMultiBerthScalingExact (KZ-05)',
       },
       {
         sectionNumber: 7,
-        rulebookTitle: 'Campaign & Base Management',
-        engineModule: 'NemesisCore.PreDropCampaignLoop',
-        karstTaxonomyMapping: 'Pre-Drop Crew Tasks (Recon, Salvage, Overhaul, Sim-Drill) + Push Re-Roll + Menu of Opportunities',
-        prismVerificationBinding: 'prism-code/canonical SHA-256 & BLAKE3 Save State Verification',
+        rulebookTitle: 'Campaign & Orbital Bastion Management',
+        engineModule: 'CampaignBastion.lex.tex · NemesisCore.PreDropCampaignLoop',
+        karstTaxonomyMapping:
+          '4 Pre-Drop Crew Tasks (Recon, Salvage, Overhaul, Sim-Drill) + Push Strain + 3 Bastion Facilities',
+        prismVerificationBinding:
+          'CampaignBastion::pushOverclockStrainTriggersOnNaturalOne + canonicalSaveReceiptDeterministic (KZ-06)',
       },
       {
         sectionNumber: 8,
-        rulebookTitle: 'Scenario Library (6 Core Scenarios)',
-        engineModule: 'NemesisCore.ScenarioGenerator',
-        karstTaxonomyMapping: 'Supply Run, King of the Hill, Data Heist, Demolition, VIP Extraction, Headhunter',
-        prismVerificationBinding: 'Dynamic 18×18 Cell (36"×36") Terrain & Objective Seeding',
+        rulebookTitle: 'Scenario Library (6 Core Vault Contracts)',
+        engineModule: 'CampaignBastion.lex.tex · NemesisCore.ScenarioGenerator',
+        karstTaxonomyMapping:
+          'SCN-01 Alloy Sweep, SCN-02 Reactor Hold, SCN-03 Data Sabotage, SCN-04 Breakthrough, SCN-05 VIP Rescue, SCN-06 Warden Decapitation',
+        prismVerificationBinding:
+          'CampaignBastion::sectorContractCountIsSix + Dynamic 18×18 Cell (36"×36") Seeding (KZ-06)',
+      },
+      {
+        sectionNumber: 9,
+        rulebookTitle: '2.5D Object-Spatial Projection & Karst-9 World Catalog',
+        engineModule: 'SpatialWorld.lex.tex · NemesisCore.SpatialProjectionEngine',
+        karstTaxonomyMapping:
+          '7 Spatial Object Categories · Isometric 2.5D & Top-Down 2D Camera Modes · 7 Karst-9 World Locations · 4 Company Presets',
+        prismVerificationBinding:
+          'SpatialWorld::isometricDepthOrderingMonotonic + allStartingPresetsConformToCharter (KZ-16)',
+      },
+      {
+        sectionNumber: 10,
+        rulebookTitle: 'LexLean v0.4 & PrismPM v0.4 Formal Conformance',
+        engineModule: 'NemesisEngine.lex.tex & Main.lex.tex · uor.template-contract/1',
+        karstTaxonomyMapping:
+          '18 Verified LexLean v0.4 Modules · 76 Compiled PrismPM v0.4 Facet Entities · 5 OPM/UML Diagrams · 17 Conformance IDs',
+        prismVerificationBinding:
+          'NemesisEngine::karstConsumesFullNemesisCore4Engine + Main::releaseFullNemesisCore4Consumed (KZ-07 / KZ-15)',
       },
     ],
   },
@@ -449,7 +484,7 @@ export async function buildKarstHoloArchive(): Promise<LoadedHoloState> {
   modelDoc.application.cargo_name = 'karst-zero-horizon';
   modelDoc.application.cargo_version = '4.0.0';
   modelDoc.application.cargo_description =
-    'KARST: ZERO HORIZON — Powered by the Nemesis Core 4.0 Game Engine on prism-code (3D Unit Synthesis, Orbital Skirmish & Campaign Engine).';
+    'KARST: ZERO HORIZON — Powered by the Nemesis Core 4.0 Game Engine, formally modeled and verified with LexLean v0.4 and PrismPM v0.4.';
   modelDoc.application.view.title = 'KARST: ZERO HORIZON (Nemesis Core 4.0 Engine) — Tactical Telemetry Surface';
   modelDoc.application.view.heading = 'Nemesis Core 4.0 Core-Wasm Combat & Alloy Resolver';
   modelDoc.application.view.left_label = 'Primary Register (Hits / Alloy / XP)';
@@ -461,6 +496,16 @@ export async function buildKarstHoloArchive(): Promise<LoadedHoloState> {
       request: Array.from(encoder.encode(vec.req)),
       response: Array.from(encoder.encode(vec.res)),
     });
+  }
+
+  // Merge compiled PrismPM v0.4 model.prism.json facets when available
+  try {
+    const compiledRes = await fetch(`${import.meta.env.BASE_URL}model.prism.json`);
+    if (compiledRes.ok) {
+      modelDoc.prismpm_compiled_model = await compiledRes.json();
+    }
+  } catch {
+    // Offline fallback uses in-memory compiled model descriptors
   }
 
   // Populate full architecture, engine_identity, presentation, contracts, quality, security, and standards_profile sections
@@ -548,39 +593,57 @@ export interface BoundaryContractItem {
 export const KARST_BOUNDARY_CONTRACTS: BoundaryContractItem[] = [
   {
     id: 'ctr-unit-synthesis',
-    name: 'NemesisCore.Model.synthesizeOperative',
+    name: 'UnitSynthesis::synthesizedMatrixSizeIs150 (KZ-01)',
     precondition: 'IsValidCoordinates(echelon ∈ 0..4, chassis ∈ Chassis, doctrine ∈ Doctrine) ∧ slotsUsed ≤ startingHardpoints(echelon)',
     postcondition: 'IsValidOperative(u) ∧ u.berthCost ∈ {1,2,3} ∧ baseDiceUnbloated(u)',
     realization: 'list_fold over lockedHardpoints accumulating integer deltas (plating, resilience, surge, move) onto Echelon[Z] + Chassis[Y] + Doctrine[X]',
-    evidenceTheorem: 'Synthesis.satisfies_zero_stat_inflation',
+    evidenceTheorem: 'UnitSynthesis::synthesizedMatrixSizeIs150 & defaultCompanyConformsToCharter',
     refusalCode: 'synthesis.berth_or_socket_overflow',
   },
   {
     id: 'ctr-opposed-strike',
-    name: 'NemesisCore.Model.resolveStrike',
-    precondition: 'IsLiving(attacker) ∧ IsLiving(defender) ∧ distance(attacker, defender) ≤ maxReach ∧ hasLoS(attacker, defender)',
-    postcondition: 'netHits = max(0, atkHits - defHits) ∧ finalDamage = max(0, netHits - effectivePlating - resilienceSaved)',
-    realization: 'list_fold over d6 pool (d ≥ 4) + Core-Wasm@1 dispatch(subtract, rawAtkHits, rawDefHits) + dispatch(subtract, netHits, plating)',
-    evidenceTheorem: 'Combat.satisfies_bounded_mitigation',
+    name: 'CombatEngine::resolveOpposedNetHits (KZ-03)',
+    precondition: 'IsLiving(attacker) ∧ IsLiving(defender) ∧ distance(attacker, defender) ≤ maxReach ∧ coverLevel < 2',
+    postcondition: 'netHits = max(0, atkHits + momentumBonus - defHits - coverEvade) ∧ finalDamage = max(0, netHits - plating - resilience)',
+    realization: 'CombatEngine::resolveOpposedNetHits + resolveMitigatedTrauma + Core-Wasm@1 dispatch(subtract)',
+    evidenceTheorem: 'CombatEngine::armorAndToughnessMitigateNetHits & bulkheadFullCoverBlocksLineOfSight',
     refusalCode: 'combat.out_of_range_or_blocked_los',
   },
   {
+    id: 'ctr-resonance-weave',
+    name: 'ResonanceWeave::computeHarmonicRank (KZ-04)',
+    precondition: 'frequency ∈ ResonanceFrequency(0..5) ∧ echelon ∈ 0..4 ∧ surgeCells ≥ 1',
+    postcondition: 'harmonicRank = max(0, echelon - 1) ∧ minorHarmonic = (successes ≥ 1) ∧ backlashTriggered = (onesRolled ≥ 2)',
+    realization: 'ResonanceWeave::computeHarmonicRank + backlashTable lookup over 16 Hardpoint Modules & 9 Minor Directives',
+    evidenceTheorem: 'ResonanceWeave::hardpointCatalogHasSixteenModules & backlashTableHasSixOutcomes',
+    refusalCode: 'resonance.insufficient_surge_or_backlash',
+  },
+  {
     id: 'ctr-chit-step',
-    name: 'NemesisCore.Model.stepChitDirector',
-    precondition: 'round ∈ 1..5 ∧ chitPool.length > 0',
-    postcondition: 'drawn.kind = STRIKE → activatesNextReadyOperative ∨ drawn.kind = WARDEN → executesWardenBerth(1d6) ∧ returnsWardenChitIfRemaining',
-    realization: 'Pure state-machine step(state, event) -> (nextState, correlatedAction) with cyclic 1..6 Berth wrap-around',
-    evidenceTheorem: 'ChitDirector.satisfies_round_activation_completeness',
+    name: 'NemesisChit::selectWardenBerthOneBased (KZ-05)',
+    precondition: 'round ∈ 1..5 ∧ chitPool.length > 0 ∧ activeWardenBerths ∈ 1..6',
+    postcondition: 'drawn.kind = STRIKE → activatesNextReadyOperative ∨ drawn.kind = WARDEN → executesWardenBerth(((d6 - 1) mod N) + 1)',
+    realization: 'NemesisChit::selectWardenBerthOneBased + bossActivationsForEchelon + doctrineAiRoutines',
+    evidenceTheorem: 'NemesisChit::wardenWrapAroundCoversAllBerths & bossMultiBerthScalingExact',
     refusalCode: 'director.empty_chit_pool',
   },
   {
     id: 'ctr-socket-unlock',
-    name: 'NemesisCore.Model.unlockHardpointSocket',
+    name: 'UnitSynthesis::unlockedBonusSockets & CampaignBastion::computeSalvageYield (KZ-02 / KZ-06)',
     precondition: 'unit.xp ≥ 3 ∧ unit.unlockedTotalHardpoints < campaignMaxHardpoints(unit.echelon)',
-    postcondition: 'nextUnit.xp = unit.xp - 3 ∧ nextUnit.unlockedTotalHardpoints = unit.unlockedTotalHardpoints + 1 ∧ baseAttributesUnchanged(unit, nextUnit)',
-    realization: 'Core-Wasm@1 dispatch(subtract, unit.xp, 3) with strict Echelon socket ceiling enforcement',
-    evidenceTheorem: 'Progression.satisfies_three_commendation_invariant',
+    postcondition: 'unlockedBonusSockets = min(2, xp / 3) ∧ baseAttributesUnchanged(unit, nextUnit)',
+    realization: 'UnitSynthesis::unlockedBonusSockets + Core-Wasm@1 dispatch(divide, unit.xp, 3) + CampaignBastion::computeCanonicalSaveDigestWord',
+    evidenceTheorem: 'UnitSynthesis::socketUnlockRequiresThreeXp & CampaignBastion::canonicalSaveReceiptDeterministic',
     refusalCode: 'progression.insufficient_xp_or_socket_cap',
+  },
+  {
+    id: 'ctr-spatial-trajectory',
+    name: 'SpatialWorld::isTrajectoryClear & computeIsometricDepthKey (KZ-16)',
+    precondition: 'ax, ay, bx, by ∈ 0..17 ∧ elevationZ ∈ 0..2 ∧ blockedSectors = 0',
+    postcondition: 'manhattanDist = |bx - ax| + |by - ay| ≤ moveAllowance ∧ depthKey = (bx + by) * 100 + by + elevationZ * 10',
+    realization: 'SpatialWorld::computeManhattanDistance + computeIsometricDepthKey across 7 Karst-9 World Locations',
+    evidenceTheorem: 'SpatialWorld::isometricDepthOrderingMonotonic & trajectoryClearanceVerified',
+    refusalCode: 'spatial.trajectory_blocked_or_exceeds_stride',
   },
 ];
 
@@ -1077,9 +1140,9 @@ export function verifyModelInvariants(): ModelInvariantReport {
     },
     {
       id: 'inv-mnist-contracts',
-      name: 'boundaryContractsComplete (MNIST Model.lex.tex)',
-      passed: boundaryContractsSound,
-      detail: `${KARST_BOUNDARY_CONTRACTS.length} Boundary Contracts with Precondition, integer list_fold Realization & Postcondition`,
+      name: 'boundaryContractsComplete (LexLean v0.4 Domain Contracts)',
+      passed: boundaryContractsSound && KARST_BOUNDARY_CONTRACTS.length === 6,
+      detail: `${KARST_BOUNDARY_CONTRACTS.length}/6 Boundary Contracts with Precondition, integer Realization, Postcondition & Evidence Theorem`,
     },
     {
       id: 'inv-standards-realized',
@@ -1091,16 +1154,18 @@ export function verifyModelInvariants(): ModelInvariantReport {
       id: 'inv-world-catalog',
       name: 'worldCatalogCanonicalized (Characters, 3D Units & Karst-9 Locations)',
       passed: worldCatalogSound,
-      detail: `${KARST_WORLD_CATALOG.characters.length} Canonical Characters/Units & ${KARST_WORLD_CATALOG.locations.length} Karst-9 Locations content-addressed via prism-code`,
+      detail: `${KARST_WORLD_CATALOG.characters.length} Canonical Characters/Units & ${KARST_WORLD_CATALOG.locations.length} Karst-9 Locations content-addressed via BLAKE3/SHA-256`,
     },
     {
       id: 'inv-nemesis-core-4-complete',
       name: 'karstConsumesFullNemesisCore4Engine (NemesisEngine.lex.tex · KZ-07)',
       passed:
         KARST_NEMESIS_COMPLETENESS.allSubsystemsActive &&
+        KARST_NEMESIS_COMPLETENESS.subsystemCount === 6 &&
         KARST_COMPILED_DESIGN_VIEWS.length === 5 &&
-        KARST_LEXLEAN_MODULES.length === 13,
-      detail: `5/5 Nemesis Core 4.0 Subsystems active · 150 Archetypes · 5 OPM/UML Diagrams · 13 Domain LexLean v0.4 Modules`,
+        KARST_LEXLEAN_MODULES.length === 18 &&
+        KARST_CONFORMANCE_REGISTER.length === 17,
+      detail: `6/6 Nemesis Core 4.0 Subsystems active · 150 Archetypes · 5 OPM/UML Diagrams · 18 LexLean v0.4 Modules · 17/17 Conformance IDs`,
     },
   ];
 
@@ -1413,6 +1478,34 @@ export interface LexLeanModuleSpec {
 
 export const KARST_LEXLEAN_MODULES: LexLeanModuleSpec[] = [
   {
+    moduleName: 'Foundation.Bool',
+    sourcePath: 'stdlib/Foundation/Bool.lex.tex',
+    conformanceId: 'TC-01',
+    keyTheorem: 'lexlean.std.bool@1.2.0',
+    summary: 'Verified LexLean v0.4 Boolean algebra glossary and decidable equality foundation.',
+  },
+  {
+    moduleName: 'Foundation.Nat',
+    sourcePath: 'stdlib/Foundation/Nat.lex.tex',
+    conformanceId: 'TC-01',
+    keyTheorem: 'lexlean.std.nat@1.2.0',
+    summary: 'Verified LexLean v0.4 Peano natural number arithmetic, saturating subtraction, and ordering predicates.',
+  },
+  {
+    moduleName: 'Foundation.Relations',
+    sourcePath: 'stdlib/Foundation/Relations.lex.tex',
+    conformanceId: 'TC-01',
+    keyTheorem: 'lexlean.std.relations@1.2.0',
+    summary: 'Verified LexLean v0.4 binary relation and equivalence predicates.',
+  },
+  {
+    moduleName: 'Foundation.Functions',
+    sourcePath: 'stdlib/Foundation/Functions.lex.tex',
+    conformanceId: 'TC-01',
+    keyTheorem: 'lexlean.std.functions@1.2.0',
+    summary: 'Verified LexLean v0.4 total function composition and structural mapping primitives.',
+  },
+  {
     moduleName: 'Contract',
     sourcePath: 'src/Contract.lex.tex',
     conformanceId: 'TC-01',
@@ -1509,6 +1602,154 @@ export const KARST_LEXLEAN_MODULES: LexLeanModuleSpec[] = [
     conformanceId: 'KZ-15',
     keyTheorem: 'Main::releaseFullNemesisCore4Consumed',
     summary: 'Top-level release profile binding all 18 LexLean v0.4 modules, 76 PrismPM facet entities, and the interactive Karst application.',
+  },
+];
+
+export interface ConformanceRegisterItem {
+  id: string;
+  facet: string;
+  specModule: string;
+  rustSymbol: string;
+  testRef: string;
+  summary: string;
+}
+
+export const KARST_CONFORMANCE_REGISTER: ConformanceRegisterItem[] = [
+  {
+    id: 'TC-01',
+    facet: 'template',
+    specModule: 'Contract.lex.tex',
+    rustSymbol: 'karst_kernel::contract::verify_template_contract',
+    testRef: 'crates/conformance/tests/contract.rs::contract_tc_01',
+    summary: 'Verifies the 6-pin SHA-256 UOR template contract.',
+  },
+  {
+    id: 'KZ-01',
+    facet: 'synthesis',
+    specModule: 'UnitSynthesis.lex.tex',
+    rustSymbol: 'karst_kernel::synthesis::compile_unit_profile',
+    testRef: 'crates/conformance/tests/facets.rs::unit_synthesis_kz_01',
+    summary: 'Compiles the 150-archetype 3D [Doctrine x Chassis x Echelon] matrix & 6-Berth / 16-Alloy Charter.',
+  },
+  {
+    id: 'KZ-02',
+    facet: 'progression',
+    specModule: 'UnitSynthesis.lex.tex',
+    rustSymbol: 'karst_kernel::synthesis::unlocked_hardpoints',
+    testRef: 'crates/conformance/tests/facets.rs::zero_stat_progression_kz_02',
+    summary: 'Enforces Zero-Stat-Inflation progression (+1 Hardpoint Socket per 3 XP) & Permadeath.',
+  },
+  {
+    id: 'KZ-03',
+    facet: 'combat',
+    specModule: 'CombatEngine.lex.tex',
+    rustSymbol: 'karst_kernel::combat::resolve_opposed_strike',
+    testRef: 'crates/conformance/tests/facets.rs::combat_engine_kz_03',
+    summary: 'Resolves Opposed d6 Strike Pool, Cover LoS, 4-SP Barricade demolition, 1d6 Rupture & Fireteam Spillover.',
+  },
+  {
+    id: 'KZ-04',
+    facet: 'resonance',
+    specModule: 'ResonanceWeave.lex.tex',
+    rustSymbol: 'karst_kernel::combat::evaluate_resonance_weave',
+    testRef: 'crates/conformance/tests/facets.rs::resonance_weave_kz_04',
+    summary: 'Models 6 Resonance Frequencies, 16 Hardpoint Modules, Harmonic Rank & Psionic Backlash.',
+  },
+  {
+    id: 'KZ-05',
+    facet: 'nemesis',
+    specModule: 'NemesisChit.lex.tex',
+    rustSymbol: 'karst_kernel::nemesis::select_warden_berth',
+    testRef: 'crates/conformance/tests/facets.rs::nemesis_chit_kz_05',
+    summary: 'Implements 5-Round Opaque Command Chit Pool, 1d6 Berth Wrap-Around, Boss Scaling & 6 Doctrine AI Routines.',
+  },
+  {
+    id: 'KZ-06',
+    facet: 'bastion',
+    specModule: 'CampaignBastion.lex.tex',
+    rustSymbol: 'karst_kernel::nemesis::settle_vault_extraction',
+    testRef: 'crates/conformance/tests/facets.rs::campaign_bastion_kz_06',
+    summary: 'Executes 4 Pre-Drop Crew Assignments, Push Strain, 3 Facilities, 6 Contracts & FNV-1a Save Digest.',
+  },
+  {
+    id: 'KZ-07',
+    facet: 'engine',
+    specModule: 'NemesisEngine.lex.tex',
+    rustSymbol: 'karst_kernel::nemesis::verify_karst_nemesis_binding',
+    testRef: 'crates/conformance/tests/facets.rs::nemesis_engine_binding_kz_07',
+    summary: 'Certifies that Karst: Zero Horizon consumes all 6 subsystems of the Nemesis Core 4.0 game engine.',
+  },
+  {
+    id: 'KZ-08',
+    facet: 'architecture',
+    specModule: 'Architecture.lex.tex',
+    rustSymbol: 'karst_kernel::synthesis::validate_roster_charter',
+    testRef: 'crates/conformance/tests/facets.rs::architecture_kz_08',
+    summary: 'ISO/IEC/IEEE 42010 architecture description across 4 stakeholders, 6 concerns, 6 viewpoints & 6 components.',
+  },
+  {
+    id: 'KZ-09',
+    facet: 'security',
+    specModule: 'Architecture.lex.tex',
+    rustSymbol: 'karst_kernel::nemesis::compute_canonical_save_digest',
+    testRef: 'crates/conformance/tests/facets.rs::security_kz_09',
+    summary: 'ISO/IEC 27005 & 27034 security risk-treatment chains across 4 assets, 4 threats & 4 controls.',
+  },
+  {
+    id: 'KZ-10',
+    facet: 'quality',
+    specModule: 'Architecture.lex.tex',
+    rustSymbol: 'karst_kernel::combat::count_d6_outcomes',
+    testRef: 'crates/conformance/tests/facets.rs::quality_kz_10',
+    summary: 'ISO/IEC 25010 SQuaRE quality characteristics and quantitative target thresholds.',
+  },
+  {
+    id: 'KZ-11',
+    facet: 'design',
+    specModule: 'Design.lex.tex',
+    rustSymbol: 'karst_kernel::nemesis::select_doctrine_ai_action',
+    testRef: 'crates/conformance/tests/facets.rs::design_kz_11',
+    summary: 'ISO/PAS 19450 OPM (.opl) and OMG UML 2.5.1 (.puml) views across 9 processes and 6 states.',
+  },
+  {
+    id: 'KZ-12',
+    facet: 'branding',
+    specModule: 'Presentation.lex.tex',
+    rustSymbol: 'karst_kernel::nemesis::meets_wcag_contrast_tenths',
+    testRef: 'crates/conformance/tests/facets.rs::branding_ux_kz_12',
+    summary: 'WCAG 2.2 AA contrast verification, 4 progressive 5-pole stakeholder journeys & portal metadata.',
+  },
+  {
+    id: 'KZ-13',
+    facet: 'accessibility',
+    specModule: 'Presentation.lex.tex',
+    rustSymbol: 'karst_kernel::nemesis::meets_wcag_contrast_tenths',
+    testRef: 'crates/conformance/tests/facets.rs::accessibility_kz_13',
+    summary: 'WAI-ARIA 1.2 landmark roles, live regions & keyboard navigation patterns.',
+  },
+  {
+    id: 'KZ-14',
+    facet: 'authorities',
+    specModule: 'Standards.lex.tex',
+    rustSymbol: 'karst_kernel::contract::verify_template_contract',
+    testRef: 'crates/conformance/tests/facets.rs::standards_kz_14',
+    summary: 'Binds 6 normative external standards (ISO 42010, ISO 25010, ISO 27005, ISO 19450, UML 2.5.1, WCAG 2.2).',
+  },
+  {
+    id: 'KZ-15',
+    facet: 'release',
+    specModule: 'Main.lex.tex',
+    rustSymbol: 'karst_kernel::nemesis::verify_karst_nemesis_binding',
+    testRef: 'crates/conformance/tests/facets.rs::contract_kz_15',
+    summary: 'Top-level release profile verifying view/index.html, view/model.prism.json, view/register.json & og-preview.png.',
+  },
+  {
+    id: 'KZ-16',
+    facet: 'spatial',
+    specModule: 'SpatialWorld.lex.tex',
+    rustSymbol: 'karst_kernel::spatial::evaluate_spatial_trajectory',
+    testRef: 'crates/conformance/tests/facets.rs::spatial_world_kz_16',
+    summary: '2.5D isometric depth sorting, Manhattan trajectory clearance, 7 Karst-9 locations & 4 company presets.',
   },
 ];
 

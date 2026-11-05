@@ -20,6 +20,7 @@ import {
   KARST_STANDARDS_REGISTER,
   KARST_COMPILED_DESIGN_VIEWS,
   KARST_LEXLEAN_MODULES,
+  KARST_CONFORMANCE_REGISTER,
   KARST_NEMESIS_COMPLETENESS,
   computeCanonicalSaveReceipt,
   verifyModelInvariants,
@@ -434,9 +435,9 @@ export const PauseAuditModal: React.FC<PauseAuditModalProps> = ({
                       <tr className="border-b border-slate-800 text-slate-400">
                         <th className="py-2 pr-3">Sec</th>
                         <th className="py-2 pr-3">Nemesis Core 4.0 Rulebook Subsystem</th>
-                        <th className="py-2 pr-3">Engine Module (`prism-code`)</th>
+                        <th className="py-2 pr-3">LexLean v0.4 / PrismPM v0.4 Module</th>
                         <th className="py-2 pr-3">KARST: ZERO HORIZON Taxonomy</th>
-                        <th className="py-2">Core-Wasm / Canonical Binding</th>
+                        <th className="py-2">LexLean Theorem / Core-Wasm Binding</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-800/70">
@@ -597,11 +598,11 @@ export const PauseAuditModal: React.FC<PauseAuditModalProps> = ({
                       LexLean v0.4 &amp; PrismPM v0.4 Nemesis Core 4.0 Completeness Witness (`{KARST_NEMESIS_COMPLETENESS.lexleanTheorem}`)
                     </h3>
                     <p className="text-xs text-slate-400 mt-0.5">
-                      Verifies that KARST: ZERO HORIZON consumes all 5 Nemesis Core 4.0 subsystems across `src/*.lex.tex`, `crates/karst-kernel`, and `src/game/nemesisEngine.ts`.
+                      Verifies that KARST: ZERO HORIZON consumes all 6 Nemesis Core 4.0 subsystems across 18 `*.lex.tex` modules, 76 PrismPM facet entities, `crates/karst-kernel`, and `src/game/nemesisEngine.ts`.
                     </p>
                   </div>
                   <span className="px-2.5 py-1 rounded bg-emerald-500/20 border border-emerald-500/50 text-xs font-mono text-emerald-300">
-                    {KARST_NEMESIS_COMPLETENESS.subsystemCount}/5 SUBSYSTEMS · {KARST_NEMESIS_COMPLETENESS.archetypeMatrixCardinality} ARCHETYPES
+                    {KARST_NEMESIS_COMPLETENESS.subsystemCount}/6 SUBSYSTEMS · {KARST_NEMESIS_COMPLETENESS.archetypeMatrixCardinality} ARCHETYPES · 18 LEXLEAN MODULES
                   </span>
                 </div>
                 <div className="overflow-x-auto">
@@ -697,6 +698,42 @@ export const PauseAuditModal: React.FC<PauseAuditModalProps> = ({
                           <td className="py-2 px-4 text-right font-mono text-sky-400 font-bold">
                             {mod.conformanceId}
                           </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              {/* Single-Source Conformance Register (`model/ids.toml` -> `CONFORMANCE.md`) */}
+              <div className="bg-slate-950 border border-slate-800 rounded-lg overflow-hidden">
+                <div className="px-5 py-3.5 border-b border-slate-800 flex items-center justify-between">
+                  <h3 className="text-sm font-bold text-white">
+                    Single-Source Conformance Register (`model/ids.toml` &rarr; `CONFORMANCE.md`)
+                  </h3>
+                  <span className="text-xs font-mono text-emerald-400">
+                    {KARST_CONFORMANCE_REGISTER.length}/17 IDs Verified
+                  </span>
+                </div>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left border-collapse text-xs">
+                    <thead>
+                      <tr className="bg-slate-900 border-b border-slate-800 text-slate-400">
+                        <th className="py-2 px-4">ID</th>
+                        <th className="py-2 px-4">Facet</th>
+                        <th className="py-2 px-4">LexLean Spec</th>
+                        <th className="py-2 px-4">Rust Kernel Symbol</th>
+                        <th className="py-2 px-4">Conformance Test</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-800">
+                      {KARST_CONFORMANCE_REGISTER.map((item) => (
+                        <tr key={item.id}>
+                          <td className="py-2 px-4 font-mono font-bold text-amber-400">{item.id}</td>
+                          <td className="py-2 px-4 font-mono text-sky-400">{item.facet}</td>
+                          <td className="py-2 px-4 font-mono text-emerald-400">{item.specModule}</td>
+                          <td className="py-2 px-4 font-mono text-slate-300">{item.rustSymbol}</td>
+                          <td className="py-2 px-4 font-mono text-slate-400">{item.testRef}</td>
                         </tr>
                       ))}
                     </tbody>

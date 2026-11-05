@@ -65,6 +65,22 @@ definition{
 }
 
 definition{
+  name: resolveCoverDemolitionSp,
+  parameters: [currentSp : Nat, incomingDamage : Nat],
+  result: Nat,
+  body: (prim subtract currentSp incomingDamage : Nat),
+  axioms: []
+}
+
+definition{
+  name: resolveCoverAfterDemolition,
+  parameters: [coverLevel : Nat, currentSp : Nat, incomingDamage : Nat],
+  result: Nat,
+  body: (if ((coverLevel =? 1) && ((resolveCoverDemolitionSp currentSp incomingDamage) =? 0)) then 0 else coverLevel),
+  axioms: []
+}
+
+definition{
   name: resolveOpposedNetHits,
   parameters: [rawAtkHits : Nat, momentumSectors : Nat, rawDefHits : Nat, coverLevel : Nat],
   result: Nat,
@@ -186,6 +202,14 @@ theorem{
   name: subsystemRuptureTableHasFourOutcomes,
   parameters: [],
   statement: (((prim length (subsystemRuptureTable) : Nat) =? 4) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: lowBarricadeCollapsesAtFourDamage,
+  parameters: [],
+  statement: ((((resolveCoverAfterDemolition 1 4 3) =? 1) && ((resolveCoverAfterDemolition 1 4 4) =? 0)) = true),
   proof: decide{},
   axioms: []
 }
