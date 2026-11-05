@@ -45,7 +45,7 @@ model does not sanction.
 
 | ID | Level | Statement |
 | --- | --- | --- |
-| `KZ-11` | `build` | The design facet in Design.lex.tex models 10 system processes, 7 system states, 2 ISO/PAS 19450 OPM views (.opl), and 3 OMG UML 2.5.1 views (.puml) compiled by PrismPM |
+| `KZ-11` | `build` | The design facet in Design.lex.tex models 12 system processes, 10 system states, 3 ISO/PAS 19450 OPM views (.opl), and 4 OMG UML 2.5.1 views (.puml) compiled by PrismPM |
 
 ## security
 
@@ -58,7 +58,7 @@ model does not sanction.
 
 | ID | Level | Statement |
 | --- | --- | --- |
-| `KZ-08` | `build` | The ISO/IEC/IEEE 42010 architecture facet in Architecture.lex.tex models 4 stakeholders, 6 concerns, 6 viewpoints, 6 views, and 5 ISO standards with observer quadruple alignment |
+| `KZ-08` | `build` | The ISO/IEC/IEEE 42010 architecture facet in Architecture.lex.tex models 4 stakeholders, 7 concerns, 7 viewpoints, 7 views, and 5 ISO standards with observer quadruple alignment |
 
 ## system
 
@@ -66,9 +66,9 @@ model does not sanction.
 | --- | --- | --- |
 | `KZ-05` | `build` | The 5-Round Opaque Command Chit Director in NemesisChit.lex.tex enforces Warden Chit pool return, 1d6 Warden Berth wrap-around selection (((d6 - 1) mod N) + 1), Multi-Berth Boss activations (ECH-3 = 2, ECH-4 = 3), and 6 deterministic Doctrine AI routines |
 | `KZ-06` | `build` | The Orbital Bastion Campaign Ledger in CampaignBastion.lex.tex models 4 Pre-Drop Crew Assignments, 3 Bastion Facilities, 6 Core Sector Contracts, 6-Alloy salvage cap, and canonical FNV-1a save digests |
-| `KZ-09` | `build` | The system topology in Architecture.lex.tex models 6 typed Nemesis Core 4.0 components (component00..05), 8 directed control/data edges (edge00..07), 8 executable features (feature00..07), and 4 stakeholder journeys (journey00..03) |
+| `KZ-09` | `build` | The system topology in Architecture.lex.tex models 7 typed Nemesis Core 4.0 components (component00..06), 11 directed control/data edges (edge00..10), 8 executable features (feature00..07), and 4 stakeholder journeys (journey00..03) |
 | `KZ-16` | `build` | The 2.5D Object-Spatial Projection and Karst-9 World Catalog in SpatialWorld.lex.tex models 2 camera modes, 7 spatial object categories, 7 world locations, 4 starting company presets, 9 minor resonance directives, 3 threat-tier Warden forces, and isometric depth/trajectory evaluation |
-| `KZ-17` | `build` | The Deterministic Animation and Kinetic Choreography engine in AnimationEngine.lex.tex models 8 animation clips, 5 Chassis kinetic gaits, 6 Doctrine weapon VFX profiles, fixed-point quadratic ease-out and parabolic arc curves, and reduced-motion terminal-frame transitions |
+| `KZ-17` | `build` | The Deterministic Animation and Kinetic Choreography engine in AnimationEngine.lex.tex models 8 animation clips, 3 sub-phases, articulated pose kinematics, 5 Chassis kinetic gaits, 6 Doctrine weapon VFX profiles, fixed-point quadratic ease-out and parabolic arc curves, and reduced-motion terminal-frame transitions |
 
 ## user-journeys
 

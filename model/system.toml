@@ -46,6 +46,13 @@ kind = "releaseBinary"
 name = "Import-Free Core-Wasm Guest & HOLOVIEW Surface (Contract.lex.tex, Presentation.lex.tex)"
 module = "NemesisEngine"
 
+[[component]]
+index = 6
+id = "Architecture::component06AnimationChoreographyEngine"
+kind = "service"
+name = "Deterministic Fixed-Point Animation Choreography & Doctrine VFX Engine (AnimationEngine.lex.tex)"
+module = "AnimationEngine"
+
 [[edge]]
 index = 0
 id = "Architecture::edge00SynthesisToBastion"
@@ -100,6 +107,27 @@ index = 7
 id = "Architecture::edge07CombatToBastion"
 from_index = 1
 to_index = 4
+kind = "dataFlow"
+
+[[edge]]
+index = 8
+id = "Architecture::edge08CombatToAnimation"
+from_index = 1
+to_index = 6
+kind = "dataFlow"
+
+[[edge]]
+index = 9
+id = "Architecture::edge09ChitDirectorToAnimation"
+from_index = 2
+to_index = 6
+kind = "controlFlow"
+
+[[edge]]
+index = 10
+id = "Architecture::edge10AnimationToCoreWasm"
+from_index = 6
+to_index = 5
 kind = "dataFlow"
 
 [[feature]]

@@ -2,13 +2,14 @@
 ' UML 2.5.1 component diagram
 ' view: Design::viewNemesisComponentUml
 ' viewpoint: Architecture::viewpoint02NemesisChitAiViewpoint
-title Nemesis Core 4.0 UML 2.5.1 Component Topology: 6 Engine Subsystems & 8 Data/Control Edges
+title Nemesis Core 4.0 UML 2.5.1 Component Topology: 7 Engine Subsystems & 11 Data/Control Edges
 component "component00UnitSynthesisCompiler" as c0
 component "component01StrikePoolResolver" as c1
 component "component02CommandChitDirector" as c2
 component "component03ResonanceWeaveEngine" as c3
 component "component04OrbitalBastionLedger" as c4
 component "component05CoreWasmArithmeticGuest" as c5
+component "component06AnimationChoreographyEngine" as c6
 c0 --> c4 : edge00SynthesisToBastion
 c4 --> c2 : edge01BastionToChitDirector
 c2 --> c1 : edge02ChitDirectorToCombat
@@ -17,4 +18,7 @@ c3 --> c1 : edge04ResonanceToCombat
 c1 --> c5 : edge05CombatToCoreWasm
 c0 --> c5 : edge06SynthesisToCoreWasm
 c1 --> c4 : edge07CombatToBastion
+c1 --> c6 : edge08CombatToAnimation
+c2 --> c6 : edge09ChitDirectorToAnimation
+c6 --> c5 : edge10AnimationToCoreWasm
 @enduml

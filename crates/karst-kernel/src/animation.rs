@@ -97,8 +97,140 @@ pub struct SpatialKeyframeSample {
     pub completed: bool,
 }
 
+/// Canonical 3-phase animation sub-phase (`AnimationEngine::classifySubPhaseOrdinal`, `KZ-17`).
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+#[repr(u8)]
+pub enum AnimationSubPhase {
+    /// `0`: Anticipation / Wind-Up (`t_decile <= 2`).
+    AnticipationWindup = 0,
+    /// `1`: Apex Impulse / Projectile In-Flight (`3 <= t_decile <= 6`).
+    ApexImpulseInFlight = 1,
+    /// `2`: Follow-Through / Shockwave Settle (`t_decile >= 7`).
+    FollowThroughSettle = 2,
+}
+
+/// Complete articulated pose, trajectory, and VFX keyframe sample (`AnimationEngine::ArticulatedPoseSample`, `KZ-17`).
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub struct ArticulatedPoseSample {
+    /// Normalized progress in permille (`0..=1000`).
+    pub progress_permille: u16,
+    /// Eased interpolation weight in permille (`0..=1000`).
+    pub eased_permille: u16,
+    /// Active 3-phase sub-phase (`AnticipationWindup`, `ApexImpulseInFlight`, `FollowThroughSettle`).
+    pub sub_phase: AnimationSubPhase,
+    /// Scaled parabolic vertical Z-lift (`evaluateParabolicArcScaled`).
+    pub parabolic_lift_scaled: u32,
+    /// Scaled forward torso / chassis pitch angle (`evaluateTorsoLeanScaled`).
+    pub torso_lean_scaled: u16,
+    /// Muzzle flash / weapon charge intensity in permille (`evaluateMuzzleFlashPermille`).
+    pub muzzle_flash_permille: u16,
+    /// Impact shockwave ring expansion in permille (`evaluateShockwavePermille`).
+    pub shockwave_permille: u16,
+    /// Viewport camera shake impulse in pixels (`evaluateCameraShakePx`).
+    pub camera_shake_px: u8,
+}
+
 /// Total number of canonical animation clips in `AnimationEngine::animationClips` (`8`).
 pub const ANIMATION_CLIP_COUNT: u8 = 8;
+
+/// Classify a decile (`0..=10`) into its 3-phase animation sub-phase (`AnimationEngine::classifySubPhaseOrdinal`, `KZ-17`).
+#[must_use]
+pub const fn classify_sub_phase(t_decile: u32) -> AnimationSubPhase {
+    let clamped = clamp_decile(t_decile);
+    if clamped <= 2 {
+        AnimationSubPhase::AnticipationWindup
+    } else if clamped <= 6 {
+        AnimationSubPhase::ApexImpulseInFlight
+    } else {
+        AnimationSubPhase::FollowThroughSettle
+    }
+}
+
+/// Evaluate scaled forward torso / chassis pitch angle at decile `t_decile` (`AnimationEngine::evaluateTorsoLeanScaled`, `KZ-17`).
+#[must_use]
+pub const fn evaluate_torso_lean_scaled(stride_bob_permille: u16, t_decile: u32) -> u16 {
+    let clamped = clamp_decile(t_decile) as u16;
+    if clamped <= 5 {
+        stride_bob_permille.saturating_mul(clamped)
+    } else {
+        stride_bob_permille.saturating_mul(10u16.saturating_sub(clamped))
+    }
+}
+
+/// Evaluate weapon muzzle flash / energy discharge intensity in permille (`AnimationEngine::evaluateMuzzleFlashPermille`, `KZ-17`).
+#[must_use]
+pub const fn evaluate_muzzle_flash_permille(t_decile: u32) -> u16 {
+    let clamped = clamp_decile(t_decile);
+    if clamped == 2 {
+        1000
+    } else if clamped == 1 || clamped == 3 {
+        650
+    } else if clamped == 4 {
+        250
+    } else {
+        0
+    }
+}
+
+/// Evaluate impact shockwave ring expansion in permille (`AnimationEngine::evaluateShockwavePermille`, `KZ-17`).
+#[must_use]
+pub const fn evaluate_shockwave_permille(t_decile: u32) -> u16 {
+    let clamped = clamp_decile(t_decile);
+    if clamped <= 4 || clamped >= 10 {
+        0
+    } else {
+        ((clamped - 4) * 200) as u16
+    }
+}
+
+/// Evaluate tactical viewport camera shake impulse in pixels (`AnimationEngine::evaluateCameraShakePx`, `KZ-17`).
+#[must_use]
+pub const fn evaluate_camera_shake_px(shockwave_radius_sectors: u8, t_decile: u32) -> u8 {
+    let clamped = clamp_decile(t_decile);
+    if clamped == 5 || clamped == 6 {
+        shockwave_radius_sectors.saturating_mul(3)
+    } else if clamped == 7 {
+        shockwave_radius_sectors
+    } else {
+        0
+    }
+}
+
+/// Evaluate the complete articulated pose, parabolic trajectory, and Doctrine VFX sample at decile `t_decile`
+/// (`AnimationEngine::evaluateArticulatedPose`, `KZ-17`).
+#[must_use]
+pub const fn evaluate_articulated_pose(
+    peak_height: u32,
+    stride_bob_permille: u16,
+    shockwave_radius_sectors: u8,
+    t_decile: u32,
+    reduced_motion: bool,
+) -> ArticulatedPoseSample {
+    if reduced_motion {
+        ArticulatedPoseSample {
+            progress_permille: 1000,
+            eased_permille: 1000,
+            sub_phase: AnimationSubPhase::FollowThroughSettle,
+            parabolic_lift_scaled: 0,
+            torso_lean_scaled: 0,
+            muzzle_flash_permille: 0,
+            shockwave_permille: 0,
+            camera_shake_px: 0,
+        }
+    } else {
+        let clamped = clamp_decile(t_decile);
+        ArticulatedPoseSample {
+            progress_permille: evaluate_animation_progress_permille(clamped, false),
+            eased_permille: evaluate_quad_out_permille(clamped),
+            sub_phase: classify_sub_phase(clamped),
+            parabolic_lift_scaled: evaluate_parabolic_arc_scaled(peak_height, clamped),
+            torso_lean_scaled: evaluate_torso_lean_scaled(stride_bob_permille, clamped),
+            muzzle_flash_permille: evaluate_muzzle_flash_permille(clamped),
+            shockwave_permille: evaluate_shockwave_permille(clamped),
+            camera_shake_px: evaluate_camera_shake_px(shockwave_radius_sectors, clamped),
+        }
+    }
+}
 
 /// Clamp a decile value into `0..=10` (`AnimationEngine::clampDecile`, `KZ-17`).
 #[must_use]

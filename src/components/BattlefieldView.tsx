@@ -30,6 +30,7 @@ import type {
 } from '../game/types';
 import type { KarstWasmMathBridge } from '../lib/karstHoloModel';
 import type { SpatialCameraMode } from '../game/spatialModel';
+import type { ActiveBattlefieldAnimationEvent } from '../game/animationModel';
 import { soundFX } from '../game/sound';
 import {
   UnitPortraitSvg,
@@ -200,6 +201,61 @@ export const BattlefieldView: React.FC<BattlefieldViewProps> = ({
     toY: number;
     kind: 'MOVE' | 'ATTACK';
   } | null>(null);
+  const [activeAnimations, setActiveAnimations] = useState<ActiveBattlefieldAnimationEvent[]>([]);
+
+  const enqueueAnimationEvent = useCallback(
+    (
+      event: Omit<ActiveBattlefieldAnimationEvent, 'id' | 'startedAtMs'> & {
+        delayMs?: number;
+      }
+    ) => {
+      const { delayMs = 0, ...rest } = event;
+      const now = performance.now();
+      const entry: ActiveBattlefieldAnimationEvent = {
+        ...rest,
+        id: `anim-${rest.clipId}-${now.toFixed(1)}-${Math.random().toString(36).slice(2, 6)}`,
+        startedAtMs: now + delayMs,
+      };
+      setActiveAnimations((prev) => [
+        ...prev.filter((item) => now - item.startedAtMs < item.durationMs + 250).slice(-14),
+        entry,
+      ]);
+    },
+    []
+  );
+
+  const triggerOrbitalDropChoreography = useCallback(
+    (targetUnits: CompiledUnit[]) => {
+      const now = performance.now();
+      const dropEvents: ActiveBattlefieldAnimationEvent[] = targetUnits
+        .filter((u) => u.faction === 'StrikeRoster' && u.modelsCurrent > 0)
+        .map((u, idx) => ({
+          id: `anim-drop-${u.id}-${now.toFixed(0)}`,
+          clipId: 'CLIP-08-ORBITAL-DROP',
+          startedAtMs: now + idx * 90,
+          durationMs: 900,
+          fromX: u.gridX,
+          fromY: u.gridY,
+          toX: u.gridX,
+          toY: u.gridY,
+          unitId: u.id,
+          doctrine: u.doctrine,
+          chassis: u.chassis,
+          calloutText: `POD · ${u.callsign}`,
+        }));
+      setActiveAnimations((prev) => [
+        ...prev.filter((item) => now - item.startedAtMs < item.durationMs + 200),
+        ...dropEvents,
+      ]);
+    },
+    []
+  );
+
+  // Trigger Valkyrie-04 Orbital Drop-Pod Insertion (CLIP-08-ORBITAL-DROP) on initial mission entry
+  useEffect(() => {
+    triggerOrbitalDropChoreography(units);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const [playerVp, setPlayerVp] = useState<number>(0);
   const [wardenVp, setWardenVp] = useState<number>(0);
@@ -671,6 +727,25 @@ export const BattlefieldView: React.FC<BattlefieldViewProps> = ({
       setCombatLogs((prev) => [breakdown, ...prev.slice(0, 19)]);
       setBattleBanner(breakdown.outcomeSummary);
 
+      enqueueAnimationEvent({
+        clipId: isMelee ? 'CLIP-05-MELEE-CLEAVE' : 'CLIP-04-RANGED-TRACER',
+        durationMs: isMelee ? 360 : 380,
+        fromX: attacker.gridX,
+        fromY: attacker.gridY,
+        toX: defender.gridX,
+        toY: defender.gridY,
+        unitId: attacker.id,
+        targetUnitId: defender.id,
+        doctrine: attacker.doctrine,
+        chassis: attacker.chassis,
+        isCritical: triggersExecutioner || attackerDice.some((d) => d === 6),
+        damageDealt: finalDamage,
+        calloutText:
+          netHits === 0
+            ? 'EVADED · 0 DMG'
+            : `-${finalDamage} HP · ${netHits} HIT${netHits > 1 ? 'S' : ''}`,
+      });
+
       return currentUnits.map((u) => {
         if (u.id === updatedAttacker.id) return updatedAttacker;
         if (u.id === updatedDefender.id) {
@@ -683,7 +758,7 @@ export const BattlefieldView: React.FC<BattlefieldViewProps> = ({
         return u;
       });
     },
-    [terrain, wasmBridge, applyDamageToUnit, scenario.number]
+    [terrain, wasmBridge, applyDamageToUnit, scenario.number, enqueueAnimationEvent]
   );
 
   // Autonomous Warden AI Execution when the Warden Garrison responds
@@ -754,6 +829,28 @@ export const BattlefieldView: React.FC<BattlefieldViewProps> = ({
       const newDistToTarget = distInches(nextX, nextY, targetPlayer.gridX, targetPlayer.gridY);
       const charged = movedDist >= 4 && newDistToTarget <= 2;
 
+      if (movedDist > 0) {
+        setLastVector({
+          fromX: chosenWarden.gridX,
+          fromY: chosenWarden.gridY,
+          toX: nextX,
+          toY: nextY,
+          kind: 'MOVE',
+        });
+        enqueueAnimationEvent({
+          clipId: charged ? 'CLIP-03-MOMENTUM-CHARGE' : 'CLIP-02-STRIDE-STEP',
+          durationMs: charged ? 540 : 420,
+          fromX: chosenWarden.gridX,
+          fromY: chosenWarden.gridY,
+          toX: nextX,
+          toY: nextY,
+          unitId: chosenWarden.id,
+          doctrine: chosenWarden.doctrine,
+          chassis: chosenWarden.chassis,
+          calloutText: charged ? 'WARDEN CHARGE!' : undefined,
+        });
+      }
+
       const updatedWardenAfterMove: CompiledUnit = {
         ...chosenWarden,
         gridX: nextX,
@@ -797,7 +894,7 @@ export const BattlefieldView: React.FC<BattlefieldViewProps> = ({
 
       return nextList;
     },
-    [terrain, executeOpposedCombat]
+    [terrain, executeOpposedCombat, enqueueAnimationEvent]
   );
 
   // Finalize Mission, compute Survivor XP & Taken Out Trauma ("Zero-Stat Death" Rule)
@@ -930,6 +1027,18 @@ export const BattlefieldView: React.FC<BattlefieldViewProps> = ({
         setTurnAuthority('PLAYER_TURN');
         setSelectedUnitId(readyUnit.id);
         setActionMode('MOVE');
+        enqueueAnimationEvent({
+          clipId: 'CLIP-07-CHIT-DRAW',
+          durationMs: 450,
+          fromX: readyUnit.gridX,
+          fromY: readyUnit.gridY,
+          toX: readyUnit.gridX,
+          toY: readyUnit.gridY,
+          unitId: readyUnit.id,
+          doctrine: readyUnit.doctrine,
+          chassis: readyUnit.chassis,
+          calloutText: `STRIKE CHIT · ${readyUnit.callsign}`,
+        });
         setBattleBanner(
           `OPERATIVE ONLINE: ${readyUnit.name} (${readyUnit.actionsRemaining} Actions)${traumaNote}. Click green sectors to Move, red Wardens to Engage, or golden Caches to Extract.`
         );
@@ -941,6 +1050,24 @@ export const BattlefieldView: React.FC<BattlefieldViewProps> = ({
 
     const d6Roll = Math.floor(Math.random() * 6) + 1;
     const updatedUnits = await executeWardenSlotTurn(d6Roll, units);
+    const wardenFocus =
+      updatedUnits.find(
+        (u) => u.faction === 'WardenDirective' && u.berthIndices.includes(d6Roll)
+      ) ??
+      updatedUnits.find((u) => u.faction === 'WardenDirective' && u.modelsCurrent > 0);
+    if (wardenFocus) {
+      enqueueAnimationEvent({
+        clipId: 'CLIP-07-CHIT-DRAW',
+        durationMs: 450,
+        fromX: wardenFocus.gridX,
+        fromY: wardenFocus.gridY,
+        toX: wardenFocus.gridX,
+        toY: wardenFocus.gridY,
+        unitId: wardenFocus.id,
+        berthSlot: d6Roll,
+        calloutText: `WARDEN 1d6 → BERTH #${d6Roll}`,
+      });
+    }
     setUnits(updatedUnits);
 
     const anyWardensRemaining = updatedUnits.some(
@@ -962,7 +1089,7 @@ export const BattlefieldView: React.FC<BattlefieldViewProps> = ({
       setChitPool(remainingPool);
     }
     setTurnAuthority('AWAITING_CHIT');
-  }, [chitPool, units, executeWardenSlotTurn]);
+  }, [chitPool, units, executeWardenSlotTurn, enqueueAnimationEvent]);
 
   // Advance to Next Round (or End Mission after Round 5)
   const handleAdvanceRound = useCallback(async () => {
@@ -1190,6 +1317,20 @@ export const BattlefieldView: React.FC<BattlefieldViewProps> = ({
       }
 
       const nextActions = caster.actionsRemaining - 1;
+      enqueueAnimationEvent({
+        clipId: 'CLIP-06-RESONANCE-WAVE',
+        durationMs: 680,
+        fromX: caster.gridX,
+        fromY: caster.gridY,
+        toX: targetX,
+        toY: targetY,
+        unitId: caster.id,
+        targetUnitId: targetUnit?.id,
+        doctrine: caster.doctrine,
+        chassis: caster.chassis,
+        isBacklash: casterBacklashDmg > 0 || casterBacklashStagger,
+        calloutText: directive.name.toUpperCase(),
+      });
       const basePostCaster: CompiledUnit = {
         ...caster,
         accumulatedDamage: Math.min(
@@ -1313,7 +1454,7 @@ export const BattlefieldView: React.FC<BattlefieldViewProps> = ({
         if (nextActions <= 0) handleFinishUnitActivation(basePostCaster.id, nextList);
       }
     },
-    [units, terrain, applyDamageToUnit, handleFinishUnitActivation]
+    [units, terrain, applyDamageToUnit, handleFinishUnitActivation, enqueueAnimationEvent]
   );
 
   // Unified Direct-Click Grid Interaction (Move, Charge, Claim Cache, Attack, or Resonance without manual tab-switching)
@@ -1407,6 +1548,20 @@ export const BattlefieldView: React.FC<BattlefieldViewProps> = ({
         toX: x,
         toY: y,
         kind: 'MOVE',
+      });
+      enqueueAnimationEvent({
+        clipId: moveInfo.isChargeEligible
+          ? 'CLIP-03-MOMENTUM-CHARGE'
+          : 'CLIP-02-STRIDE-STEP',
+        durationMs: moveInfo.isChargeEligible ? 540 : 420,
+        fromX: selectedUnit.gridX,
+        fromY: selectedUnit.gridY,
+        toX: x,
+        toY: y,
+        unitId: selectedUnit.id,
+        doctrine: selectedUnit.doctrine,
+        chassis: selectedUnit.chassis,
+        calloutText: moveInfo.isChargeEligible ? 'MOMENTUM CHARGE!' : undefined,
       });
 
       const extractedOnNorthEdge = scenario.number === 2 && y === 0;
@@ -1768,6 +1923,7 @@ export const BattlefieldView: React.FC<BattlefieldViewProps> = ({
           engageableHostileIds={engageableHostileIds}
           hoveredCell={hoveredCell}
           lastVector={lastVector}
+          activeAnimations={activeAnimations}
           cameraMode={cameraMode}
           onSelectCell={(x, y) => {
             const unitHere = units.find(
@@ -1824,6 +1980,18 @@ export const BattlefieldView: React.FC<BattlefieldViewProps> = ({
             className="px-2.5 py-1 text-[11px] font-mono font-bold rounded-lg bg-slate-900 border border-slate-700 text-sky-300 hover:text-white cursor-pointer"
           >
             Camera: {cameraMode === 'ISOMETRIC_25D' ? '2.5D Isometric' : 'Top-Down Ortho'}
+          </button>
+
+          <button
+            type="button"
+            onClick={() => {
+              triggerOrbitalDropChoreography(units);
+              setShowSceneBriefing(false);
+            }}
+            className="px-2.5 py-1 text-[11px] font-mono font-bold rounded-lg bg-amber-500/15 border border-amber-500/40 text-amber-300 hover:text-white cursor-pointer"
+            title="Replay Valkyrie-04 Orbital Drop-Pod Insertion Choreography (CLIP-08-ORBITAL-DROP)"
+          >
+            Replay Drop (CLIP-08)
           </button>
         </div>
 

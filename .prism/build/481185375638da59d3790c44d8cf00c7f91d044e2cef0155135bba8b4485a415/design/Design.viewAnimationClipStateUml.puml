@@ -1,0 +1,15 @@
+@startuml
+' UML 2.5.1 state machine diagram
+' view: Design::viewAnimationClipStateUml
+' viewpoint: Architecture::viewpoint06AnimationChoreographyViewpoint
+title Animation Choreography UML 2.5.1 State Machine: Idle Breathing -> Anticipation Wind-Up -> Apex Impulse -> Follow-Through Settle
+state "stateAnimationAnticipationWindup" as s0
+state "stateAnimationApexImpulseInFlight" as s1
+state "stateAnimationFollowThroughSettle" as s2
+state "stateAnimationIdleBreathing" as s3
+[*] --> s3
+s3 --> s0 : processEvaluateAnimationFrame
+s0 --> s1 : processInterpolateParabolicTrajectory
+s1 --> s2 : processSynthesizeDoctrineVfxPose
+s2 --> s3 : processEvaluateAnimationFrame
+@enduml

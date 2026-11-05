@@ -44,6 +44,23 @@ structure{
   ]
 }
 
+structure{
+  name: ArticulatedPoseSample,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: subPhaseOrdinal, type: Nat},
+    {name: tDecile, type: Nat},
+    {name: progressPermille, type: Nat},
+    {name: easedPermille, type: Nat},
+    {name: parabolicLiftScaled, type: Nat},
+    {name: torsoLeanScaled, type: Nat},
+    {name: muzzleFlashPermille, type: Nat},
+    {name: shockwaveRadiusPermille, type: Nat},
+    {name: cameraShakePx, type: Nat}
+  ]
+}
+
 definition{name: choreographsTacticalAnimation, parameters: [a : Nat], result: Prop, body: (0 < a)}
 
 definition{
@@ -99,6 +116,64 @@ definition{
   parameters: [tDecile : Nat, reducedMotion : Bool],
   result: Nat,
   body: (if reducedMotion then 1000 else (prim multiply (clampDecile tDecile) 100 : Nat)),
+  axioms: []
+}
+
+definition{
+  name: classifySubPhaseOrdinal,
+  parameters: [tDecile : Nat],
+  result: Nat,
+  body: (if ((clampDecile tDecile) <=? 2) then 0 else (if ((clampDecile tDecile) <=? 7) then 1 else 2)),
+  axioms: []
+}
+
+definition{
+  name: evaluateTorsoLeanScaled,
+  parameters: [maxLeanDeg : Nat, tDecile : Nat, reducedMotion : Bool],
+  result: Nat,
+  body: (if reducedMotion then 0 else (evaluateParabolicArcScaled maxLeanDeg tDecile)),
+  axioms: []
+}
+
+definition{
+  name: evaluateMuzzleFlashPermille,
+  parameters: [tDecile : Nat, reducedMotion : Bool],
+  result: Nat,
+  body: (if reducedMotion then 0 else (if ((clampDecile tDecile) <=? 2) then (if (1 <=? (clampDecile tDecile)) then 1000 else 400) else (if ((clampDecile tDecile) =? 3) then 600 else (if ((clampDecile tDecile) =? 4) then 200 else 0)))),
+  axioms: []
+}
+
+definition{
+  name: evaluateShockwavePermille,
+  parameters: [tDecile : Nat, reducedMotion : Bool],
+  result: Nat,
+  body: (if reducedMotion then 1000 else (if ((clampDecile tDecile) <=? 6) then 0 else (prim multiply (prim subtract (clampDecile tDecile) 6 : Nat) 250 : Nat))),
+  axioms: []
+}
+
+definition{
+  name: evaluateCameraShakePx,
+  parameters: [baseShakePx : Nat, tDecile : Nat, reducedMotion : Bool],
+  result: Nat,
+  body: (if reducedMotion then 0 else (if ((7 <=? (clampDecile tDecile)) && ((clampDecile tDecile) <=? 8)) then baseShakePx else (if ((clampDecile tDecile) =? 9) then (prim subtract baseShakePx 2 : Nat) else 0))),
+  axioms: []
+}
+
+definition{
+  name: evaluateArticulatedPose,
+  parameters: [peakHeight : Nat, maxLeanDeg : Nat, baseShakePx : Nat, tDecile : Nat, reducedMotion : Bool],
+  result: ArticulatedPoseSample,
+  body: (record ArticulatedPoseSample {
+    subPhaseOrdinal := (if reducedMotion then 2 else (classifySubPhaseOrdinal tDecile)),
+    tDecile := (if reducedMotion then 10 else (clampDecile tDecile)),
+    progressPermille := (evaluateAnimationProgressPermille tDecile reducedMotion),
+    easedPermille := (if reducedMotion then 1000 else (evaluateQuadOutPermille tDecile)),
+    parabolicLiftScaled := (if reducedMotion then 0 else (evaluateParabolicArcScaled peakHeight tDecile)),
+    torsoLeanScaled := (evaluateTorsoLeanScaled maxLeanDeg tDecile reducedMotion),
+    muzzleFlashPermille := (evaluateMuzzleFlashPermille tDecile reducedMotion),
+    shockwaveRadiusPermille := (evaluateShockwavePermille tDecile reducedMotion),
+    cameraShakePx := (evaluateCameraShakePx baseShakePx tDecile reducedMotion)
+  }),
   axioms: []
 }
 
@@ -173,6 +248,30 @@ theorem{
   name: reducedMotionCollapsesToTerminalFrame,
   parameters: [],
   statement: ((((evaluateAnimationProgressPermille 3 true) =? 1000) && ((evaluateAnimationProgressPermille 5 false) =? 500)) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: subPhaseCoversAnticipationApexAndSettle,
+  parameters: [],
+  statement: (((((classifySubPhaseOrdinal 0) =? 0) && ((classifySubPhaseOrdinal 5) =? 1)) && ((classifySubPhaseOrdinal 10) =? 2)) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: articulatedPoseSettlesCleanlyAtTerminalDecile,
+  parameters: [],
+  statement: ((((((project (evaluateArticulatedPose 18 14 6 10 false) easedPermille) =? 1000) && ((project (evaluateArticulatedPose 18 14 6 10 false) parabolicLiftScaled) =? 0)) && ((project (evaluateArticulatedPose 18 14 6 10 false) muzzleFlashPermille) =? 0)) && ((project (evaluateArticulatedPose 18 14 6 10 false) cameraShakePx) =? 0)) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: articulatedPoseRespectsReducedMotion,
+  parameters: [],
+  statement: ((((((project (evaluateArticulatedPose 18 14 6 4 true) progressPermille) =? 1000) && ((project (evaluateArticulatedPose 18 14 6 4 true) parabolicLiftScaled) =? 0)) && ((project (evaluateArticulatedPose 18 14 6 4 true) torsoLeanScaled) =? 0)) && ((project (evaluateArticulatedPose 18 14 6 4 true) cameraShakePx) =? 0)) = true),
   proof: decide{},
   axioms: []
 }

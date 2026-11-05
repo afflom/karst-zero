@@ -12,9 +12,11 @@
 use std::path::{Path, PathBuf};
 
 use karst_kernel::animation::{
-    animation_clip_metadata, chassis_gait_profile, clamp_decile, doctrine_vfx_profile,
-    evaluate_animation_progress_permille, evaluate_parabolic_arc_scaled,
-    evaluate_quad_out_permille, sample_spatial_keyframe, AnimationClipKind, EasingCurve,
+    animation_clip_metadata, chassis_gait_profile, clamp_decile, classify_sub_phase,
+    doctrine_vfx_profile, evaluate_animation_progress_permille, evaluate_articulated_pose,
+    evaluate_camera_shake_px, evaluate_muzzle_flash_permille, evaluate_parabolic_arc_scaled,
+    evaluate_quad_out_permille, evaluate_shockwave_permille, evaluate_torso_lean_scaled,
+    sample_spatial_keyframe, AnimationClipKind, AnimationSubPhase, EasingCurve,
 };
 use karst_kernel::nemesis::meets_wcag_contrast_tenths;
 use karst_kernel::spatial::{
@@ -67,17 +69,17 @@ fn stakeholders_kz_08() {
         arch.get("concerns")
             .and_then(|v| v.as_array())
             .map(Vec::len),
-        Some(6)
+        Some(7)
     );
     assert_eq!(
         arch.get("viewpoints")
             .and_then(|v| v.as_array())
             .map(Vec::len),
-        Some(6)
+        Some(7)
     );
     assert_eq!(
         arch.get("views").and_then(|v| v.as_array()).map(Vec::len),
-        Some(6)
+        Some(7)
     );
     assert_eq!(
         model
@@ -97,16 +99,17 @@ fn system_kz_09() {
         arch.get("components")
             .and_then(|v| v.as_array())
             .map(Vec::len),
-        Some(6)
+        Some(7)
     );
     assert_eq!(
         arch.get("edges").and_then(|v| v.as_array()).map(Vec::len),
-        Some(8)
+        Some(11)
     );
     let arch_spec = std::fs::read_to_string(root.join("src/Architecture.lex.tex"))
         .expect("src/Architecture.lex.tex must be readable");
     assert!(arch_spec.contains("name: feature00UnitSynthesisAndCharter"));
     assert!(arch_spec.contains("name: feature05NemesisEngineFullBinding"));
+    assert!(arch_spec.contains("name: feature07AnimationChoreographyAndVfx"));
     assert!(arch_spec.contains("name: journey00TacticalCommander"));
     assert!(arch_spec.contains("name: journey03PrismRuntimeAuditor"));
 }
@@ -152,17 +155,21 @@ fn design_kz_11() {
         .expect("src/Design.lex.tex must be readable");
     assert!(spec.contains("name: viewUnitSynthesisOpm"));
     assert!(spec.contains("name: viewCombatChitOpm"));
+    assert!(spec.contains("name: viewAnimationChoreographyOpm"));
     assert!(spec.contains("name: viewNemesisComponentUml"));
     assert!(spec.contains("name: viewStrikeDispatchSequenceUml"));
     assert!(spec.contains("name: viewCampaignTurnStateUml"));
+    assert!(spec.contains("name: viewAnimationClipStateUml"));
     let build_dir = find_prism_build_dir(&root);
     let design_dir = build_dir.join("design");
     for diagram in [
         "Design.viewUnitSynthesisOpm.opl",
         "Design.viewCombatChitOpm.opl",
+        "Design.viewAnimationChoreographyOpm.opl",
         "Design.viewNemesisComponentUml.puml",
         "Design.viewStrikeDispatchSequenceUml.puml",
         "Design.viewCampaignTurnStateUml.puml",
+        "Design.viewAnimationClipStateUml.puml",
     ] {
         assert!(
             design_dir.join(diagram).is_file(),
@@ -340,4 +347,49 @@ fn system_kz_17() {
     assert_eq!(reduced_frame.eased_permille, 1000);
     assert_eq!(reduced_frame.parabolic_arc_scaled, 0);
     assert!(reduced_frame.completed);
+
+    assert!(spec.contains("name: subPhaseCoversAnticipationApexAndSettle"));
+    assert!(spec.contains("name: articulatedPoseSettlesCleanlyAtTerminalDecile"));
+    assert!(spec.contains("name: articulatedPoseRespectsReducedMotion"));
+
+    assert_eq!(classify_sub_phase(0), AnimationSubPhase::AnticipationWindup);
+    assert_eq!(classify_sub_phase(2), AnimationSubPhase::AnticipationWindup);
+    assert_eq!(
+        classify_sub_phase(5),
+        AnimationSubPhase::ApexImpulseInFlight
+    );
+    assert_eq!(
+        classify_sub_phase(9),
+        AnimationSubPhase::FollowThroughSettle
+    );
+
+    assert_eq!(evaluate_torso_lean_scaled(120, 5), 600);
+    assert_eq!(evaluate_torso_lean_scaled(120, 10), 0);
+    assert_eq!(evaluate_muzzle_flash_permille(2), 1000);
+    assert_eq!(evaluate_muzzle_flash_permille(10), 0);
+    assert_eq!(evaluate_shockwave_permille(5), 200);
+    assert_eq!(evaluate_shockwave_permille(9), 1000);
+    assert_eq!(evaluate_shockwave_permille(10), 0);
+    assert_eq!(evaluate_camera_shake_px(2, 5), 6);
+    assert_eq!(evaluate_camera_shake_px(2, 10), 0);
+
+    let apex_pose = evaluate_articulated_pose(18, 120, 2, 5, false);
+    assert_eq!(apex_pose.sub_phase, AnimationSubPhase::ApexImpulseInFlight);
+    assert_eq!(apex_pose.parabolic_lift_scaled, 450);
+    assert_eq!(apex_pose.torso_lean_scaled, 600);
+    assert_eq!(apex_pose.shockwave_permille, 200);
+    assert_eq!(apex_pose.camera_shake_px, 6);
+
+    let terminal_pose = evaluate_articulated_pose(18, 120, 2, 10, false);
+    assert_eq!(terminal_pose.progress_permille, 1000);
+    assert_eq!(terminal_pose.parabolic_lift_scaled, 0);
+    assert_eq!(terminal_pose.torso_lean_scaled, 0);
+    assert_eq!(terminal_pose.muzzle_flash_permille, 0);
+    assert_eq!(terminal_pose.shockwave_permille, 0);
+    assert_eq!(terminal_pose.camera_shake_px, 0);
+
+    let reduced_pose = evaluate_articulated_pose(18, 120, 2, 3, true);
+    assert_eq!(reduced_pose.progress_permille, 1000);
+    assert_eq!(reduced_pose.parabolic_lift_scaled, 0);
+    assert_eq!(reduced_pose.camera_shake_px, 0);
 }

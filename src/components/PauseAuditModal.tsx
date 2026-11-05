@@ -42,6 +42,7 @@ import {
   KARST_ANIMATION_CLIPS,
   KARST_CHASSIS_GAITS,
   KARST_DOCTRINE_VFX_PROFILES,
+  evaluateArticulatedPose,
   sampleSpatialKeyframe,
   type KarstAnimationClipId,
 } from '../game/animationModel';
@@ -85,6 +86,18 @@ export const PauseAuditModal: React.FC<PauseAuditModalProps> = ({
 
   const sampledKeyframe = useMemo(
     () => sampleSpatialKeyframe(18, animDecile, animReducedMotion),
+    [animDecile, animReducedMotion]
+  );
+
+  const sampledPose = useMemo(
+    () =>
+      evaluateArticulatedPose({
+        peakHeight: 18,
+        strideBobPermille: 120,
+        shockwaveRadiusSectors: 2,
+        tDecile: animDecile,
+        reducedMotion: animReducedMotion,
+      }),
     [animDecile, animReducedMotion]
   );
 
@@ -727,25 +740,61 @@ export const PauseAuditModal: React.FC<PauseAuditModalProps> = ({
                     />
                     <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 text-[11px]">
                       <div className="p-2 bg-slate-950 border border-slate-800 rounded">
-                        <div className="text-slate-500">tDecile</div>
-                        <div className="text-white font-bold">{sampledKeyframe.tDecile} / 10</div>
-                      </div>
-                      <div className="p-2 bg-slate-950 border border-slate-800 rounded">
-                        <div className="text-slate-500">progress</div>
-                        <div className="text-white font-bold">{sampledKeyframe.progressPermille}‰</div>
+                        <div className="text-slate-500">subPhase</div>
+                        <div className="text-emerald-400 font-bold truncate">{sampledPose.subPhase}</div>
                       </div>
                       <div className="p-2 bg-slate-950 border border-slate-800 rounded">
                         <div className="text-slate-500">easedQuadOut</div>
                         <div className="text-amber-400 font-bold">{sampledKeyframe.easedPermille}‰</div>
                       </div>
                       <div className="p-2 bg-slate-950 border border-slate-800 rounded">
-                        <div className="text-slate-500">parabolicArc</div>
-                        <div className="text-rose-400 font-bold">{sampledKeyframe.parabolicArcScaled}</div>
+                        <div className="text-slate-500">parabolicLift</div>
+                        <div className="text-rose-400 font-bold">{sampledPose.parabolicLiftScaled}</div>
                       </div>
                       <div className="p-2 bg-slate-950 border border-slate-800 rounded">
-                        <div className="text-slate-500">terminal</div>
-                        <div className="text-sky-400 font-bold">{sampledKeyframe.completed ? 'TRUE' : 'FALSE'}</div>
+                        <div className="text-slate-500">torsoLean / muzzle</div>
+                        <div className="text-sky-400 font-bold">
+                          {sampledPose.torsoLeanScaled} / {sampledPose.muzzleFlashPermille}‰
+                        </div>
                       </div>
+                      <div className="p-2 bg-slate-950 border border-slate-800 rounded">
+                        <div className="text-slate-500">shockwave / shake</div>
+                        <div className="text-purple-400 font-bold">
+                          {sampledPose.shockwavePermille}‰ / {sampledPose.cameraShakePx}px
+                        </div>
+                      </div>
+                    </div>
+                    {/* Live Interactive 2.5D Parabolic Trajectory & Articulated Pose Preview SVG */}
+                    <div className="p-2 bg-slate-950 border border-slate-800 rounded">
+                      <svg viewBox="0 0 360 66" className="w-full h-16">
+                        <line x1="28" y1="52" x2="332" y2="52" stroke="#334155" strokeWidth="1.5" strokeDasharray="4 4" />
+                        <path
+                          d="M 28 52 Q 180 4 332 52"
+                          fill="none"
+                          stroke="#38BDF8"
+                          strokeWidth="1.8"
+                          strokeDasharray="5 3"
+                        />
+                        {(() => {
+                          const px = 28 + (304 * sampledPose.easedPermille) / 1000;
+                          const py = 52 - (sampledPose.parabolicLiftScaled / 450) * 34;
+                          const shockR = 4 + (sampledPose.shockwavePermille / 1000) * 18;
+                          return (
+                            <>
+                              <ellipse cx={px} cy={52} rx="10" ry="3.5" fill="#0F172A" stroke="#475569" />
+                              {sampledPose.muzzleFlashPermille > 0 && (
+                                <circle cx="28" cy="46" r={3 + (sampledPose.muzzleFlashPermille / 1000) * 7} fill="#FDE047" />
+                              )}
+                              <g transform={`translate(${px}, ${py}) rotate(${(sampledPose.torsoLeanScaled / 600) * 14})`}>
+                                <rect x="-6" y="-14" width="12" height="14" rx="2" fill="#10B981" stroke="#FEF08A" strokeWidth="1.4" />
+                              </g>
+                              {sampledPose.shockwavePermille > 0 && (
+                                <ellipse cx="332" cy="52" rx={shockR} ry={shockR * 0.5} fill="none" stroke="#F59E0B" strokeWidth="1.8" />
+                              )}
+                            </>
+                          );
+                        })()}
+                      </svg>
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
                       <div className="p-2 bg-slate-950 border border-slate-800 rounded text-[11px]">

@@ -73,7 +73,21 @@ definition{
   name: processEvaluateAnimationFrame,
   parameters: [],
   result: Foundation.Arch::SystemProcess,
-  body: (record Foundation.Arch::SystemProcess {owner := "Architecture::component05CoreWasmArithmeticGuest"})
+  body: (record Foundation.Arch::SystemProcess {owner := "Architecture::component06AnimationChoreographyEngine"})
+}
+
+definition{
+  name: processInterpolateParabolicTrajectory,
+  parameters: [],
+  result: Foundation.Arch::SystemProcess,
+  body: (record Foundation.Arch::SystemProcess {owner := "Architecture::component06AnimationChoreographyEngine"})
+}
+
+definition{
+  name: processSynthesizeDoctrineVfxPose,
+  parameters: [],
+  result: Foundation.Arch::SystemProcess,
+  body: (record Foundation.Arch::SystemProcess {owner := "Architecture::component06AnimationChoreographyEngine"})
 }
 
 definition{
@@ -119,10 +133,31 @@ definition{
 }
 
 definition{
-  name: stateAnimationChoreographyActive,
+  name: stateAnimationIdleBreathing,
   parameters: [],
   result: Foundation.Arch::SystemState,
-  body: (record Foundation.Arch::SystemState {owner := "Architecture::component05CoreWasmArithmeticGuest"})
+  body: (record Foundation.Arch::SystemState {owner := "Architecture::component06AnimationChoreographyEngine"})
+}
+
+definition{
+  name: stateAnimationAnticipationWindup,
+  parameters: [],
+  result: Foundation.Arch::SystemState,
+  body: (record Foundation.Arch::SystemState {owner := "Architecture::component06AnimationChoreographyEngine"})
+}
+
+definition{
+  name: stateAnimationApexImpulseInFlight,
+  parameters: [],
+  result: Foundation.Arch::SystemState,
+  body: (record Foundation.Arch::SystemState {owner := "Architecture::component06AnimationChoreographyEngine"})
+}
+
+definition{
+  name: stateAnimationFollowThroughSettle,
+  parameters: [],
+  result: Foundation.Arch::SystemState,
+  body: (record Foundation.Arch::SystemState {owner := "Architecture::component06AnimationChoreographyEngine"})
 }
 
 definition{
@@ -304,7 +339,7 @@ definition{
   name: viewNemesisComponentUml,
   parameters: [],
   result: Foundation.Arch::DesignView,
-  body: (record Foundation.Arch::DesignView {title := "Nemesis Core 4.0 UML 2.5.1 Component Topology: 6 Engine Subsystems & 8 Data/Control Edges", viewpoint := "Architecture::viewpoint02NemesisChitAiViewpoint", diagram := (ctor Foundation.Arch::DesignDiagram.umlComponent)})
+  body: (record Foundation.Arch::DesignView {title := "Nemesis Core 4.0 UML 2.5.1 Component Topology: 7 Engine Subsystems & 11 Data/Control Edges", viewpoint := "Architecture::viewpoint02NemesisChitAiViewpoint", diagram := (ctor Foundation.Arch::DesignDiagram.umlComponent)})
 }
 
 definition{
@@ -347,6 +382,13 @@ definition{
   parameters: [],
   result: Foundation.Arch::UmlComponent,
   body: (record Foundation.Arch::UmlComponent {view := "Design::viewNemesisComponentUml", component := "Architecture::component05CoreWasmArithmeticGuest"})
+}
+
+definition{
+  name: umlComp06Animation,
+  parameters: [],
+  result: Foundation.Arch::UmlComponent,
+  body: (record Foundation.Arch::UmlComponent {view := "Design::viewNemesisComponentUml", component := "Architecture::component06AnimationChoreographyEngine"})
 }
 
 definition{
@@ -406,6 +448,27 @@ definition{
 }
 
 definition{
+  name: umlConn08,
+  parameters: [],
+  result: Foundation.Arch::UmlConnector,
+  body: (record Foundation.Arch::UmlConnector {view := "Design::viewNemesisComponentUml", edge := "Architecture::edge08CombatToAnimation"})
+}
+
+definition{
+  name: umlConn09,
+  parameters: [],
+  result: Foundation.Arch::UmlConnector,
+  body: (record Foundation.Arch::UmlConnector {view := "Design::viewNemesisComponentUml", edge := "Architecture::edge09ChitDirectorToAnimation"})
+}
+
+definition{
+  name: umlConn10,
+  parameters: [],
+  result: Foundation.Arch::UmlConnector,
+  body: (record Foundation.Arch::UmlConnector {view := "Design::viewNemesisComponentUml", edge := "Architecture::edge10AnimationToCoreWasm"})
+}
+
+definition{
   name: viewStrikeDispatchSequenceUml,
   parameters: [],
   result: Foundation.Arch::DesignView,
@@ -448,6 +511,13 @@ definition{
 }
 
 definition{
+  name: seqLife05Animation,
+  parameters: [],
+  result: Foundation.Arch::UmlLifeline,
+  body: (record Foundation.Arch::UmlLifeline {view := "Design::viewStrikeDispatchSequenceUml", component := "Architecture::component06AnimationChoreographyEngine", order := 5})
+}
+
+definition{
   name: seqMsg00SynthesisToBastion,
   parameters: [],
   result: Foundation.Arch::UmlMessage,
@@ -487,6 +557,20 @@ definition{
   parameters: [],
   result: Foundation.Arch::UmlMessage,
   body: (record Foundation.Arch::UmlMessage {view := "Design::viewStrikeDispatchSequenceUml", kind := (ctor Foundation.Arch::UmlMessageKind.asynchronous), order := 5, source := "Architecture::component01StrikePoolResolver", target := "Architecture::component04OrbitalBastionLedger", process := "Design::processSettleCampaignExtraction"})
+}
+
+definition{
+  name: seqMsg06CombatToAnimation,
+  parameters: [],
+  result: Foundation.Arch::UmlMessage,
+  body: (record Foundation.Arch::UmlMessage {view := "Design::viewStrikeDispatchSequenceUml", kind := (ctor Foundation.Arch::UmlMessageKind.asynchronous), order := 6, source := "Architecture::component01StrikePoolResolver", target := "Architecture::component06AnimationChoreographyEngine", process := "Design::processEvaluateAnimationFrame"})
+}
+
+definition{
+  name: seqMsg07AnimationToCoreWasm,
+  parameters: [],
+  result: Foundation.Arch::UmlMessage,
+  body: (record Foundation.Arch::UmlMessage {view := "Design::viewStrikeDispatchSequenceUml", kind := (ctor Foundation.Arch::UmlMessageKind.synchronous), order := 7, source := "Architecture::component06AnimationChoreographyEngine", target := "Architecture::component05CoreWasmArithmeticGuest", process := "Design::processDispatchCoreWasmRun"})
 }
 
 definition{
@@ -550,6 +634,195 @@ definition{
   parameters: [],
   result: Foundation.Arch::UmlTransition,
   body: (record Foundation.Arch::UmlTransition {view := "Design::viewCampaignTurnStateUml", order := 3, source := "Design::stateExtractionSettled", target := "Design::stateBastionDocked", trigger := "Design::processSettleCampaignExtraction"})
+}
+
+definition{
+  name: viewAnimationChoreographyOpm,
+  parameters: [],
+  result: Foundation.Arch::DesignView,
+  body: (record Foundation.Arch::DesignView {title := "Animation Choreography OPM View: 3-Phase Fixed-Point Permille Easing, Parabolic Arc Kinematics & 6-Doctrine VFX Synthesis", viewpoint := "Architecture::viewpoint06AnimationChoreographyViewpoint", diagram := (ctor Foundation.Arch::DesignDiagram.opmObjectProcess)})
+}
+
+definition{
+  name: opmAnimEngine,
+  parameters: [],
+  result: Foundation.Arch::OpmThing,
+  body: (record Foundation.Arch::OpmThing {view := "Design::viewAnimationChoreographyOpm", kind := (ctor Foundation.Arch::OpmThingKind.object), subject := "Architecture::component06AnimationChoreographyEngine"})
+}
+
+definition{
+  name: opmAnimCombat,
+  parameters: [],
+  result: Foundation.Arch::OpmThing,
+  body: (record Foundation.Arch::OpmThing {view := "Design::viewAnimationChoreographyOpm", kind := (ctor Foundation.Arch::OpmThingKind.object), subject := "Architecture::component01StrikePoolResolver"})
+}
+
+definition{
+  name: opmAnimChitDirector,
+  parameters: [],
+  result: Foundation.Arch::OpmThing,
+  body: (record Foundation.Arch::OpmThing {view := "Design::viewAnimationChoreographyOpm", kind := (ctor Foundation.Arch::OpmThingKind.object), subject := "Architecture::component02CommandChitDirector"})
+}
+
+definition{
+  name: opmAnimCoreWasm,
+  parameters: [],
+  result: Foundation.Arch::OpmThing,
+  body: (record Foundation.Arch::OpmThing {view := "Design::viewAnimationChoreographyOpm", kind := (ctor Foundation.Arch::OpmThingKind.object), subject := "Architecture::component05CoreWasmArithmeticGuest"})
+}
+
+definition{
+  name: opmAnimProcessEvaluate,
+  parameters: [],
+  result: Foundation.Arch::OpmThing,
+  body: (record Foundation.Arch::OpmThing {view := "Design::viewAnimationChoreographyOpm", kind := (ctor Foundation.Arch::OpmThingKind.process), subject := "Design::processEvaluateAnimationFrame"})
+}
+
+definition{
+  name: opmAnimProcessParabolic,
+  parameters: [],
+  result: Foundation.Arch::OpmThing,
+  body: (record Foundation.Arch::OpmThing {view := "Design::viewAnimationChoreographyOpm", kind := (ctor Foundation.Arch::OpmThingKind.process), subject := "Design::processInterpolateParabolicTrajectory"})
+}
+
+definition{
+  name: opmAnimProcessVfx,
+  parameters: [],
+  result: Foundation.Arch::OpmThing,
+  body: (record Foundation.Arch::OpmThing {view := "Design::viewAnimationChoreographyOpm", kind := (ctor Foundation.Arch::OpmThingKind.process), subject := "Design::processSynthesizeDoctrineVfxPose"})
+}
+
+definition{
+  name: opmAnimStateAnticipation,
+  parameters: [],
+  result: Foundation.Arch::OpmState,
+  body: (record Foundation.Arch::OpmState {view := "Design::viewAnimationChoreographyOpm", thing := "Architecture::component06AnimationChoreographyEngine", state := "Design::stateAnimationAnticipationWindup"})
+}
+
+definition{
+  name: opmAnimStateApex,
+  parameters: [],
+  result: Foundation.Arch::OpmState,
+  body: (record Foundation.Arch::OpmState {view := "Design::viewAnimationChoreographyOpm", thing := "Architecture::component06AnimationChoreographyEngine", state := "Design::stateAnimationApexImpulseInFlight"})
+}
+
+definition{
+  name: opmAnimStateSettle,
+  parameters: [],
+  result: Foundation.Arch::OpmState,
+  body: (record Foundation.Arch::OpmState {view := "Design::viewAnimationChoreographyOpm", thing := "Architecture::component06AnimationChoreographyEngine", state := "Design::stateAnimationFollowThroughSettle"})
+}
+
+definition{
+  name: opmAnimLinkCombatAgent,
+  parameters: [],
+  result: Foundation.Arch::OpmLink,
+  body: (record Foundation.Arch::OpmLink {view := "Design::viewAnimationChoreographyOpm", kind := (ctor Foundation.Arch::OpmLinkKind.agent), source := "Architecture::component01StrikePoolResolver", target := "Design::processEvaluateAnimationFrame"})
+}
+
+definition{
+  name: opmAnimLinkChitInstrument,
+  parameters: [],
+  result: Foundation.Arch::OpmLink,
+  body: (record Foundation.Arch::OpmLink {view := "Design::viewAnimationChoreographyOpm", kind := (ctor Foundation.Arch::OpmLinkKind.instrument), source := "Architecture::component02CommandChitDirector", target := "Design::processEvaluateAnimationFrame"})
+}
+
+definition{
+  name: opmAnimLinkEvaluateInvokeParabolic,
+  parameters: [],
+  result: Foundation.Arch::OpmLink,
+  body: (record Foundation.Arch::OpmLink {view := "Design::viewAnimationChoreographyOpm", kind := (ctor Foundation.Arch::OpmLinkKind.invocation), source := "Design::processEvaluateAnimationFrame", target := "Design::processInterpolateParabolicTrajectory"})
+}
+
+definition{
+  name: opmAnimLinkParabolicResult,
+  parameters: [],
+  result: Foundation.Arch::OpmLink,
+  body: (record Foundation.Arch::OpmLink {view := "Design::viewAnimationChoreographyOpm", kind := (ctor Foundation.Arch::OpmLinkKind.result), source := "Design::processInterpolateParabolicTrajectory", target := "Architecture::component06AnimationChoreographyEngine"})
+}
+
+definition{
+  name: opmAnimLinkVfxEffect,
+  parameters: [],
+  result: Foundation.Arch::OpmLink,
+  body: (record Foundation.Arch::OpmLink {view := "Design::viewAnimationChoreographyOpm", kind := (ctor Foundation.Arch::OpmLinkKind.effect), source := "Architecture::component05CoreWasmArithmeticGuest", target := "Design::processSynthesizeDoctrineVfxPose"})
+}
+
+definition{
+  name: opmAnimZoomEvaluateToParabolic,
+  parameters: [],
+  result: Foundation.Arch::OpmZoom,
+  body: (record Foundation.Arch::OpmZoom {view := "Design::viewAnimationChoreographyOpm", process := "Design::processEvaluateAnimationFrame", subprocess := "Design::processInterpolateParabolicTrajectory", order := 0})
+}
+
+definition{
+  name: opmAnimZoomEvaluateToVfx,
+  parameters: [],
+  result: Foundation.Arch::OpmZoom,
+  body: (record Foundation.Arch::OpmZoom {view := "Design::viewAnimationChoreographyOpm", process := "Design::processEvaluateAnimationFrame", subprocess := "Design::processSynthesizeDoctrineVfxPose", order := 1})
+}
+
+definition{
+  name: viewAnimationClipStateUml,
+  parameters: [],
+  result: Foundation.Arch::DesignView,
+  body: (record Foundation.Arch::DesignView {title := "Animation Choreography UML 2.5.1 State Machine: Idle Breathing -> Anticipation Wind-Up -> Apex Impulse -> Follow-Through Settle", viewpoint := "Architecture::viewpoint06AnimationChoreographyViewpoint", diagram := (ctor Foundation.Arch::DesignDiagram.umlStateMachine)})
+}
+
+definition{
+  name: smAnim00Idle,
+  parameters: [],
+  result: Foundation.Arch::UmlState,
+  body: (record Foundation.Arch::UmlState {view := "Design::viewAnimationClipStateUml", state := "Design::stateAnimationIdleBreathing", initial := true})
+}
+
+definition{
+  name: smAnim01Anticipation,
+  parameters: [],
+  result: Foundation.Arch::UmlState,
+  body: (record Foundation.Arch::UmlState {view := "Design::viewAnimationClipStateUml", state := "Design::stateAnimationAnticipationWindup", initial := false})
+}
+
+definition{
+  name: smAnim02Apex,
+  parameters: [],
+  result: Foundation.Arch::UmlState,
+  body: (record Foundation.Arch::UmlState {view := "Design::viewAnimationClipStateUml", state := "Design::stateAnimationApexImpulseInFlight", initial := false})
+}
+
+definition{
+  name: smAnim03Settle,
+  parameters: [],
+  result: Foundation.Arch::UmlState,
+  body: (record Foundation.Arch::UmlState {view := "Design::viewAnimationClipStateUml", state := "Design::stateAnimationFollowThroughSettle", initial := false})
+}
+
+definition{
+  name: smAnimTrans00BeginAnticipation,
+  parameters: [],
+  result: Foundation.Arch::UmlTransition,
+  body: (record Foundation.Arch::UmlTransition {view := "Design::viewAnimationClipStateUml", order := 0, source := "Design::stateAnimationIdleBreathing", target := "Design::stateAnimationAnticipationWindup", trigger := "Design::processEvaluateAnimationFrame"})
+}
+
+definition{
+  name: smAnimTrans01LaunchApex,
+  parameters: [],
+  result: Foundation.Arch::UmlTransition,
+  body: (record Foundation.Arch::UmlTransition {view := "Design::viewAnimationClipStateUml", order := 1, source := "Design::stateAnimationAnticipationWindup", target := "Design::stateAnimationApexImpulseInFlight", trigger := "Design::processInterpolateParabolicTrajectory"})
+}
+
+definition{
+  name: smAnimTrans02EnterSettle,
+  parameters: [],
+  result: Foundation.Arch::UmlTransition,
+  body: (record Foundation.Arch::UmlTransition {view := "Design::viewAnimationClipStateUml", order := 2, source := "Design::stateAnimationApexImpulseInFlight", target := "Design::stateAnimationFollowThroughSettle", trigger := "Design::processSynthesizeDoctrineVfxPose"})
+}
+
+definition{
+  name: smAnimTrans03ReturnIdle,
+  parameters: [],
+  result: Foundation.Arch::UmlTransition,
+  body: (record Foundation.Arch::UmlTransition {view := "Design::viewAnimationClipStateUml", order := 3, source := "Design::stateAnimationFollowThroughSettle", target := "Design::stateAnimationIdleBreathing", trigger := "Design::processEvaluateAnimationFrame"})
 }
 \end{semanticmodule}
 \end{lexlean}

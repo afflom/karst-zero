@@ -13,10 +13,10 @@ Feature: Nemesis Core 4.0 Opaque Command Chit Director, Orbital Bastion Ledger, 
     Then Scrap Alloy salvage caps at 6, XP awards to survivors, and a deterministic 32-bit FNV-1a save digest is produced
 
   @KZ-09 @build
-  Scenario: The system topology in Architecture.lex.tex models 6 typed Nemesis Core 4.0 components, 8 directed edges, 7 features, and 4 journeys
+  Scenario: The system topology in Architecture.lex.tex models 7 typed Nemesis Core 4.0 components, 11 directed edges, 8 features, and 4 journeys
     Given the compiled model.prism.json and Architecture.lex.tex
     When the system topology and feature-journey bindings are verified
-    Then 6 components (component00..05), 8 edges (edge00..07), 7 features, and 4 journeys are present and traceable
+    Then 7 components (component00..06), 11 edges (edge00..10), 8 features, and 4 journeys are present and traceable
 
   @KZ-16 @build
   Scenario: The 2.5D Object-Spatial Projection and Karst-9 World Catalog in SpatialWorld.lex.tex models 7 object kinds, 7 world locations, 4 presets, 9 minor directives, and isometric trajectory clearance

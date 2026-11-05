@@ -74,6 +74,25 @@ export interface SpatialKeyframeSample {
   completed: boolean;
 }
 
+export type KarstAnimationSubPhase =
+  | 'AnticipationWindup'
+  | 'ApexImpulseInFlight'
+  | 'FollowThroughSettle';
+
+export interface ArticulatedPoseSample {
+  tDecile: number;
+  progressPermille: number;
+  easedPermille: number;
+  subPhaseOrdinal: 0 | 1 | 2;
+  subPhase: KarstAnimationSubPhase;
+  parabolicLiftScaled: number;
+  torsoLeanScaled: number;
+  muzzleFlashPermille: number;
+  shockwavePermille: number;
+  cameraShakePx: number;
+  completed: boolean;
+}
+
 export interface ActiveBattlefieldAnimationEvent {
   id: string;
   clipId: KarstAnimationClipId;
@@ -83,12 +102,16 @@ export interface ActiveBattlefieldAnimationEvent {
   fromY: number;
   toX: number;
   toY: number;
+  unitId?: string;
+  targetUnitId?: string;
   doctrine?: DoctrineRole;
   chassis?: ChassisType;
   frequency?: ResonanceFrequency;
   calloutText?: string;
   isCritical?: boolean;
+  isBacklash?: boolean;
   damageDealt?: number;
+  berthSlot?: number;
 }
 
 /**
@@ -352,13 +375,136 @@ export function sampleSpatialKeyframe(
 }
 
 /**
+ * Classify a decile (`0..10`) into its 3-phase animation sub-phase ordinal (`0, 1, 2`)
+ * (`AnimationEngine::classifySubPhaseOrdinal`, `KZ-17`).
+ */
+export function classifySubPhaseOrdinal(tDecile: number): 0 | 1 | 2 {
+  const clamped = clampAnimationDecile(tDecile);
+  if (clamped <= 2) return 0;
+  if (clamped <= 6) return 1;
+  return 2;
+}
+
+/**
+ * Map a sub-phase ordinal (`0, 1, 2`) to its canonical name (`KZ-17`).
+ */
+export function classifySubPhaseName(tDecile: number): KarstAnimationSubPhase {
+  const ord = classifySubPhaseOrdinal(tDecile);
+  if (ord === 0) return 'AnticipationWindup';
+  if (ord === 1) return 'ApexImpulseInFlight';
+  return 'FollowThroughSettle';
+}
+
+/**
+ * Evaluate scaled forward torso / chassis pitch angle at decile `tDecile ∈ 0..10`
+ * (`AnimationEngine::evaluateTorsoLeanScaled`, `KZ-17`).
+ */
+export function evaluateTorsoLeanScaled(strideBobPermille: number, tDecile: number): number {
+  const clamped = clampAnimationDecile(tDecile);
+  const bob = Math.max(0, Math.trunc(strideBobPermille));
+  if (clamped <= 5) return bob * clamped;
+  return bob * (10 - clamped);
+}
+
+/**
+ * Evaluate weapon muzzle flash / energy discharge intensity in permille (`0..1000`)
+ * (`AnimationEngine::evaluateMuzzleFlashPermille`, `KZ-17`).
+ */
+export function evaluateMuzzleFlashPermille(tDecile: number): number {
+  const clamped = clampAnimationDecile(tDecile);
+  if (clamped === 2) return 1000;
+  if (clamped === 1 || clamped === 3) return 650;
+  if (clamped === 4) return 250;
+  return 0;
+}
+
+/**
+ * Evaluate impact shockwave ring expansion in permille (`0..1000`)
+ * (`AnimationEngine::evaluateShockwavePermille`, `KZ-17`).
+ */
+export function evaluateShockwavePermille(tDecile: number): number {
+  const clamped = clampAnimationDecile(tDecile);
+  if (clamped <= 4 || clamped >= 10) return 0;
+  return (clamped - 4) * 200;
+}
+
+/**
+ * Evaluate tactical viewport camera shake impulse in pixels
+ * (`AnimationEngine::evaluateCameraShakePx`, `KZ-17`).
+ */
+export function evaluateCameraShakePx(shockwaveRadiusSectors: number, tDecile: number): number {
+  const clamped = clampAnimationDecile(tDecile);
+  const r = Math.max(0, Math.trunc(shockwaveRadiusSectors));
+  if (clamped === 5 || clamped === 6) return r * 3;
+  if (clamped === 7) return r;
+  return 0;
+}
+
+/**
+ * Evaluate the complete articulated pose, parabolic trajectory, and Doctrine VFX sample
+ * at decile `tDecile ∈ 0..10` (`AnimationEngine::evaluateArticulatedPose`, `KZ-17`).
+ */
+export function evaluateArticulatedPose(params: {
+  peakHeight: number;
+  strideBobPermille: number;
+  shockwaveRadiusSectors: number;
+  tDecile: number;
+  reducedMotion: boolean;
+}): ArticulatedPoseSample {
+  const { peakHeight, strideBobPermille, shockwaveRadiusSectors, tDecile, reducedMotion } = params;
+  if (reducedMotion) {
+    return {
+      tDecile: 10,
+      progressPermille: 1000,
+      easedPermille: 1000,
+      subPhaseOrdinal: 2,
+      subPhase: 'FollowThroughSettle',
+      parabolicLiftScaled: 0,
+      torsoLeanScaled: 0,
+      muzzleFlashPermille: 0,
+      shockwavePermille: 0,
+      cameraShakePx: 0,
+      completed: true,
+    };
+  }
+  const clamped = clampAnimationDecile(tDecile);
+  const progressPermille = evaluateAnimationProgressPermille(clamped, false);
+  const subPhaseOrdinal = classifySubPhaseOrdinal(clamped);
+  return {
+    tDecile: clamped,
+    progressPermille,
+    easedPermille: evaluateQuadOutPermille(clamped),
+    subPhaseOrdinal,
+    subPhase: classifySubPhaseName(clamped),
+    parabolicLiftScaled: evaluateParabolicArcScaled(peakHeight, clamped),
+    torsoLeanScaled: evaluateTorsoLeanScaled(strideBobPermille, clamped),
+    muzzleFlashPermille: evaluateMuzzleFlashPermille(clamped),
+    shockwavePermille: evaluateShockwavePermille(clamped),
+    cameraShakePx: evaluateCameraShakePx(shockwaveRadiusSectors, clamped),
+    completed: progressPermille >= 1000,
+  };
+}
+
+/**
+ * Detect whether the user's OS/browser requests WCAG 2.2 §2.3.3 reduced motion.
+ */
+export function detectReducedMotionPreference(): boolean {
+  if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
+    return false;
+  }
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+}
+
+/**
  * Continuous 60fps interpolation helper built on the verified `AnimationEngine` curves
- * for rendering smooth SVG motion paths, parabolic leaps, and projectile bolts.
+ * for rendering smooth SVG motion paths, parabolic leaps, articulated poses, and projectile bolts.
  */
 export function evaluateContinuousAnimationFrame(params: {
   elapsedMs: number;
   durationMs: number;
   peakHeight: number;
+  strideBobPermille?: number;
+  shockwaveRadiusSectors?: number;
   reducedMotion: boolean;
 }): {
   rawProgress: number; // 0..1
@@ -366,8 +512,16 @@ export function evaluateContinuousAnimationFrame(params: {
   parabolicZ: number; // 0..peakHeight
   tDecile: number; // 0..10 discrete decile witness
   discreteWitness: SpatialKeyframeSample;
+  poseSample: ArticulatedPoseSample;
 } {
-  const { elapsedMs, durationMs, peakHeight, reducedMotion } = params;
+  const {
+    elapsedMs,
+    durationMs,
+    peakHeight,
+    strideBobPermille = 120,
+    shockwaveRadiusSectors = 1,
+    reducedMotion,
+  } = params;
   if (reducedMotion || durationMs <= 0 || elapsedMs >= durationMs) {
     return {
       rawProgress: 1,
@@ -375,6 +529,13 @@ export function evaluateContinuousAnimationFrame(params: {
       parabolicZ: 0,
       tDecile: 10,
       discreteWitness: sampleSpatialKeyframe(peakHeight, 10, reducedMotion),
+      poseSample: evaluateArticulatedPose({
+        peakHeight,
+        strideBobPermille,
+        shockwaveRadiusSectors,
+        tDecile: 10,
+        reducedMotion,
+      }),
     };
   }
   const rawProgress = Math.max(0, Math.min(1, elapsedMs / durationMs));
@@ -388,5 +549,13 @@ export function evaluateContinuousAnimationFrame(params: {
     parabolicZ,
     tDecile,
     discreteWitness: sampleSpatialKeyframe(peakHeight, tDecile, false),
+    poseSample: evaluateArticulatedPose({
+      peakHeight,
+      strideBobPermille,
+      shockwaveRadiusSectors,
+      tDecile,
+      reducedMotion: false,
+    }),
   };
 }
+

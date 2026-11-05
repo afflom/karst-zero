@@ -95,6 +95,13 @@ definition{
 }
 
 definition{
+  name: component06AnimationChoreographyEngine,
+  parameters: [],
+  result: Foundation.Arch::Component,
+  body: (record Foundation.Arch::Component {index := 6, kind := (ctor Foundation.Arch::ComponentKind.service), name := "Deterministic Fixed-Point Animation Choreography & Doctrine VFX Engine (AnimationEngine.lex.tex)", text := "Evaluates 8 fixed-point animation clips across 3 sub-phases (Anticipation, Apex, Settle), parabolic trajectories, 5 Chassis gaits, 6 Doctrine VFX profiles, and WCAG 2.3.3 reduced-motion clamping."})
+}
+
+definition{
   name: edge00SynthesisToBastion,
   parameters: [],
   result: Foundation.Arch::Edge,
@@ -148,6 +155,27 @@ definition{
   parameters: [],
   result: Foundation.Arch::Edge,
   body: (record Foundation.Arch::Edge {index := 7, fromIndex := 1, toIndex := 4, kind := (ctor Foundation.Arch::EdgeKind.dataFlow)})
+}
+
+definition{
+  name: edge08CombatToAnimation,
+  parameters: [],
+  result: Foundation.Arch::Edge,
+  body: (record Foundation.Arch::Edge {index := 8, fromIndex := 1, toIndex := 6, kind := (ctor Foundation.Arch::EdgeKind.dataFlow)})
+}
+
+definition{
+  name: edge09ChitDirectorToAnimation,
+  parameters: [],
+  result: Foundation.Arch::Edge,
+  body: (record Foundation.Arch::Edge {index := 9, fromIndex := 2, toIndex := 6, kind := (ctor Foundation.Arch::EdgeKind.controlFlow)})
+}
+
+definition{
+  name: edge10AnimationToCoreWasm,
+  parameters: [],
+  result: Foundation.Arch::Edge,
+  body: (record Foundation.Arch::Edge {index := 10, fromIndex := 6, toIndex := 5, kind := (ctor Foundation.Arch::EdgeKind.dataFlow)})
 }
 
 definition{
@@ -221,6 +249,13 @@ definition{
 }
 
 definition{
+  name: concern06DeterministicAnimationChoreography,
+  parameters: [],
+  result: Foundation.Arch::Concern,
+  body: (record Foundation.Arch::Concern {index := 6, name := "Deterministic 3-Phase Animation Choreography, Parabolic Kinematics & WCAG 2.3.3 Motion Safety", text := "Proves fixed-point permille interpolation across Anticipation, Apex, and Settle sub-phases, parabolic hop lift, 5 Chassis gaits, 6 Doctrine VFX profiles, and zero-motion clamping under reducedMotion."})
+}
+
+definition{
   name: viewpoint00TacticalCommandViewpoint,
   parameters: [],
   result: Foundation.Arch::Viewpoint,
@@ -263,6 +298,13 @@ definition{
 }
 
 definition{
+  name: viewpoint06AnimationChoreographyViewpoint,
+  parameters: [],
+  result: Foundation.Arch::Viewpoint,
+  body: (record Foundation.Arch::Viewpoint {index := 6, stakeholderIndex := 0, concernIndex := 6, modelKindIndex := 0})
+}
+
+definition{
   name: view00TacticalBattlefieldView,
   parameters: [],
   result: Foundation.Arch::View,
@@ -302,6 +344,13 @@ definition{
   parameters: [],
   result: Foundation.Arch::View,
   body: (record Foundation.Arch::View {index := 5, viewpointIndex := 5, modelKindIndex := 1})
+}
+
+definition{
+  name: view06AnimationChoreographyView,
+  parameters: [],
+  result: Foundation.Arch::View,
+  body: (record Foundation.Arch::View {index := 6, viewpointIndex := 6, modelKindIndex := 0})
 }
 
 definition{
@@ -637,35 +686,35 @@ definition{
   name: feature07AnimationChoreographyAndVfx,
   parameters: [],
   result: Foundation.Arch::Feature,
-  body: (record Foundation.Arch::Feature {statement := "Choreograph 8 deterministic fixed-point animation clips, parabolic hop arcs, 5 Chassis gaits, 6 Doctrine VFX profiles, and WCAG reduced-motion transitions.", calls := (cons "AnimationEngine::evaluateQuadOutPermille" (cons "AnimationEngine::evaluateParabolicArcScaled" (nil String))), acceptance := (cons "AnimationEngine::animationClips" (cons "AnimationEngine::doctrineVfxProfiles" (nil String)))})
+  body: (record Foundation.Arch::Feature {statement := "Choreograph 8 deterministic fixed-point animation clips across 3 sub-phases, parabolic hop arcs, 5 Chassis gaits, 6 Doctrine VFX profiles, and WCAG reduced-motion transitions.", calls := (cons "AnimationEngine::evaluateQuadOutPermille" (cons "AnimationEngine::evaluateParabolicArcScaled" (cons "AnimationEngine::evaluateArticulatedPose" (nil String)))), acceptance := (cons "AnimationEngine::animationClips" (cons "AnimationEngine::doctrineVfxProfiles" (nil String)))})
 }
 
 definition{
   name: journey00TacticalCommander,
   parameters: [],
   result: Foundation.Arch::Journey,
-  body: (record Foundation.Arch::Journey {actor := "Architecture::stakeholder00TacticalCommander", steps := (cons "Architecture::feature03CommandChitAndWardenAi" (cons "Architecture::feature01OpposedStrikeAndMitigation" (cons "Architecture::feature02ResonanceWeaveAndModules" (cons "Architecture::feature04OrbitalBastionAndContracts" (nil String)))))})
+  body: (record Foundation.Arch::Journey {actor := "Architecture::stakeholder00TacticalCommander", steps := (cons "Architecture::feature03CommandChitAndWardenAi" (cons "Architecture::feature01OpposedStrikeAndMitigation" (cons "Architecture::feature06SpatialWorldAndPresets" (cons "Architecture::feature07AnimationChoreographyAndVfx" (nil String)))))})
 }
 
 definition{
   name: journey01StrikeRosterArchitect,
   parameters: [],
   result: Foundation.Arch::Journey,
-  body: (record Foundation.Arch::Journey {actor := "Architecture::stakeholder01StrikeRosterArchitect", steps := (cons "Architecture::feature00UnitSynthesisAndCharter" (cons "Architecture::feature02ResonanceWeaveAndModules" (cons "Architecture::feature04OrbitalBastionAndContracts" (cons "Architecture::feature05NemesisEngineFullBinding" (nil String)))))})
+  body: (record Foundation.Arch::Journey {actor := "Architecture::stakeholder01StrikeRosterArchitect", steps := (cons "Architecture::feature00UnitSynthesisAndCharter" (cons "Architecture::feature02ResonanceWeaveAndModules" (cons "Architecture::feature04OrbitalBastionAndContracts" (cons "Architecture::feature06SpatialWorldAndPresets" (nil String)))))})
 }
 
 definition{
   name: journey02NemesisSystemsDesigner,
   parameters: [],
   result: Foundation.Arch::Journey,
-  body: (record Foundation.Arch::Journey {actor := "Architecture::stakeholder02NemesisSystemsDesigner", steps := (cons "Architecture::feature00UnitSynthesisAndCharter" (cons "Architecture::feature01OpposedStrikeAndMitigation" (cons "Architecture::feature03CommandChitAndWardenAi" (cons "Architecture::feature05NemesisEngineFullBinding" (nil String)))))})
+  body: (record Foundation.Arch::Journey {actor := "Architecture::stakeholder02NemesisSystemsDesigner", steps := (cons "Architecture::feature00UnitSynthesisAndCharter" (cons "Architecture::feature01OpposedStrikeAndMitigation" (cons "Architecture::feature03CommandChitAndWardenAi" (cons "Architecture::feature07AnimationChoreographyAndVfx" (nil String)))))})
 }
 
 definition{
   name: journey03PrismRuntimeAuditor,
   parameters: [],
   result: Foundation.Arch::Journey,
-  body: (record Foundation.Arch::Journey {actor := "Architecture::stakeholder03PrismRuntimeAuditor", steps := (cons "Architecture::feature05NemesisEngineFullBinding" (cons "Architecture::feature01OpposedStrikeAndMitigation" (cons "Architecture::feature00UnitSynthesisAndCharter" (cons "Architecture::feature04OrbitalBastionAndContracts" (nil String)))))})
+  body: (record Foundation.Arch::Journey {actor := "Architecture::stakeholder03PrismRuntimeAuditor", steps := (cons "Architecture::feature05NemesisEngineFullBinding" (cons "Architecture::feature01OpposedStrikeAndMitigation" (cons "Architecture::feature07AnimationChoreographyAndVfx" (cons "Architecture::feature04OrbitalBastionAndContracts" (nil String)))))})
 }
 
 structure{
@@ -755,7 +804,7 @@ definition{
   name: concerns,
   parameters: [],
   result: (List KarstConcern),
-  body: (cons (record KarstConcern {id := "con-zero-inflation", title := "Zero-Stat-Inflation Progression & Horizontal Hardpoint Modularity", isoStandard := "ISO/IEC 25010 Functional Suitability & Nemesis Core 4.0"}) (cons (record KarstConcern {id := "con-deterministic-combat", title := "Unified d6 Strike Resolution, Cover Geometry & Fireteam Spillover", isoStandard := "ISO/IEC 25010 Functional Correctness"}) (cons (record KarstConcern {id := "con-warden-chit-ai", title := "Opaque Command Chit Pacing & Deterministic Warden AI Routines", isoStandard := "ISO/IEC/IEEE 42010 Behavioral Viewpoint"}) (cons (record KarstConcern {id := "con-resonance-weave", title := "6-Frequency Resonance Harmonics & Masterwork Hardpoint Economy", isoStandard := "ISO/IEC 25010 Modularity"}) (cons (record KarstConcern {id := "con-wasm-isolation", title := "Import-Free Core-Wasm Guest Isolation & Bounded Wire Protocol", isoStandard := "ISO/IEC 27034-1 Application Security"}) (cons (record KarstConcern {id := "con-wcag-ergonomics", title := "WCAG 2.2 AA Tactical Readability & 5-Pole Stakeholder Vantages", isoStandard := "W3C WCAG 2.2 Level AA"}) (nil KarstConcern))))))),
+  body: (cons (record KarstConcern {id := "con-zero-inflation", title := "Zero-Stat-Inflation Progression & Horizontal Hardpoint Modularity", isoStandard := "ISO/IEC 25010 Functional Suitability & Nemesis Core 4.0"}) (cons (record KarstConcern {id := "con-deterministic-combat", title := "Unified d6 Strike Resolution, Cover Geometry & Fireteam Spillover", isoStandard := "ISO/IEC 25010 Functional Correctness"}) (cons (record KarstConcern {id := "con-warden-chit-ai", title := "Opaque Command Chit Pacing & Deterministic Warden AI Routines", isoStandard := "ISO/IEC/IEEE 42010 Behavioral Viewpoint"}) (cons (record KarstConcern {id := "con-resonance-weave", title := "6-Frequency Resonance Harmonics & Masterwork Hardpoint Economy", isoStandard := "ISO/IEC 25010 Modularity"}) (cons (record KarstConcern {id := "con-wasm-isolation", title := "Import-Free Core-Wasm Guest Isolation & Bounded Wire Protocol", isoStandard := "ISO/IEC 27034-1 Application Security"}) (cons (record KarstConcern {id := "con-wcag-ergonomics", title := "WCAG 2.2 AA Tactical Readability & 5-Pole Stakeholder Vantages", isoStandard := "W3C WCAG 2.2 Level AA"}) (cons (record KarstConcern {id := "con-animation-choreography", title := "Deterministic 3-Phase Animation Choreography, Parabolic Kinematics & WCAG 2.3.3 Motion Safety", isoStandard := "ISO/PAS 19450 OPM & W3C WCAG 2.2 SC 2.3.3"}) (nil KarstConcern)))))))),
   axioms: []
 }
 
@@ -763,7 +812,7 @@ definition{
   name: viewpoints,
   parameters: [],
   result: (List KarstViewpoint),
-  body: (cons (record KarstViewpoint {id := "vp-tactical-command", title := "Tactical Battlefield, Line of Sight & Opposed Strike Viewpoint", stakeholderId := "stk-commander", concerns := (cons "con-deterministic-combat" (cons "con-warden-chit-ai" (nil String)))}) (cons (record KarstViewpoint {id := "vp-roster-synthesis", title := "3D Unit Synthesis, 16-Alloy Charter & Orbital Bastion Viewpoint", stakeholderId := "stk-architect", concerns := (cons "con-zero-inflation" (cons "con-resonance-weave" (nil String)))}) (cons (record KarstViewpoint {id := "vp-nemesis-engine", title := "Nemesis Core 4.0 Engine, Command Chit Pool & Warden AI Viewpoint", stakeholderId := "stk-designer", concerns := (cons "con-zero-inflation" (cons "con-deterministic-combat" (cons "con-warden-chit-ai" (cons "con-resonance-weave" (nil String)))))}) (cons (record KarstViewpoint {id := "vp-prism-verification", title := "Core-Wasm Boundary Contract, ISO Compliance & WCAG 2.2 AA Viewpoint", stakeholderId := "stk-auditor", concerns := (cons "con-wasm-isolation" (cons "con-wcag-ergonomics" (nil String)))}) (nil KarstViewpoint))))),
+  body: (cons (record KarstViewpoint {id := "vp-tactical-command", title := "Tactical Battlefield, Line of Sight & Opposed Strike Viewpoint", stakeholderId := "stk-commander", concerns := (cons "con-deterministic-combat" (cons "con-warden-chit-ai" (cons "con-animation-choreography" (nil String))))}) (cons (record KarstViewpoint {id := "vp-roster-synthesis", title := "3D Unit Synthesis, 16-Alloy Charter & Orbital Bastion Viewpoint", stakeholderId := "stk-architect", concerns := (cons "con-zero-inflation" (cons "con-resonance-weave" (nil String)))}) (cons (record KarstViewpoint {id := "vp-nemesis-engine", title := "Nemesis Core 4.0 Engine, Command Chit Pool & Warden AI Viewpoint", stakeholderId := "stk-designer", concerns := (cons "con-zero-inflation" (cons "con-deterministic-combat" (cons "con-warden-chit-ai" (cons "con-resonance-weave" (cons "con-animation-choreography" (nil String))))))}) (cons (record KarstViewpoint {id := "vp-prism-verification", title := "Core-Wasm Boundary Contract, ISO Compliance & WCAG 2.2 AA Viewpoint", stakeholderId := "stk-auditor", concerns := (cons "con-wasm-isolation" (cons "con-wcag-ergonomics" (cons "con-animation-choreography" (nil String))))}) (nil KarstViewpoint))))),
   axioms: []
 }
 

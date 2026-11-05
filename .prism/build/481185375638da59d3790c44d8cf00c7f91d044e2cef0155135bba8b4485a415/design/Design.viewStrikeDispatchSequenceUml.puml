@@ -8,10 +8,13 @@ participant "component00UnitSynthesisCompiler" as p1
 participant "component02CommandChitDirector" as p2
 participant "component01StrikePoolResolver" as p3
 participant "component05CoreWasmArithmeticGuest" as p4
+participant "component06AnimationChoreographyEngine" as p5
 p1 -> p0 : processExecuteBastionPreDrop
 p0 -> p2 : processDrawCommandChit
 p2 -> p3 : processResolveOpposedStrike
 p3 -> p4 : processDispatchCoreWasmRun
 p4 --> p3 : processDispatchCoreWasmRun
 p3 ->> p0 : processSettleCampaignExtraction
+p3 ->> p5 : processEvaluateAnimationFrame
+p5 -> p4 : processDispatchCoreWasmRun
 @enduml

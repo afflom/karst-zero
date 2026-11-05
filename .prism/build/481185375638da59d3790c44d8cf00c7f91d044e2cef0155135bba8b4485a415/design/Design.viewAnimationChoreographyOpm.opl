@@ -1,0 +1,19 @@
+View: Design::viewAnimationChoreographyOpm
+Title: Animation Choreography OPM View: 3-Phase Fixed-Point Permille Easing, Parabolic Arc Kinematics & 6-Doctrine VFX Synthesis
+Viewpoint: Architecture::viewpoint06AnimationChoreographyViewpoint
+Notation: ISO/PAS 19450:2015 OPM, Prism OPL profile
+
+component01StrikePoolResolver is an object.
+component02CommandChitDirector is an object.
+component05CoreWasmArithmeticGuest is an object.
+component06AnimationChoreographyEngine is an object.
+component06AnimationChoreographyEngine can be stateAnimationAnticipationWindup, stateAnimationApexImpulseInFlight, and stateAnimationFollowThroughSettle.
+processEvaluateAnimationFrame is a process.
+processInterpolateParabolicTrajectory is a process.
+processSynthesizeDoctrineVfxPose is a process.
+component01StrikePoolResolver handles processEvaluateAnimationFrame.
+processEvaluateAnimationFrame requires component02CommandChitDirector.
+processInterpolateParabolicTrajectory yields component06AnimationChoreographyEngine.
+processSynthesizeDoctrineVfxPose affects component05CoreWasmArithmeticGuest.
+processEvaluateAnimationFrame invokes processInterpolateParabolicTrajectory.
+processEvaluateAnimationFrame zooms into processInterpolateParabolicTrajectory and processSynthesizeDoctrineVfxPose, in that sequence.

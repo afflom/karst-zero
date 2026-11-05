@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { blake3Hex, kappa } from 'prism-code';
 import { canonicalize, codeHash } from 'prism-code/canonical';
 import {
@@ -10,8 +10,11 @@ import {
 import {
   KARST_CHASSIS_GAITS,
   KARST_DOCTRINE_VFX_PROFILES,
+  detectReducedMotionPreference,
+  evaluateContinuousAnimationFrame,
   evaluateParabolicArcScaled,
   evaluateQuadOutPermille,
+  type ActiveBattlefieldAnimationEvent,
 } from '../game/animationModel';
 import type {
   ChassisType,
@@ -1213,6 +1216,7 @@ export const SpatialBattlefieldViewportSvg: React.FC<{
     toY: number;
     kind: 'MOVE' | 'ATTACK';
   } | null;
+  activeAnimations?: ActiveBattlefieldAnimationEvent[];
   cameraMode: SpatialCameraMode;
   onSelectCell: (x: number, y: number) => void;
   onSelectUnit: (unitId: string) => void;
@@ -1227,11 +1231,82 @@ export const SpatialBattlefieldViewportSvg: React.FC<{
   engageableHostileIds,
   hoveredCell,
   lastVector,
+  activeAnimations = [],
   cameraMode,
   onSelectCell,
   onSelectUnit,
   onHoverCell,
 }) => {
+  const reducedMotion = useMemo(() => detectReducedMotionPreference(), []);
+  const [nowMs, setNowMs] = useState<number>(() => performance.now());
+
+  useEffect(() => {
+    if (reducedMotion || activeAnimations.length === 0) return;
+    let rafId = 0;
+    const tick = (ts: number) => {
+      setNowMs(ts);
+      const anyActive = activeAnimations.some((ev) => ts - ev.startedAtMs < ev.durationMs + 120);
+      if (anyActive) {
+        rafId = window.requestAnimationFrame(tick);
+      }
+    };
+    rafId = window.requestAnimationFrame(tick);
+    return () => window.cancelAnimationFrame(rafId);
+  }, [activeAnimations, reducedMotion]);
+
+  // Evaluate all currently live animation events at 60fps using AnimationEngine.lex.tex curves
+  const evaluatedAnimations = useMemo(() => {
+    return activeAnimations
+      .map((ev) => {
+        const elapsedMs = Math.max(0, nowMs - ev.startedAtMs);
+        if (!reducedMotion && elapsedMs > ev.durationMs + 120) return null;
+        const sectorDist = Math.abs(ev.toX - ev.fromX) + Math.abs(ev.toY - ev.fromY);
+        const peakHeight =
+          ev.clipId === 'CLIP-08-ORBITAL-DROP'
+            ? 9
+            : ev.clipId === 'CLIP-03-MOMENTUM-CHARGE'
+            ? 3
+            : ev.clipId === 'CLIP-02-STRIDE-STEP'
+            ? Math.max(1, Math.min(3, sectorDist))
+            : 2;
+        const gait = ev.chassis ? KARST_CHASSIS_GAITS[ev.chassis] : KARST_CHASSIS_GAITS.Spliced;
+        const vfx = ev.doctrine
+          ? KARST_DOCTRINE_VFX_PROFILES[ev.doctrine]
+          : KARST_DOCTRINE_VFX_PROFILES.Breacher;
+        const frame = evaluateContinuousAnimationFrame({
+          elapsedMs,
+          durationMs: ev.durationMs,
+          peakHeight,
+          strideBobPermille: gait.strideBobPermille,
+          shockwaveRadiusSectors: vfx.shockwaveRadiusSectors,
+          reducedMotion,
+        });
+        return { ev, frame, gait, vfx };
+      })
+      .filter((item): item is NonNullable<typeof item> => item !== null);
+  }, [activeAnimations, nowMs, reducedMotion]);
+
+  // Aggregate viewport camera shake impulse (AnimationEngine::evaluateCameraShakePx)
+  const cameraShakeOffset = useMemo(() => {
+    if (reducedMotion || evaluatedAnimations.length === 0) return { dx: 0, dy: 0 };
+    let maxShake = 0;
+    for (const item of evaluatedAnimations) {
+      if (
+        item.ev.clipId === 'CLIP-04-RANGED-TRACER' ||
+        item.ev.clipId === 'CLIP-05-MELEE-CLEAVE' ||
+        item.ev.clipId === 'CLIP-08-ORBITAL-DROP' ||
+        item.ev.clipId === 'CLIP-03-MOMENTUM-CHARGE'
+      ) {
+        maxShake = Math.max(maxShake, item.frame.poseSample.cameraShakePx);
+      }
+    }
+    if (maxShake <= 0) return { dx: 0, dy: 0 };
+    const phase = nowMs * 0.085;
+    return {
+      dx: Math.sin(phase) * maxShake * 0.65,
+      dy: Math.cos(phase * 1.3) * maxShake * 0.5,
+    };
+  }, [evaluatedAnimations, nowMs, reducedMotion]);
   const spatialScene = useMemo(
     () =>
       compileBattlefieldSpatialScene({
@@ -1296,6 +1371,11 @@ export const SpatialBattlefieldViewportSvg: React.FC<{
         {/* Subterranean Cavern Abyss & Geothermal Chasm Backdrop */}
         <rect width="1000" height="680" fill="url(#cavern-abyss-glow)" />
 
+        <g
+          transform={`translate(${cameraShakeOffset.dx.toFixed(2)}, ${cameraShakeOffset.dy.toFixed(
+            2
+          )})`}
+        >
         {/* Ambient Sub-Crust Magma Veins in the Chasm Below the Platform */}
         <path
           d="M 40 580 Q 220 620 480 650 T 940 590"
@@ -1688,6 +1768,104 @@ export const SpatialBattlefieldViewportSvg: React.FC<{
               Math.min(1, hpRemaining / Math.max(1, u.maxIntegrityPerModel))
             );
 
+            // Check live 60fps AnimationEngine events for this unit
+            const activeUnitAnim = evaluatedAnimations.find(
+              (item) =>
+                item.ev.unitId === u.id &&
+                item.frame.rawProgress < 1 &&
+                (item.ev.clipId === 'CLIP-02-STRIDE-STEP' ||
+                  item.ev.clipId === 'CLIP-03-MOMENTUM-CHARGE' ||
+                  item.ev.clipId === 'CLIP-08-ORBITAL-DROP' ||
+                  item.ev.clipId === 'CLIP-05-MELEE-CLEAVE' ||
+                  item.ev.clipId === 'CLIP-04-RANGED-TRACER')
+            );
+            const activeTargetHitAnim = evaluatedAnimations.find(
+              (item) =>
+                item.ev.targetUnitId === u.id &&
+                item.frame.rawProgress >= 0.45 &&
+                item.frame.rawProgress < 0.96
+            );
+
+            let worldX = x;
+            let worldY = y;
+            let worldZLift = 0;
+            let torsoLeanDeg = 0;
+            const afterimagePoints: { sx: number; sy: number; opacity: number }[] = [];
+
+            if (activeUnitAnim) {
+              const { ev, frame } = activeUnitAnim;
+              const dirSign = ev.toX >= ev.fromX ? 1 : -1;
+              if (
+                ev.clipId === 'CLIP-02-STRIDE-STEP' ||
+                ev.clipId === 'CLIP-03-MOMENTUM-CHARGE'
+              ) {
+                worldX = ev.fromX + (ev.toX - ev.fromX) * frame.easedProgress;
+                worldY = ev.fromY + (ev.toY - ev.fromY) * frame.easedProgress;
+                worldZLift = frame.parabolicZ * 0.45;
+                torsoLeanDeg =
+                  dirSign * Math.min(20, (frame.poseSample.torsoLeanScaled / 1000) * 22);
+
+                if (
+                  ev.clipId === 'CLIP-03-MOMENTUM-CHARGE' ||
+                  KARST_CHASSIS_GAITS[u.chassis].thrusterTrailActive
+                ) {
+                  for (const lag of [0.1, 0.2, 0.3]) {
+                    const trailT = Math.max(0, frame.easedProgress - lag);
+                    const tx = ev.fromX + (ev.toX - ev.fromX) * trailT;
+                    const ty = ev.fromY + (ev.toY - ev.fromY) * trailT;
+                    const tz = 4 * (worldZLift > 0 ? 1.1 : 0.4) * trailT * (1 - trailT);
+                    const tProj = projectSpatialCoord(tx, ty, tz, cameraMode);
+                    afterimagePoints.push({
+                      sx: tProj.sx,
+                      sy: tProj.sy,
+                      opacity: Math.max(0.14, 0.42 - lag),
+                    });
+                  }
+                }
+              } else if (ev.clipId === 'CLIP-08-ORBITAL-DROP') {
+                worldX = ev.toX;
+                worldY = ev.toY;
+                worldZLift = Math.max(0, (1 - frame.easedProgress) * 7.2);
+              } else if (ev.clipId === 'CLIP-05-MELEE-CLEAVE') {
+                const lungeFactor =
+                  frame.poseSample.subPhase === 'ApexImpulseInFlight'
+                    ? 0.42
+                    : frame.poseSample.subPhase === 'AnticipationWindup'
+                    ? -0.12
+                    : 0.14 * (1 - frame.rawProgress);
+                worldX = ev.fromX + (ev.toX - ev.fromX) * lungeFactor;
+                worldY = ev.fromY + (ev.toY - ev.fromY) * lungeFactor;
+                worldZLift = frame.poseSample.subPhase === 'ApexImpulseInFlight' ? 0.35 : 0;
+                torsoLeanDeg = dirSign * (lungeFactor * 32);
+              } else if (ev.clipId === 'CLIP-04-RANGED-TRACER') {
+                const recoilFactor =
+                  frame.poseSample.subPhase === 'AnticipationWindup'
+                    ? -0.08
+                    : frame.poseSample.subPhase === 'ApexImpulseInFlight'
+                    ? -0.12
+                    : 0;
+                worldX = ev.fromX + Math.sign(ev.toX - ev.fromX || 1) * recoilFactor;
+                worldY = ev.fromY + Math.sign(ev.toY - ev.fromY || 1) * recoilFactor;
+                torsoLeanDeg = dirSign * -6;
+              }
+            }
+
+            if (activeTargetHitAnim) {
+              const { ev } = activeTargetHitAnim;
+              const pushDx = Math.sign(ev.toX - ev.fromX);
+              const pushDy = Math.sign(ev.toY - ev.fromY);
+              const joltMag = 0.22 * Math.sin(nowMs * 0.06);
+              worldX += pushDx * joltMag;
+              worldY += pushDy * joltMag;
+              torsoLeanDeg = pushDx * 14;
+            }
+
+            const groundProj = projectSpatialCoord(worldX, worldY, 0, cameraMode);
+            const elevatedProj = projectSpatialCoord(worldX, worldY, worldZLift, cameraMode);
+            const renderCenterX = elevatedProj.sx;
+            const renderCenterY = elevatedProj.sy;
+            const shadowScale = Math.max(0.45, 1 - worldZLift * 0.12);
+
             const strokeColor = isPlayer
               ? isSelected
                 ? '#FBBF24'
@@ -1712,13 +1890,14 @@ export const SpatialBattlefieldViewportSvg: React.FC<{
                   onSelectCell(x, y);
                 }}
               >
-                {/* 3D Projected Elliptical Pedestal Ring on the Cavern Floor */}
+                {/* 3D Projected Elliptical Pedestal Shadow on the Cavern Floor (scales with parabolic Z-lift) */}
                 <ellipse
-                  cx={projected.centerX}
-                  cy={projected.centerY + 2}
-                  rx={16 * projected.scale}
-                  ry={8.5 * projected.scale}
+                  cx={groundProj.sx}
+                  cy={groundProj.sy + 2}
+                  rx={16 * projected.scale * shadowScale}
+                  ry={8.5 * projected.scale * shadowScale}
                   fill={isPlayer ? '#064E3B' : '#450A0A'}
+                  fillOpacity={0.9 * shadowScale}
                   stroke={strokeColor}
                   strokeWidth={isSelected || isEngageable ? '2.4' : '1.5'}
                 />
@@ -1726,8 +1905,8 @@ export const SpatialBattlefieldViewportSvg: React.FC<{
                 {/* Selected Operative Ground Aura Ring (CLIP-01-IDLE-BREATH) */}
                 {isSelected && (
                   <ellipse
-                    cx={projected.centerX}
-                    cy={projected.centerY + 2}
+                    cx={groundProj.sx}
+                    cy={groundProj.sy + 2}
                     rx={21 * projected.scale}
                     ry={11 * projected.scale}
                     fill="none"
@@ -1741,8 +1920,8 @@ export const SpatialBattlefieldViewportSvg: React.FC<{
                 {/* Engageable Hostile Target Reticle Ring */}
                 {isEngageable && !isPlayer && (
                   <ellipse
-                    cx={projected.centerX}
-                    cy={projected.centerY + 2}
+                    cx={groundProj.sx}
+                    cy={groundProj.sy + 2}
                     rx={22 * projected.scale}
                     ry={11.5 * projected.scale}
                     fill="none"
@@ -1756,8 +1935,8 @@ export const SpatialBattlefieldViewportSvg: React.FC<{
                 {/* Chassis Thruster / Void Levitation Wake Ring (AnimationEngine::chassisGaits) */}
                 {KARST_CHASSIS_GAITS[u.chassis].thrusterTrailActive && (
                   <ellipse
-                    cx={projected.centerX}
-                    cy={projected.centerY + 4}
+                    cx={renderCenterX}
+                    cy={renderCenterY + 4}
                     rx={12 * projected.scale}
                     ry={5.5 * projected.scale}
                     fill="none"
@@ -1769,12 +1948,60 @@ export const SpatialBattlefieldViewportSvg: React.FC<{
                   />
                 )}
 
-                {/* Upright Character Figure with Chassis Gait Animation & Held Doctrine Weapon */}
+                {/* Thruster / Momentum Charge Afterimage Ghosts (CLIP-03-MOMENTUM-CHARGE) */}
+                {afterimagePoints.map((ghost, gIdx) => (
+                  <g
+                    key={`ghost-${u.id}-${gIdx}`}
+                    opacity={ghost.opacity}
+                    transform={`translate(${ghost.sx - 50 * spriteScale}, ${
+                      ghost.sy - 82 * spriteScale
+                    }) scale(${spriteScale})`}
+                  >
+                    <CharacterChassisBodySvg
+                      chassis={u.chassis}
+                      strokeColor="#38BDF8"
+                      fillPrimary="#38BDF8"
+                      isWarden={!isPlayer}
+                    />
+                  </g>
+                ))}
+
+                {/* Valkyrie-04 Drop-Pod Descent Capsule & Retro-Thrusters (CLIP-08-ORBITAL-DROP) */}
+                {activeUnitAnim?.ev.clipId === 'CLIP-08-ORBITAL-DROP' && worldZLift > 0.2 && (
+                  <g transform={`translate(${renderCenterX}, ${renderCenterY})`}>
+                    <line
+                      x1="0"
+                      y1="-140"
+                      x2="0"
+                      y2="0"
+                      stroke="#F59E0B"
+                      strokeWidth="3"
+                      strokeDasharray="8 4"
+                      opacity="0.75"
+                    />
+                    <polygon
+                      points="-14,4 -6,26 6,26 14,4"
+                      fill="#38BDF8"
+                      opacity="0.75"
+                    />
+                    <polygon
+                      points="-18,-36 18,-36 22,2 -22,2"
+                      fill="#0F172A"
+                      fillOpacity="0.65"
+                      stroke="#FBBF24"
+                      strokeWidth="1.6"
+                    />
+                  </g>
+                )}
+
+                {/* Upright Character Figure with Chassis Gait Animation, Torso Pitch & Held Doctrine Weapon */}
                 <g
-                  className={`karst-anim-idle-${u.chassis.toLowerCase()}`}
-                  transform={`translate(${projected.centerX - 50 * spriteScale}, ${
-                    projected.centerY - 82 * spriteScale
-                  }) scale(${spriteScale})`}
+                  className={
+                    activeUnitAnim ? undefined : `karst-anim-idle-${u.chassis.toLowerCase()}`
+                  }
+                  transform={`translate(${renderCenterX - 50 * spriteScale}, ${
+                    renderCenterY - 82 * spriteScale
+                  }) scale(${spriteScale}) rotate(${torsoLeanDeg.toFixed(1)} 50 75)`}
                 >
                   {/* Multi-Model Squad Wingmen */}
                   {u.modelsCurrent >= 2 && (
@@ -1800,8 +2027,8 @@ export const SpatialBattlefieldViewportSvg: React.FC<{
 
                   <CharacterChassisBodySvg
                     chassis={u.chassis}
-                    strokeColor={strokeColor}
-                    fillPrimary={fillPrimary}
+                    strokeColor={activeTargetHitAnim ? '#FEF08A' : strokeColor}
+                    fillPrimary={activeTargetHitAnim ? '#F59E0B' : fillPrimary}
                     isWarden={!isPlayer}
                   />
                   <CharacterDoctrineWeaponSvg
@@ -1811,10 +2038,25 @@ export const SpatialBattlefieldViewportSvg: React.FC<{
                   />
                 </g>
 
+                {/* Active Deflector / Armor Impact Ripple on Hit Target */}
+                {activeTargetHitAnim && (
+                  <polygon
+                    points={`${renderCenterX},${renderCenterY - 34} ${renderCenterX + 22},${
+                      renderCenterY - 18
+                    } ${renderCenterX + 18},${renderCenterY + 6} ${renderCenterX - 18},${
+                      renderCenterY + 6
+                    } ${renderCenterX - 22},${renderCenterY - 18}`}
+                    fill="#38BDF8"
+                    fillOpacity="0.22"
+                    stroke="#FEF08A"
+                    strokeWidth="1.8"
+                  />
+                )}
+
                 {/* Floating Overhead Character Nameplate & Health Bar */}
                 <g
-                  transform={`translate(${projected.centerX}, ${
-                    projected.centerY - 38 * projected.scale
+                  transform={`translate(${renderCenterX}, ${
+                    renderCenterY - 38 * projected.scale
                   })`}
                 >
                   <rect
@@ -2061,6 +2303,408 @@ export const SpatialBattlefieldViewportSvg: React.FC<{
               </g>
             );
           })()}
+
+        {/* Layer 6: Real-Time 60fps Articulated Choreography & Doctrine VFX Layer (CLIP-01 .. CLIP-08) */}
+        {evaluatedAnimations.map(({ ev, frame, vfx }) => {
+          const { poseSample } = frame;
+          const pFrom = projectSpatialCoord(
+            ev.fromX,
+            ev.fromY,
+            ev.clipId === 'CLIP-04-RANGED-TRACER' || ev.clipId === 'CLIP-05-MELEE-CLEAVE'
+              ? 0.95
+              : 0.2,
+            cameraMode
+          );
+          const pTo = projectSpatialCoord(
+            ev.toX,
+            ev.toY,
+            ev.clipId === 'CLIP-04-RANGED-TRACER' || ev.clipId === 'CLIP-05-MELEE-CLEAVE'
+              ? 0.95
+              : 0.2,
+            cameraMode
+          );
+
+          const curWx = ev.fromX + (ev.toX - ev.fromX) * frame.easedProgress;
+          const curWy = ev.fromY + (ev.toY - ev.fromY) * frame.easedProgress;
+          const curWz =
+            (ev.clipId === 'CLIP-04-RANGED-TRACER' ? 0.95 : 0.2) + frame.parabolicZ * 0.32;
+          const pCur = projectSpatialCoord(curWx, curWy, curWz, cameraMode);
+
+          const muzzleScale = poseSample.muzzleFlashPermille / 1000;
+          const shockwaveRatio = poseSample.shockwavePermille / 1000;
+
+          // CLIP-04-RANGED-TRACER: Muzzle Starburst + Traveling Doctrine Bolt + Multi-Ring Impact Shockwave
+          if (ev.clipId === 'CLIP-04-RANGED-TRACER') {
+            return (
+              <g key={ev.id} className="pointer-events-none">
+                {/* Phase 0: Anticipation Muzzle Flash Starburst */}
+                {muzzleScale > 0 && (
+                  <g transform={`translate(${pFrom.sx}, ${pFrom.sy}) scale(${0.6 + muzzleScale})`}>
+                    <polygon
+                      points="0,-14 4,-4 14,0 4,4 0,14 -4,4 -14,0 -4,-4"
+                      fill={vfx.secondaryHex}
+                      stroke={vfx.accentHex}
+                      strokeWidth="1.4"
+                    />
+                    <circle cx="0" cy="0" r="4.5" fill="#FFFFFF" />
+                  </g>
+                )}
+
+                {/* Phase 1: Apex Impulse Doctrine-Specific Traveling Projectile / Beam */}
+                {frame.rawProgress >= 0.12 && frame.rawProgress <= 0.85 && (
+                  <g>
+                    {ev.doctrine === 'Deadeye' ? (
+                      <>
+                        {/* Hyper-Velocity Gold Rail-Lance Beam & Target Reticle */}
+                        <line
+                          x1={pFrom.sx}
+                          y1={pFrom.sy}
+                          x2={pTo.sx}
+                          y2={pTo.sy}
+                          stroke={vfx.accentHex}
+                          strokeWidth="5"
+                          opacity="0.45"
+                        />
+                        <line
+                          x1={pFrom.sx}
+                          y1={pFrom.sy}
+                          x2={pTo.sx}
+                          y2={pTo.sy}
+                          stroke="#FFFFFF"
+                          strokeWidth="2.2"
+                        />
+                        <circle
+                          cx={pTo.sx}
+                          cy={pTo.sy}
+                          r={16 * (1 - frame.rawProgress * 0.4)}
+                          fill="none"
+                          stroke={vfx.accentHex}
+                          strokeWidth="1.6"
+                          strokeDasharray="4 2"
+                        />
+                      </>
+                    ) : ev.doctrine === 'Breacher' ? (
+                      <>
+                        {/* Heavy Scatter-Shot Shrapnel Cone */}
+                        <polygon
+                          points={`${pFrom.sx},${pFrom.sy} ${pCur.sx - 12},${pCur.sy - 8} ${
+                            pCur.sx + 12
+                          },${pCur.sy + 8}`}
+                          fill={vfx.accentHex}
+                          fillOpacity="0.38"
+                          stroke={vfx.secondaryHex}
+                          strokeWidth="1.5"
+                        />
+                        <circle cx={pCur.sx} cy={pCur.sy} r="5.5" fill={vfx.secondaryHex} />
+                      </>
+                    ) : (
+                      <>
+                        {/* Plasma / Carbine / Disruptor Bolt in Parabolic Flight */}
+                        <line
+                          x1={pFrom.sx}
+                          y1={pFrom.sy}
+                          x2={pCur.sx}
+                          y2={pCur.sy}
+                          stroke={vfx.accentHex}
+                          strokeWidth="2.6"
+                          strokeDasharray="8 4"
+                        />
+                        <circle
+                          cx={pCur.sx}
+                          cy={pCur.sy}
+                          r="6"
+                          fill={vfx.secondaryHex}
+                          stroke={vfx.accentHex}
+                          strokeWidth="2"
+                        />
+                        <circle cx={pCur.sx} cy={pCur.sy} r="2.5" fill="#FFFFFF" />
+                      </>
+                    )}
+                  </g>
+                )}
+
+                {/* Phase 2: Follow-Through Multi-Ring Shockwave & Floating Callout */}
+                {shockwaveRatio > 0 && (
+                  <g transform={`translate(${pTo.sx}, ${pTo.sy})`}>
+                    <ellipse
+                       cx="0"
+                      cy="0"
+                      rx={10 + shockwaveRatio * 22 * vfx.shockwaveRadiusSectors}
+                      ry={5.5 + shockwaveRatio * 12 * vfx.shockwaveRadiusSectors}
+                      fill="none"
+                      stroke={vfx.accentHex}
+                      strokeWidth="2.2"
+                      opacity={Math.max(0.15, 1 - shockwaveRatio * 0.8)}
+                    />
+                    <ellipse
+                      cx="0"
+                      cy="0"
+                      rx={6 + shockwaveRatio * 13 * vfx.shockwaveRadiusSectors}
+                      ry={3.5 + shockwaveRatio * 7.5 * vfx.shockwaveRadiusSectors}
+                      fill="none"
+                      stroke={vfx.secondaryHex}
+                      strokeWidth="1.4"
+                      opacity={Math.max(0.2, 1 - shockwaveRatio * 0.7)}
+                    />
+                  </g>
+                )}
+
+                {ev.calloutText && (
+                  <g
+                    transform={`translate(${pTo.sx}, ${
+                      pTo.sy - 26 - frame.easedProgress * 18
+                    })`}
+                  >
+                    <rect
+                      x="-52"
+                      y="-10"
+                      width="104"
+                      height="16"
+                      rx="4"
+                      fill="#020617"
+                      fillOpacity="0.94"
+                      stroke={ev.isCritical ? '#FBBF24' : vfx.accentHex}
+                      strokeWidth="1.4"
+                    />
+                    <text
+                      x="0"
+                      y="1"
+                      textAnchor="middle"
+                      fill={ev.isCritical ? '#FEF08A' : '#FFFFFF'}
+                      fontSize="8.5"
+                      fontFamily="monospace"
+                      fontWeight="bold"
+                    >
+                      {ev.calloutText}
+                    </text>
+                  </g>
+                )}
+              </g>
+            );
+          }
+
+          // CLIP-05-MELEE-CLEAVE: Crescent Blade Slash Arc + Impact Sparks
+          if (ev.clipId === 'CLIP-05-MELEE-CLEAVE') {
+            const sweepAngle = -65 + frame.easedProgress * 135;
+            return (
+              <g key={ev.id} className="pointer-events-none">
+                <g transform={`translate(${pTo.sx}, ${pTo.sy}) rotate(${sweepAngle.toFixed(1)})`}>
+                  <path
+                    d="M -26 -14 Q 0 -34 26 -14 Q 8 -22 -26 -14 Z"
+                    fill={vfx.secondaryHex}
+                    stroke={vfx.accentHex}
+                    strokeWidth="2"
+                  />
+                </g>
+                {shockwaveRatio > 0 && (
+                  <ellipse
+                    cx={pTo.sx}
+                    cy={pTo.sy}
+                    rx={12 + shockwaveRatio * 24}
+                    ry={7 + shockwaveRatio * 14}
+                    fill="none"
+                    stroke={vfx.accentHex}
+                    strokeWidth="2.4"
+                    opacity={1 - shockwaveRatio * 0.75}
+                  />
+                )}
+                {ev.calloutText && (
+                  <g
+                    transform={`translate(${pTo.sx}, ${
+                      pTo.sy - 28 - frame.easedProgress * 16
+                    })`}
+                  >
+                    <rect
+                      x="-54"
+                      y="-10"
+                      width="108"
+                      height="16"
+                      rx="4"
+                      fill="#450A0A"
+                      stroke="#FBBF24"
+                      strokeWidth="1.5"
+                    />
+                    <text
+                      x="0"
+                      y="1"
+                      textAnchor="middle"
+                      fill="#FEF08A"
+                      fontSize="8.5"
+                      fontFamily="monospace"
+                      fontWeight="bold"
+                    >
+                      {ev.calloutText}
+                    </text>
+                  </g>
+                )}
+              </g>
+            );
+          }
+
+          // CLIP-06-RESONANCE-WAVE: Concentric 6-Frequency Harmonic Rings & Neural Phase Tether
+          if (ev.clipId === 'CLIP-06-RESONANCE-WAVE') {
+            const midX = (pFrom.sx + pTo.sx) / 2;
+            const midY = (pFrom.sy + pTo.sy) / 2 - 22 * Math.sin(frame.rawProgress * Math.PI);
+            const ringScale = 0.3 + frame.easedProgress * 1.4;
+            return (
+              <g key={ev.id} className="pointer-events-none">
+                {/* Caster Harmonic Rings */}
+                {[1, 1.5, 2].map((mult, idx) => (
+                  <ellipse
+                    key={idx}
+                    cx={pFrom.sx}
+                    cy={pFrom.sy}
+                    rx={14 * mult * ringScale}
+                    ry={7.5 * mult * ringScale}
+                    fill="none"
+                    stroke={ev.isBacklash ? '#F43F5E' : '#A855F7'}
+                    strokeWidth="1.8"
+                    strokeDasharray="5 3"
+                    opacity={Math.max(0.15, 0.9 - frame.rawProgress * 0.65)}
+                  />
+                ))}
+                {/* Sinusoidal Phase-Space Tether */}
+                <path
+                  d={`M ${pFrom.sx} ${pFrom.sy} Q ${midX} ${midY} ${pTo.sx} ${pTo.sy}`}
+                  fill="none"
+                  stroke="#E9D5FF"
+                  strokeWidth="2.8"
+                  strokeDasharray="6 3"
+                />
+                {/* Target Harmonic Sigil */}
+                <circle
+                  cx={pTo.sx}
+                  cy={pTo.sy}
+                  r={8 + 14 * frame.easedProgress}
+                  fill="#A855F7"
+                  fillOpacity="0.22"
+                  stroke="#67E8F9"
+                  strokeWidth="2"
+                />
+                {ev.calloutText && (
+                  <g
+                    transform={`translate(${pTo.sx}, ${
+                      pTo.sy - 26 - frame.easedProgress * 14
+                    })`}
+                  >
+                    <rect
+                      x="-58"
+                      y="-10"
+                      width="116"
+                      height="16"
+                      rx="4"
+                      fill="#2E1065"
+                      stroke="#C084FC"
+                      strokeWidth="1.4"
+                    />
+                    <text
+                      x="0"
+                      y="1"
+                      textAnchor="middle"
+                      fill="#F3E8FF"
+                      fontSize="8"
+                      fontFamily="monospace"
+                      fontWeight="bold"
+                    >
+                      {ev.calloutText}
+                    </text>
+                  </g>
+                )}
+              </g>
+            );
+          }
+
+          // CLIP-07-CHIT-DRAW: Opaque Command Chit Flip & 1d6 Warden Berth Beacon Column
+          if (ev.clipId === 'CLIP-07-CHIT-DRAW') {
+            const isWardenChit = Boolean(ev.berthSlot);
+            const beaconColor = isWardenChit ? '#EF4444' : '#34D399';
+            const flipScaleX = Math.max(0.15, Math.abs(Math.cos(frame.rawProgress * Math.PI * 2)));
+            return (
+              <g key={ev.id} className="pointer-events-none">
+                {/* Vertical Tactical Spotlight Column */}
+                <polygon
+                  points={`${pTo.sx - 18},${pTo.sy - 130} ${pTo.sx + 18},${pTo.sy - 130} ${
+                    pTo.sx + 28
+                  },${pTo.sy + 4} ${pTo.sx - 28},${pTo.sy + 4}`}
+                  fill={beaconColor}
+                  fillOpacity={0.16 * (1 - frame.rawProgress * 0.5)}
+                />
+                {/* Rotating 3D Hexagonal Command Chit Emblem */}
+                <g
+                  transform={`translate(${pTo.sx}, ${
+                    pTo.sy - 56
+                  }) scale(${flipScaleX.toFixed(2)}, 1)`}
+                >
+                  <polygon
+                    points="0,-16 15,-8 15,8 0,16 -15,8 -15,-8"
+                    fill="#020617"
+                    stroke={beaconColor}
+                    strokeWidth="2.2"
+                  />
+                  <circle cx="0" cy="0" r="6" fill={beaconColor} />
+                </g>
+                {ev.calloutText && (
+                  <g transform={`translate(${pTo.sx}, ${pTo.sy - 80})`}>
+                    <rect
+                      x="-58"
+                      y="-9"
+                      width="116"
+                      height="15"
+                      rx="4"
+                      fill="#020617"
+                      stroke={beaconColor}
+                      strokeWidth="1.3"
+                    />
+                    <text
+                      x="0"
+                      y="1"
+                      textAnchor="middle"
+                      fill="#FFFFFF"
+                      fontSize="8"
+                      fontFamily="monospace"
+                      fontWeight="bold"
+                    >
+                      {ev.calloutText}
+                    </text>
+                  </g>
+                )}
+              </g>
+            );
+          }
+
+          // CLIP-02 / CLIP-03 / CLIP-08 Landing Footfall & Seismic Dust Rings
+          if (
+            (ev.clipId === 'CLIP-02-STRIDE-STEP' ||
+              ev.clipId === 'CLIP-03-MOMENTUM-CHARGE' ||
+              ev.clipId === 'CLIP-08-ORBITAL-DROP') &&
+            frame.rawProgress >= 0.65
+          ) {
+            const ringProgress = (frame.rawProgress - 0.65) / 0.35;
+            const ringColor =
+              ev.clipId === 'CLIP-08-ORBITAL-DROP'
+                ? '#F59E0B'
+                : ev.clipId === 'CLIP-03-MOMENTUM-CHARGE'
+                ? '#38BDF8'
+                : '#34D399';
+            return (
+              <g key={ev.id} className="pointer-events-none">
+                <ellipse
+                  cx={pTo.sx}
+                  cy={pTo.sy + 2}
+                  rx={12 + ringProgress * (ev.clipId === 'CLIP-08-ORBITAL-DROP' ? 28 : 18)}
+                  ry={6 + ringProgress * (ev.clipId === 'CLIP-08-ORBITAL-DROP' ? 15 : 9)}
+                  fill="none"
+                  stroke={ringColor}
+                  strokeWidth="2"
+                  opacity={Math.max(0.1, 1 - ringProgress)}
+                />
+              </g>
+            );
+          }
+
+          return null;
+        })}
+        </g>
       </svg>
     </div>
   );
@@ -2380,21 +3024,54 @@ export const InteractiveOrbitalBastionSpatialSvg: React.FC<{
               />
               {isTarget && (
                 <>
-                  <circle
-                    cx={(launchOriginX + nodeX) / 2}
-                    cy={312}
-                    r="4.5"
-                    fill="#FBBF24"
-                  />
-                  <circle
-                    cx={(launchOriginX + nodeX) / 2}
-                    cy={312}
-                    r="9"
-                    fill="none"
-                    stroke="#FBBF24"
-                    strokeWidth="1.2"
-                    className="karst-anim-shockwave"
-                  />
+                  {/* Descending Valkyrie-04 Drop Shuttle (CLIP-08-ORBITAL-DROP) */}
+                  <g
+                    transform={`translate(${(launchOriginX + nodeX) / 2}, 308)`}
+                    className="karst-anim-idle-rigwalker"
+                  >
+                    <polygon
+                      points="-12,-14 12,-14 16,4 0,14 -16,4"
+                      fill="#0F172A"
+                      stroke="#FBBF24"
+                      strokeWidth="1.8"
+                    />
+                    <polygon
+                      points="-8,8 -3,22 3,22 8,8"
+                      fill="#38BDF8"
+                      opacity="0.85"
+                    />
+                    <circle cx="0" cy="-3" r="4" fill="#FDE047" />
+                    <circle
+                      cx="0"
+                      cy="0"
+                      r="16"
+                      fill="none"
+                      stroke="#FBBF24"
+                      strokeWidth="1.2"
+                      className="karst-anim-shockwave"
+                    />
+                    <rect
+                      x="-46"
+                      y="-30"
+                      width="92"
+                      height="13"
+                      rx="3"
+                      fill="#020617"
+                      stroke="#F59E0B"
+                      strokeWidth="1"
+                    />
+                    <text
+                      x="0"
+                      y="-21"
+                      textAnchor="middle"
+                      fill="#FEF08A"
+                      fontSize="7.5"
+                      fontFamily="monospace"
+                      fontWeight="bold"
+                    >
+                      CLIP-08 · VALKYRIE-04
+                    </text>
+                  </g>
                 </>
               )}
             </g>

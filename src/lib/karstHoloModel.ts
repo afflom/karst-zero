@@ -1400,23 +1400,51 @@ processDrawCommandChit invokes processResolveOpposedStrike.
 processDrawCommandChit zooms into processSelectWardenBerthWrap, in that sequence.`,
   },
   {
+    id: 'Design::viewAnimationChoreographyOpm',
+    filename: 'Design.viewAnimationChoreographyOpm.opl',
+    notation: 'ISO/PAS 19450:2015 OPM (.opl)',
+    viewpoint: 'Architecture::viewpoint06AnimationChoreographyViewpoint',
+    title:
+      'Animation Choreography OPM View: 3-Phase Fixed-Point Permille Easing, Parabolic Arc Kinematics & 6-Doctrine VFX Synthesis',
+    sourceText: `View: Design::viewAnimationChoreographyOpm
+Title: Animation Choreography OPM View: 3-Phase Fixed-Point Permille Easing, Parabolic Arc Kinematics & 6-Doctrine VFX Synthesis
+Viewpoint: Architecture::viewpoint06AnimationChoreographyViewpoint
+Notation: ISO/PAS 19450:2015 OPM, Prism OPL profile
+
+component01StrikePoolResolver is an object.
+component02CommandChitDirector is an object.
+component05CoreWasmArithmeticGuest is an object.
+component06AnimationChoreographyEngine is an object.
+component06AnimationChoreographyEngine can be stateAnimationAnticipationWindup, stateAnimationApexImpulseInFlight, and stateAnimationFollowThroughSettle.
+processEvaluateAnimationFrame is a process.
+processInterpolateParabolicTrajectory is a process.
+processSynthesizeDoctrineVfxPose is a process.
+component01StrikePoolResolver handles processEvaluateAnimationFrame.
+processEvaluateAnimationFrame requires component02CommandChitDirector.
+processInterpolateParabolicTrajectory yields component06AnimationChoreographyEngine.
+processSynthesizeDoctrineVfxPose affects component05CoreWasmArithmeticGuest.
+processEvaluateAnimationFrame invokes processInterpolateParabolicTrajectory.
+processEvaluateAnimationFrame zooms into processInterpolateParabolicTrajectory and processSynthesizeDoctrineVfxPose, in that sequence.`,
+  },
+  {
     id: 'Design::viewNemesisComponentUml',
     filename: 'Design.viewNemesisComponentUml.puml',
     notation: 'OMG UML 2.5.1 (.puml)',
     viewpoint: 'Architecture::viewpoint02NemesisChitAiViewpoint',
     title:
-      'Nemesis Core 4.0 UML 2.5.1 Component Topology: 6 Engine Subsystems & 8 Data/Control Edges',
+      'Nemesis Core 4.0 UML 2.5.1 Component Topology: 7 Engine Subsystems & 11 Data/Control Edges',
     sourceText: `@startuml
 ' UML 2.5.1 component diagram
 ' view: Design::viewNemesisComponentUml
 ' viewpoint: Architecture::viewpoint02NemesisChitAiViewpoint
-title Nemesis Core 4.0 UML 2.5.1 Component Topology: 6 Engine Subsystems & 8 Data/Control Edges
+title Nemesis Core 4.0 UML 2.5.1 Component Topology: 7 Engine Subsystems & 11 Data/Control Edges
 component "component00UnitSynthesisCompiler" as c0
 component "component01StrikePoolResolver" as c1
 component "component02CommandChitDirector" as c2
 component "component03ResonanceWeaveEngine" as c3
 component "component04OrbitalBastionLedger" as c4
 component "component05CoreWasmArithmeticGuest" as c5
+component "component06AnimationChoreographyEngine" as c6
 c0 --> c4 : edge00SynthesisToBastion
 c4 --> c2 : edge01BastionToChitDirector
 c2 --> c1 : edge02ChitDirectorToCombat
@@ -1425,6 +1453,9 @@ c3 --> c1 : edge04ResonanceToCombat
 c1 --> c5 : edge05CombatToCoreWasm
 c0 --> c5 : edge06SynthesisToCoreWasm
 c1 --> c4 : edge07CombatToBastion
+c1 --> c6 : edge08CombatToAnimation
+c2 --> c6 : edge09ChitDirectorToAnimation
+c6 --> c5 : edge10AnimationToCoreWasm
 @enduml`,
   },
   {
@@ -1444,12 +1475,15 @@ participant "component00UnitSynthesisCompiler" as p1
 participant "component02CommandChitDirector" as p2
 participant "component01StrikePoolResolver" as p3
 participant "component05CoreWasmArithmeticGuest" as p4
+participant "component06AnimationChoreographyEngine" as p5
 p1 -> p0 : processExecuteBastionPreDrop
 p0 -> p2 : processDrawCommandChit
 p2 -> p3 : processResolveOpposedStrike
 p3 -> p4 : processDispatchCoreWasmRun
 p4 --> p3 : processDispatchCoreWasmRun
 p3 ->> p0 : processSettleCampaignExtraction
+p3 ->> p5 : processEvaluateAnimationFrame
+p5 -> p4 : processDispatchCoreWasmRun
 @enduml`,
   },
   {
@@ -1473,6 +1507,29 @@ s0 --> s2 : processExecuteBastionPreDrop
 s2 --> s3 : processExecuteBastionPreDrop
 s3 --> s1 : processSettleCampaignExtraction
 s1 --> s0 : processSettleCampaignExtraction
+@enduml`,
+  },
+  {
+    id: 'Design::viewAnimationClipStateUml',
+    filename: 'Design.viewAnimationClipStateUml.puml',
+    notation: 'OMG UML 2.5.1 (.puml)',
+    viewpoint: 'Architecture::viewpoint06AnimationChoreographyViewpoint',
+    title:
+      'Animation Choreography UML 2.5.1 State Machine: Idle Breathing -> Anticipation Wind-Up -> Apex Impulse -> Follow-Through Settle',
+    sourceText: `@startuml
+' UML 2.5.1 state machine diagram
+' view: Design::viewAnimationClipStateUml
+' viewpoint: Architecture::viewpoint06AnimationChoreographyViewpoint
+title Animation Choreography UML 2.5.1 State Machine: Idle Breathing -> Anticipation Wind-Up -> Apex Impulse -> Follow-Through Settle
+state "stateAnimationAnticipationWindup" as s0
+state "stateAnimationApexImpulseInFlight" as s1
+state "stateAnimationFollowThroughSettle" as s2
+state "stateAnimationIdleBreathing" as s3
+[*] --> s3
+s3 --> s0 : processEvaluateAnimationFrame
+s0 --> s1 : processInterpolateParabolicTrajectory
+s1 --> s2 : processSynthesizeDoctrineVfxPose
+s2 --> s3 : processEvaluateAnimationFrame
 @enduml`,
   },
 ];
