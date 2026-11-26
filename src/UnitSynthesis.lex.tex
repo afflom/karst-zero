@@ -102,6 +102,17 @@ definition{
 }
 
 definition{
+  name: doctrinesLength,
+  parameters: [xs : (List DoctrineAxis)],
+  result: Nat,
+  body: (match xs
+    | List.nil => 0
+    | List.cons head tail => ((doctrinesLength tail) + 1)),
+  axioms: [],
+  recursive_argument: xs
+}
+
+definition{
   name: chassisList,
   parameters: [],
   result: (List ChassisAxis),
@@ -110,11 +121,33 @@ definition{
 }
 
 definition{
+  name: chassisListLength,
+  parameters: [xs : (List ChassisAxis)],
+  result: Nat,
+  body: (match xs
+    | List.nil => 0
+    | List.cons head tail => ((chassisListLength tail) + 1)),
+  axioms: [],
+  recursive_argument: xs
+}
+
+definition{
   name: echelons,
   parameters: [],
   result: (List EchelonAxis),
   body: (cons (record EchelonAxis {id := "ECH-0", tier := 0, name := "Drone Pack", unitCount := 3, berthCost := 1, baseFpr := 2, baseEva := 2, baseCog := 1, maxIntegrityPerModel := 1, baseSurge := 0, startingHardpoints := 0, campaignMaxHardpoints := 1, alloyCost := 2}) (cons (record EchelonAxis {id := "ECH-1", tier := 1, name := "Trooper Fireteam", unitCount := 2, berthCost := 1, baseFpr := 3, baseEva := 3, baseCog := 2, maxIntegrityPerModel := 2, baseSurge := 0, startingHardpoints := 1, campaignMaxHardpoints := 2, alloyCost := 3}) (cons (record EchelonAxis {id := "ECH-2", tier := 2, name := "Specialist Operative", unitCount := 1, berthCost := 1, baseFpr := 4, baseEva := 3, baseCog := 3, maxIntegrityPerModel := 3, baseSurge := 1, startingHardpoints := 2, campaignMaxHardpoints := 4, alloyCost := 5}) (cons (record EchelonAxis {id := "ECH-3", tier := 3, name := "Prime Commander", unitCount := 1, berthCost := 2, baseFpr := 5, baseEva := 4, baseCog := 4, maxIntegrityPerModel := 4, baseSurge := 3, startingHardpoints := 3, campaignMaxHardpoints := 5, alloyCost := 8}) (cons (record EchelonAxis {id := "ECH-4", tier := 4, name := "Dreadnought Sovereign", unitCount := 1, berthCost := 3, baseFpr := 6, baseEva := 5, baseCog := 4, maxIntegrityPerModel := 6, baseSurge := 4, startingHardpoints := 4, campaignMaxHardpoints := 6, alloyCost := 12}) (nil EchelonAxis)))))),
   axioms: []
+}
+
+definition{
+  name: echelonsLength,
+  parameters: [xs : (List EchelonAxis)],
+  result: Nat,
+  body: (match xs
+    | List.nil => 0
+    | List.cons head tail => ((echelonsLength tail) + 1)),
+  axioms: [],
+  recursive_argument: xs
 }
 
 definition{
@@ -141,7 +174,7 @@ definition{
   name: synthesisArchetypeCount,
   parameters: [],
   result: Nat,
-  body: (prim multiply (prim length (doctrines) : Nat) (prim multiply (prim length (chassisList) : Nat) (prim length (echelons) : Nat) : Nat) : Nat),
+  body: (prim multiply (doctrinesLength (doctrines)) (prim multiply (chassisListLength (chassisList)) (echelonsLength (echelons)) : Nat) : Nat),
   axioms: []
 }
 
@@ -191,7 +224,7 @@ definition{
 theorem{
   name: doctrineCountIsSix,
   parameters: [],
-  statement: (((prim length (doctrines) : Nat) =? 6) = true),
+  statement: (((doctrinesLength (doctrines)) =? 6) = true),
   proof: decide{},
   axioms: []
 }
@@ -199,7 +232,7 @@ theorem{
 theorem{
   name: chassisCountIsFive,
   parameters: [],
-  statement: (((prim length (chassisList) : Nat) =? 5) = true),
+  statement: (((chassisListLength (chassisList)) =? 5) = true),
   proof: decide{},
   axioms: []
 }
@@ -207,7 +240,7 @@ theorem{
 theorem{
   name: echelonCountIsFive,
   parameters: [],
-  statement: (((prim length (echelons) : Nat) =? 5) = true),
+  statement: (((echelonsLength (echelons)) =? 5) = true),
   proof: decide{},
   axioms: []
 }

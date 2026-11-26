@@ -72,6 +72,17 @@ definition{
 }
 
 definition{
+  name: animationClipsLength,
+  parameters: [xs : (List AnimationClipSpec)],
+  result: Nat,
+  body: (match xs
+    | List.nil => 0
+    | List.cons head tail => ((animationClipsLength tail) + 1)),
+  axioms: [],
+  recursive_argument: xs
+}
+
+definition{
   name: chassisGaits,
   parameters: [],
   result: (List ChassisGaitSpec),
@@ -80,11 +91,33 @@ definition{
 }
 
 definition{
+  name: chassisGaitsLength,
+  parameters: [xs : (List ChassisGaitSpec)],
+  result: Nat,
+  body: (match xs
+    | List.nil => 0
+    | List.cons head tail => ((chassisGaitsLength tail) + 1)),
+  axioms: [],
+  recursive_argument: xs
+}
+
+definition{
   name: doctrineVfxProfiles,
   parameters: [],
   result: (List DoctrineVfxSpec),
   body: (cons (record DoctrineVfxSpec {doctrineId := "Breacher", vfxKind := "KineticScatterShockwave", accentHex := "#FF7A1A", projectileSpeedPermille := 850, shockwaveRadiusSectors := 2}) (cons (record DoctrineVfxSpec {doctrineId := "Aegis", vfxKind := "HexagonalDeflectorDome", accentHex := "#38BDF8", projectileSpeedPermille := 750, shockwaveRadiusSectors := 1}) (cons (record DoctrineVfxSpec {doctrineId := "Outrider", vfxKind := "ThrusterAfterimageTracer", accentHex := "#34D399", projectileSpeedPermille := 950, shockwaveRadiusSectors := 1}) (cons (record DoctrineVfxSpec {doctrineId := "Deadeye", vfxKind := "HyperVelocityRailLance", accentHex := "#FBBF24", projectileSpeedPermille := 1000, shockwaveRadiusSectors := 1}) (cons (record DoctrineVfxSpec {doctrineId := "Saboteur", vfxKind := "DemolitionShatterBurst", accentHex := "#F43F5E", projectileSpeedPermille := 800, shockwaveRadiusSectors := 2}) (cons (record DoctrineVfxSpec {doctrineId := "Psion", vfxKind := "ConcentricHarmonicWeave", accentHex := "#A855F7", projectileSpeedPermille := 900, shockwaveRadiusSectors := 3}) (nil DoctrineVfxSpec))))))),
   axioms: []
+}
+
+definition{
+  name: doctrineVfxProfilesLength,
+  parameters: [xs : (List DoctrineVfxSpec)],
+  result: Nat,
+  body: (match xs
+    | List.nil => 0
+    | List.cons head tail => ((doctrineVfxProfilesLength tail) + 1)),
+  axioms: [],
+  recursive_argument: xs
 }
 
 definition{
@@ -199,7 +232,7 @@ definition{
 theorem{
   name: animationClipCountIsEight,
   parameters: [],
-  statement: (((prim length (animationClips) : Nat) =? 8) = true),
+  statement: (((animationClipsLength (animationClips)) =? 8) = true),
   proof: decide{},
   axioms: []
 }
@@ -207,7 +240,7 @@ theorem{
 theorem{
   name: chassisGaitCountIsFive,
   parameters: [],
-  statement: (((prim length (chassisGaits) : Nat) =? 5) = true),
+  statement: (((chassisGaitsLength (chassisGaits)) =? 5) = true),
   proof: decide{},
   axioms: []
 }
@@ -215,7 +248,7 @@ theorem{
 theorem{
   name: doctrineVfxCountIsSix,
   parameters: [],
-  statement: (((prim length (doctrineVfxProfiles) : Nat) =? 6) = true),
+  statement: (((doctrineVfxProfilesLength (doctrineVfxProfiles)) =? 6) = true),
   proof: decide{},
   axioms: []
 }

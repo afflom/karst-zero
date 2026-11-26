@@ -38,7 +38,7 @@ jobs:
         with:
           components: rustfmt, clippy
 
-      - name: Render interactive game & PrismPM/LexLean portal (`view/`)
+      - name: Render interactive game & PrismPM/LexLean portal (`site/`)
         env:
           GITHUB_SHA: ${{ github.sha }}
         run: cargo run -p xtask -- render-view
@@ -49,11 +49,30 @@ jobs:
           cargo run -p xtask -- validate
           cargo test --workspace --all-targets
 
+      # The same game, built as the page of the Prism holo (view/): one
+      # self-contained script and stylesheet the verified holospace can carry.
+      # The Prism registry builds the holo from the committed view/, so a game
+      # change should be committed with `npm run build:view` run again.
+      - name: Build the game as the holo's page
+        run: |
+          npm run build:view
+          if [ -n "$(git status --porcelain -- view)" ]; then
+            echo "::warning title=view/ is stale::The committed holo page differs from this build of the game. Run npm run build:view and commit view/, so the Prism registry's source build carries the current game."
+          fi
+
+      - name: Check, build and verify the Prism holo
+        run: |
+          npx --yes prism-code@0.11.5 build --json > "$RUNNER_TEMP/holo-build.json" || { cat "$RUNNER_TEMP/holo-build.json"; exit 1; }
+          npx --yes prism-code@0.11.5 verify
+
+      - name: Publish app.holo and app.json beside the game
+        run: node scripts/publish-holo.mjs . site "$RUNNER_TEMP/holo-build.json"
+
       - name: Upload view artifact
         uses: actions/upload-artifact@v4
         with:
           name: karst-zero-current-view
-          path: view
+          path: site
           include-hidden-files: true
 
       - name: Configure GitHub Pages
@@ -64,7 +83,7 @@ jobs:
         if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@v3
         with:
-          path: view
+          path: site
 
   deploy:
     name: Deploy to GitHub Pages
@@ -100,7 +119,7 @@ jobs:
           set -euo pipefail
           for attempt in 1 2 3 4 5 6 7 8; do
             if curl -fsSL "${PAGE_URL%/}/register.json" -o /tmp/register.json && grep -qF "\"commit\": \"$GITHUB_SHA\"" /tmp/register.json; then
-              for page in index.html model.prism.json logo.svg banner.svg topology.svg; do
+              for page in index.html model.prism.json logo.svg banner.svg topology.svg app.json app.holo; do
                 curl -fsSL "${PAGE_URL%/}/$page" -o /dev/null
               done
               echo "$PAGE_URL serves commit $GITHUB_SHA across interactive game and PrismPM artifacts"

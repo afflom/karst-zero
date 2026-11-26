@@ -52,6 +52,17 @@ definition{
 }
 
 definition{
+  name: crewAssignmentsLength,
+  parameters: [xs : (List CrewAssignmentSpec)],
+  result: Nat,
+  body: (match xs
+    | List.nil => 0
+    | List.cons head tail => ((crewAssignmentsLength tail) + 1)),
+  axioms: [],
+  recursive_argument: xs
+}
+
+definition{
   name: bastionFacilities,
   parameters: [],
   result: (List BastionFacilitySpec),
@@ -60,11 +71,33 @@ definition{
 }
 
 definition{
+  name: bastionFacilitiesLength,
+  parameters: [xs : (List BastionFacilitySpec)],
+  result: Nat,
+  body: (match xs
+    | List.nil => 0
+    | List.cons head tail => ((bastionFacilitiesLength tail) + 1)),
+  axioms: [],
+  recursive_argument: xs
+}
+
+definition{
   name: sectorContracts,
   parameters: [],
   result: (List SectorContractSpec),
   body: (cons (record SectorContractSpec {id := "scen-1-alloy-sweep", number := 1, code := "SCN-01", title := "Alloy Cache Sweep", baseAlloyReward := 6}) (cons (record SectorContractSpec {id := "scen-2-reactor-hold", number := 2, code := "SCN-02", title := "Central Reactor Hold", baseAlloyReward := 7}) (cons (record SectorContractSpec {id := "scen-3-data-heist", number := 3, code := "SCN-03", title := "Core Data Sabotage", baseAlloyReward := 8}) (cons (record SectorContractSpec {id := "scen-4-gauntlet-run", number := 4, code := "SCN-04", title := "Bulkhead Breakthrough", baseAlloyReward := 8}) (cons (record SectorContractSpec {id := "scen-5-vip-rescue", number := 5, code := "SCN-05", title := "VIP Courier Extraction", baseAlloyReward := 9}) (cons (record SectorContractSpec {id := "scen-6-boss-elimination", number := 6, code := "SCN-06", title := "Warden Decapitation Strike", baseAlloyReward := 12}) (nil SectorContractSpec))))))),
   axioms: []
+}
+
+definition{
+  name: sectorContractsLength,
+  parameters: [xs : (List SectorContractSpec)],
+  result: Nat,
+  body: (match xs
+    | List.nil => 0
+    | List.cons head tail => ((sectorContractsLength tail) + 1)),
+  axioms: [],
+  recursive_argument: xs
 }
 
 definition{
@@ -102,7 +135,7 @@ definition{
 theorem{
   name: crewAssignmentCountIsFour,
   parameters: [],
-  statement: (((prim length (crewAssignments) : Nat) =? 4) = true),
+  statement: (((crewAssignmentsLength (crewAssignments)) =? 4) = true),
   proof: decide{},
   axioms: []
 }
@@ -110,7 +143,7 @@ theorem{
 theorem{
   name: bastionFacilityCountIsThree,
   parameters: [],
-  statement: (((prim length (bastionFacilities) : Nat) =? 3) = true),
+  statement: (((bastionFacilitiesLength (bastionFacilities)) =? 3) = true),
   proof: decide{},
   axioms: []
 }
@@ -118,7 +151,7 @@ theorem{
 theorem{
   name: sectorContractCountIsSix,
   parameters: [],
-  statement: (((prim length (sectorContracts) : Nat) =? 6) = true),
+  statement: (((sectorContractsLength (sectorContracts)) =? 6) = true),
   proof: decide{},
   axioms: []
 }

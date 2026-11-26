@@ -65,15 +65,15 @@ pub fn audit(root: &Path) -> Result<(), Fail> {
         );
     }
 
-    // 4. Rendered GitHub Pages portal artifacts exist under `view/`.
+    // 4. Rendered GitHub Pages portal artifacts exist under `site/`.
     for view_artifact in [
-        "view/.nojekyll",
-        "view/index.html",
-        "view/register.json",
-        "view/model.prism.json",
-        "view/logo.svg",
-        "view/banner.svg",
-        "view/topology.svg",
+        "site/.nojekyll",
+        "site/index.html",
+        "site/register.json",
+        "site/model.prism.json",
+        "site/logo.svg",
+        "site/banner.svg",
+        "site/topology.svg",
     ] {
         if !root.join(view_artifact).is_file() {
             v.push(format!(
