@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the interactive Karst: Zero Horizon application and PrismPM/LexLean portal into view/."""
+"""Build the interactive Karst: Zero Horizon application and PrismPM/LexLean portal into site/."""
 
 from __future__ import annotations
 
@@ -21,7 +21,7 @@ def find_prism_build(root: Path) -> Path:
 
 def main() -> None:
     root = Path(__file__).resolve().parent.parent
-    view_dir = root / "view"
+    view_dir = root / "site"
     dist_dir = root / "dist"
     public_dir = root / "public"
     public_dir.mkdir(parents=True, exist_ok=True)

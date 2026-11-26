@@ -98,11 +98,33 @@ definition{
 }
 
 definition{
+  name: spatialObjectCategoriesLength,
+  parameters: [xs : (List SpatialObjectCategory)],
+  result: Nat,
+  body: (match xs
+    | List.nil => 0
+    | List.cons head tail => ((spatialObjectCategoriesLength tail) + 1)),
+  axioms: [],
+  recursive_argument: xs
+}
+
+definition{
   name: worldLocations,
   parameters: [],
   result: (List KarstWorldLocation),
   body: (cons (record KarstWorldLocation {id := "LOC-00-ORBITAL-BASTION", name := "Strike Carrier — Low-Orbit Bastion Hub", locationKind := "BastionHub", threatTier := 0, gridWidthSectors := 12, gridHeightSectors := 8}) (cons (record KarstWorldLocation {id := "LOC-01-SHATTERED-CONDUIT", name := "Sector 01: Shattered Conduit", locationKind := "VaultSector", threatTier := 1, gridWidthSectors := 18, gridHeightSectors := 18}) (cons (record KarstWorldLocation {id := "LOC-02-FUNGAL-CISTERN", name := "Sector 02: Bioluminescent Fungal Cistern", locationKind := "VaultSector", threatTier := 1, gridWidthSectors := 18, gridHeightSectors := 18}) (cons (record KarstWorldLocation {id := "LOC-03-OBSIDIAN-QUARRY", name := "Sector 03: Obsidian Fault Quarry", locationKind := "VaultSector", threatTier := 2, gridWidthSectors := 18, gridHeightSectors := 18}) (cons (record KarstWorldLocation {id := "LOC-04-CRYO-SARCOPHAGUS", name := "Sector 04: Cryo-Sarcophagus Vault", locationKind := "VaultSector", threatTier := 2, gridWidthSectors := 18, gridHeightSectors := 18}) (cons (record KarstWorldLocation {id := "LOC-05-RESONANCE-SYNAPSE", name := "Sector 05: Resonance Synapse Chamber", locationKind := "VaultSector", threatTier := 3, gridWidthSectors := 18, gridHeightSectors := 18}) (cons (record KarstWorldLocation {id := "LOC-06-SOVEREIGN-THRONE", name := "Sector 06: Sovereign Core Throne", locationKind := "VaultSector", threatTier := 3, gridWidthSectors := 18, gridHeightSectors := 18}) (nil KarstWorldLocation)))))))),
   axioms: []
+}
+
+definition{
+  name: worldLocationsLength,
+  parameters: [xs : (List KarstWorldLocation)],
+  result: Nat,
+  body: (match xs
+    | List.nil => 0
+    | List.cons head tail => ((worldLocationsLength tail) + 1)),
+  axioms: [],
+  recursive_argument: xs
 }
 
 definition{
@@ -114,11 +136,33 @@ definition{
 }
 
 definition{
+  name: startingCompanyPresetsLength,
+  parameters: [xs : (List StartingCompanyPresetSpec)],
+  result: Nat,
+  body: (match xs
+    | List.nil => 0
+    | List.cons head tail => ((startingCompanyPresetsLength tail) + 1)),
+  axioms: [],
+  recursive_argument: xs
+}
+
+definition{
   name: minorResonanceDirectives,
   parameters: [],
   result: (List MinorResonanceDirectiveSpec),
   body: (cons (record MinorResonanceDirectiveSpec {id := "dir-kinetic-shunt", name := "Kinetic Shunt Pulse", frequencyId := "FREQ-01-KINETIC", minCogRequired := 2, rangeSectors := 6}) (cons (record MinorResonanceDirectiveSpec {id := "dir-aegis-harmonic", name := "Aegis Harmonic Barrier", frequencyId := "FREQ-01-KINETIC", minCogRequired := 2, rangeSectors := 4}) (cons (record MinorResonanceDirectiveSpec {id := "dir-phase-flicker", name := "Phase-Step Flicker", frequencyId := "FREQ-05-PHASE", minCogRequired := 3, rangeSectors := 6}) (cons (record MinorResonanceDirectiveSpec {id := "dir-thermal-vent", name := "Thermal Lance Vent", frequencyId := "FREQ-02-PLASMA", minCogRequired := 2, rangeSectors := 8}) (cons (record MinorResonanceDirectiveSpec {id := "dir-cryo-lattice", name := "Cryo-Stasis Lattice", frequencyId := "FREQ-04-CRYO", minCogRequired := 2, rangeSectors := 6}) (cons (record MinorResonanceDirectiveSpec {id := "dir-void-siphon", name := "Void-Entropy Siphon", frequencyId := "FREQ-03-VOID", minCogRequired := 3, rangeSectors := 8}) (cons (record MinorResonanceDirectiveSpec {id := "dir-arc-discharge", name := "Arc-Conduit Discharge", frequencyId := "FREQ-02-PLASMA", minCogRequired := 2, rangeSectors := 6}) (cons (record MinorResonanceDirectiveSpec {id := "dir-neural-anchor", name := "Neural Spire Anchor", frequencyId := "FREQ-06-NEURAL", minCogRequired := 3, rangeSectors := 10}) (cons (record MinorResonanceDirectiveSpec {id := "dir-echo-pulse", name := "Sub-Harmonic Echo Scan", frequencyId := "FREQ-06-NEURAL", minCogRequired := 2, rangeSectors := 12}) (nil MinorResonanceDirectiveSpec)))))))))),
   axioms: []
+}
+
+definition{
+  name: minorResonanceDirectivesLength,
+  parameters: [xs : (List MinorResonanceDirectiveSpec)],
+  result: Nat,
+  body: (match xs
+    | List.nil => 0
+    | List.cons head tail => ((minorResonanceDirectivesLength tail) + 1)),
+  axioms: [],
+  recursive_argument: xs
 }
 
 definition{
@@ -175,7 +219,7 @@ definition{
 theorem{
   name: spatialObjectCategoryCountIsSeven,
   parameters: [],
-  statement: (((prim length (spatialObjectCategories) : Nat) =? 7) = true),
+  statement: (((spatialObjectCategoriesLength (spatialObjectCategories)) =? 7) = true),
   proof: decide{},
   axioms: []
 }
@@ -183,7 +227,7 @@ theorem{
 theorem{
   name: worldLocationCountIsSeven,
   parameters: [],
-  statement: (((prim length (worldLocations) : Nat) =? 7) = true),
+  statement: (((worldLocationsLength (worldLocations)) =? 7) = true),
   proof: decide{},
   axioms: []
 }
@@ -191,7 +235,7 @@ theorem{
 theorem{
   name: minorDirectiveCountIsNine,
   parameters: [],
-  statement: (((prim length (minorResonanceDirectives) : Nat) =? 9) = true),
+  statement: (((minorResonanceDirectivesLength (minorResonanceDirectives)) =? 9) = true),
   proof: decide{},
   axioms: []
 }
@@ -199,7 +243,7 @@ theorem{
 theorem{
   name: allStartingPresetsValid,
   parameters: [],
-  statement: (((allPresetsFitCharter (startingCompanyPresets)) && ((prim length (startingCompanyPresets) : Nat) =? 4)) = true),
+  statement: (((allPresetsFitCharter (startingCompanyPresets)) && ((startingCompanyPresetsLength (startingCompanyPresets)) =? 4)) = true),
   proof: decide{},
   axioms: []
 }

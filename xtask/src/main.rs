@@ -1,7 +1,7 @@
 //! Repository gates (`cargo run -p xtask -- <task>`).
 //!
 //! Enforces R1-R6 and CM-01..CM-05 across `model/*.toml`, `CONFORMANCE.md`,
-//! `.prism/build/<digest>/model.prism.json`, `src/*.lex.tex`, `view/`, and the
+//! `.prism/build/<digest>/model.prism.json`, `src/*.lex.tex`, `site/`, and the
 //! Rust conformance test suite.
 
 #![deny(missing_docs)]

@@ -1,4 +1,6 @@
 @import "tailwindcss";
+/* The built holo page is output, not source: keep Tailwind from scanning it. */
+@source not "../view";
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {

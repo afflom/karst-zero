@@ -190,11 +190,11 @@ fn branding_ux_kz_12() {
     assert!(meets_wcag_contrast_tenths(878, 8, 45));
     assert!(meets_wcag_contrast_tenths(969, 24, 45));
     for page in [
-        "view/index.html",
-        "view/model.prism.json",
-        "view/register.json",
-        "view/og-preview.png",
-        "view/logo.svg",
+        "site/index.html",
+        "site/model.prism.json",
+        "site/register.json",
+        "site/og-preview.png",
+        "site/logo.svg",
     ] {
         assert!(
             root.join(page).is_file(),
@@ -204,8 +204,8 @@ fn branding_ux_kz_12() {
 
     let root_html =
         std::fs::read_to_string(root.join("index.html")).expect("index.html must be readable");
-    let view_html = std::fs::read_to_string(root.join("view/index.html"))
-        .expect("view/index.html must be readable");
+    let view_html = std::fs::read_to_string(root.join("site/index.html"))
+        .expect("site/index.html must be readable");
     for html in [&root_html, &view_html] {
         assert!(html.contains("KARST: ZERO HORIZON — Nemesis Core 4.0"));
         assert!(html.contains(
@@ -222,7 +222,7 @@ fn branding_ux_kz_12() {
     assert!(metadata_json.contains("KARST: ZERO HORIZON"));
     assert!(!metadata_json.contains("Prism SDK Authoring Workbench"));
 
-    let og_png = std::fs::read(root.join("view/og-preview.png")).expect("read view/og-preview.png");
+    let og_png = std::fs::read(root.join("site/og-preview.png")).expect("read site/og-preview.png");
     assert!(og_png.starts_with(b"\x89PNG\r\n\x1a\n"));
 }
 

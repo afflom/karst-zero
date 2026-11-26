@@ -1,0 +1,1 @@
+import{a as e,o as t,t as n}from"../game.js";var r=t((()=>{}));t((()=>{r(),n(),e(),new TextDecoder(`utf-8`,{fatal:!0,ignoreBOM:!0}),new TextEncoder})),t((()=>{n(),e()}));

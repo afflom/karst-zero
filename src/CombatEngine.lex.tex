@@ -105,6 +105,17 @@ definition{
 }
 
 definition{
+  name: subsystemRuptureTableLength,
+  parameters: [xs : (List SubsystemRuptureEntry)],
+  result: Nat,
+  body: (match xs
+    | List.nil => 0
+    | List.cons head tail => ((subsystemRuptureTableLength tail) + 1)),
+  axioms: [],
+  recursive_argument: xs
+}
+
+definition{
   name: strikeFixtures,
   parameters: [],
   result: (List StrikeFixture),
@@ -201,7 +212,7 @@ theorem{
 theorem{
   name: subsystemRuptureTableHasFourOutcomes,
   parameters: [],
-  statement: (((prim length (subsystemRuptureTable) : Nat) =? 4) = true),
+  statement: (((subsystemRuptureTableLength (subsystemRuptureTable)) =? 4) = true),
   proof: decide{},
   axioms: []
 }

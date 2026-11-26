@@ -1,0 +1,11 @@
+[application]
+name = "karst-zero"
+version = "4.0.0"
+description = "Resolves unit synthesis, the d6 strike pool, resonance weave, command chits and nemesis campaign turns of KARST: Zero Horizon, a 2.5D tactical skirmish and orbital campaign wargame."
+
+[model]
+source = "src"
+watch = ["src/**/*.lex.tex", "language/**/*.toml", "lexlean.toml"]
+
+# Deny by default: an empty set grants the holo nothing.
+[capabilities]

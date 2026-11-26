@@ -51,6 +51,17 @@ definition{
   axioms: []
 }
 
+definition{
+  name: doctrineAiRoutinesLength,
+  parameters: [xs : (List DoctrineAiRoutine)],
+  result: Nat,
+  body: (match xs
+    | List.nil => 0
+    | List.cons head tail => ((doctrineAiRoutinesLength tail) + 1)),
+  axioms: [],
+  recursive_argument: xs
+}
+
 theorem{
   name: battleRoundLimitIsFive,
   parameters: [],
@@ -86,7 +97,7 @@ theorem{
 theorem{
   name: doctrineAiRoutineCountIsSix,
   parameters: [],
-  statement: (((prim length (doctrineAiRoutines) : Nat) =? 6) = true),
+  statement: (((doctrineAiRoutinesLength (doctrineAiRoutines)) =? 6) = true),
   proof: decide{},
   axioms: []
 }
